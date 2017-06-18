@@ -4,7 +4,6 @@ import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import toandoan.framgia.com.rxjavaretrofit.data.model.User;
 
 /**
  * Created by Sun on 4/16/2017.
