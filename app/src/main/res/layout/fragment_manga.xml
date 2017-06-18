@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mana.MangaViewModel"
+            />
+
+        <import type="toandoan.framgia.com.rxjavaretrofit.utils.binding.LayoutManagers"/>
+
+    </data>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        bind:adapter="@{viewModel.adapter}"
+        bind:layoutManager="@{LayoutManagers.grid(3)}"
+        />
+</layout>
