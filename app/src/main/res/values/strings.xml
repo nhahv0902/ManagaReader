@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Manga Reader</string>
+    <string name="title_manga">Manga</string>
+    <string name="title_recent">Recent</string>
+    <string name="title_download">Download</string>
+    <string name="title_favorites">Favorite</string>
+    <string name="title_setting">Setting</string>
+</resources>
