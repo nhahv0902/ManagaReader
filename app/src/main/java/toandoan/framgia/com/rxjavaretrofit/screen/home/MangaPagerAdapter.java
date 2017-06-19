@@ -10,11 +10,11 @@ import java.util.List;
  * Created by toand on 6/18/2017.
  */
 
-public class ManaPagerAdapter extends FragmentPagerAdapter {
+public class MangaPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
 
-    public ManaPagerAdapter(FragmentManager fm) {
+    public MangaPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -31,5 +31,10 @@ public class ManaPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mFragments != null ? mFragments.size() : 0;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles != null && mTitles.get(position) != null ? mTitles.get(position) : null;
     }
 }

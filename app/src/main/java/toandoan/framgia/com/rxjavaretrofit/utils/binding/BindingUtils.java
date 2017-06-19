@@ -35,6 +35,7 @@ public final class BindingUtils {
     public static void setViewPagerAdapter(final ViewPager viewPager,
             final FragmentPagerAdapter adapter) {
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getCount());
     }
 
     @BindingAdapter({ "bind:pager" })
