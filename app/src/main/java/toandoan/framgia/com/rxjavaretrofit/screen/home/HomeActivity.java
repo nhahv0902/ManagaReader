@@ -1,5 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import toandoan.framgia.com.rxjavaretrofit.R;
@@ -13,6 +15,12 @@ import toandoan.framgia.com.rxjavaretrofit.utils.Utils;
 public class HomeActivity extends BaseActivity {
 
     private HomeContract.ViewModel mViewModel;
+
+    public static Intent getInstance(Context context) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

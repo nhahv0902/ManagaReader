@@ -46,6 +46,8 @@ dependencies {
   compile dependencies.loggingInterceptor
   compile dependencies.glide
 
+  compile dependencies.headerRecycler
+
   testCompile dependencies.junit
   testCompile dependencies.mockito
 

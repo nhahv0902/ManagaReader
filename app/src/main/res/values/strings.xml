@@ -5,4 +5,8 @@
     <string name="title_download">Download</string>
     <string name="title_favorites">Favorite</string>
     <string name="title_setting">Setting</string>
+    <string name="title_source"><![CDATA[Source & Language]]></string>
+    <string name="action_done">Done</string>
+    <string name="pls_select_cource">Please select a course!</string>
+    <string name="some_thing_wrong">Something went wrong!</string>
 </resources>
