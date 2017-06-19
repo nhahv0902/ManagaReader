@@ -10,16 +10,16 @@ import com.google.gson.annotations.SerializedName;
 public class LastestChap {
     @SerializedName("chap")
     @Expose
-    private int chap;
+    private long chap;
     @SerializedName("id")
     @Expose
     private int id;
 
-    public int getChap() {
+    public long getChap() {
         return chap;
     }
 
-    public void setChap(int chap) {
+    public void setChap(long chap) {
         this.chap = chap;
     }
 

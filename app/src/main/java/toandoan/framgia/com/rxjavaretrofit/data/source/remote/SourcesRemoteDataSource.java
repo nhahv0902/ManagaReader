@@ -43,4 +43,10 @@ public class SourcesRemoteDataSource extends BaseRemoteDataSource implements Sou
         // no ops
         return null;
     }
+
+    @Override
+    public String getCurrentSourceCode() {
+        // no ops
+        return null;
+    }
 }

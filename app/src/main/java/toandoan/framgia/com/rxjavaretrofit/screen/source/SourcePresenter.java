@@ -102,6 +102,7 @@ final class SourcePresenter implements SourceContract.Presenter {
                     @Override
                     public void call(Source source) {
                         mCurrentSource = source;
+                        mViewModel.onGetCurrentSourceSuccess();
                     }
                 }, new Action1<Throwable>() {
                     @Override

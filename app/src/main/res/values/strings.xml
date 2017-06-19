@@ -9,4 +9,7 @@
     <string name="action_done">Done</string>
     <string name="pls_select_cource">Please select a course!</string>
     <string name="some_thing_wrong">Something went wrong!</string>
+    <string name="title_sources">Source</string>
+    <string name="title_search">Search</string>
+    <string name="title_filter">Filter</string>
 </resources>

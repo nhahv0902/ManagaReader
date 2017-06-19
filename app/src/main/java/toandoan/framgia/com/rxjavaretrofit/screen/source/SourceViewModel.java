@@ -24,9 +24,11 @@ public class SourceViewModel extends BaseObservable implements SourceContract.Vi
     private int mProgressVisible = GONE;
     private Navigator mNavigator;
     private SourceAdapter mAdapter;
+    private boolean mIsStartFromMain;
 
-    public SourceViewModel(Navigator navigator) {
+    public SourceViewModel(Navigator navigator, boolean isStartFromMain) {
         mNavigator = navigator;
+        mIsStartFromMain = isStartFromMain;
     }
 
     @Override
@@ -82,6 +84,13 @@ public class SourceViewModel extends BaseObservable implements SourceContract.Vi
     @Override
     public void onSaveSourceFailed() {
         mNavigator.showToast(R.string.some_thing_wrong);
+    }
+
+    @Override
+    public void onGetCurrentSourceSuccess() {
+        if (!mIsStartFromMain) {
+            mNavigator.startActivity(HomeActivity.getInstance(mNavigator.getContext()));
+        }
     }
 
     @Bindable

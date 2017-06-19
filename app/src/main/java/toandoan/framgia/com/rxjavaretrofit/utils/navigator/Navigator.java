@@ -148,7 +148,11 @@ public class Navigator {
     }
 
     public void showToast(@StringRes int stringId) {
-        Toast.makeText(mActivity, mActivity.getString(stringId) + "", Toast.LENGTH_SHORT).show();
+        Activity activity =
+                mActivity != null ? mActivity : mFragment != null ? mFragment.getActivity() : null;
+        if (activity == null) return;
+        Snackbar.make(activity.findViewById(android.R.id.content), stringId, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     public void showToast(String message) {

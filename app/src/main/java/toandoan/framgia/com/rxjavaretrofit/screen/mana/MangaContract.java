@@ -16,6 +16,10 @@ interface MangaContract {
         void onGetMangaSuccess(List<Manga> mangas);
 
         void onGetMangaFailed(String msg);
+
+        void hideProgressBar();
+
+        void showProgressBar();
     }
 
     /**
@@ -23,6 +27,8 @@ interface MangaContract {
      */
     interface Presenter extends BasePresenter {
 
-        void getData(String option, int page);
+        void getData();
+
+        void onLoadMoreData();
     }
 }
