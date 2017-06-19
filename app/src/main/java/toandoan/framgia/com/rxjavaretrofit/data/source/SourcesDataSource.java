@@ -14,4 +14,6 @@ public interface SourcesDataSource {
     Observable<Source> getSelectedSources();
 
     Observable<Boolean> saveCurrentSource(Source source);
+
+    String getCurrentSourceCode();
 }

@@ -44,7 +44,7 @@ public class Manga extends BaseObservable {
     private String slug;
     @SerializedName("view")
     @Expose
-    private Integer view;
+    private long view;
     @SerializedName("lastest_chap")
     @Expose
     private LastestChap lastestChap;
@@ -133,11 +133,11 @@ public class Manga extends BaseObservable {
         this.slug = slug;
     }
 
-    public Integer getView() {
+    public long getView() {
         return view;
     }
 
-    public void setView(Integer view) {
+    public void setView(long view) {
         this.view = view;
     }
 

@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,11 +50,17 @@ public final class BindingUtils {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView imageView, String url) {
-        Log.d("loadImage", "loadImage: "+ url);
         Glide.with(imageView.getContext())
                 .load(url)
+                .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(imageView);
+    }
+
+    @BindingAdapter({ "scrollListenner" })
+    public static void setScrollListenner(RecyclerView recyclerView,
+            RecyclerView.OnScrollListener listener) {
+        recyclerView.addOnScrollListener(listener);
     }
 
     @BindingAdapter({ "spinnerAdapter" })

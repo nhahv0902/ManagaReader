@@ -37,13 +37,19 @@ public class SourceLocalDataSource implements SourcesDataSource {
         return Observable.just(saveSelectedSource(source));
     }
 
+    @Override
+    public String getCurrentSourceCode() {
+        Source source = getSelectedSource();
+        return source != null ? source.getSlug() : null;
+    }
+
     public Source getSelectedSource() {
         String str = mSharedPrefsApi.get(PREF_SOURCE, String.class);
         return new Gson().fromJson(str, Source.class);
     }
 
     public Boolean saveSelectedSource(Source source) {
-        mSharedPrefsApi.put(source.toString(), String.class);
+        mSharedPrefsApi.put(PREF_SOURCE, source.toString());
         return true;
     }
 }

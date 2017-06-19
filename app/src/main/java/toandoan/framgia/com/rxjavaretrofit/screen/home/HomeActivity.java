@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityHomeBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
@@ -18,7 +21,7 @@ public class HomeActivity extends BaseActivity {
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 
@@ -46,5 +49,27 @@ public class HomeActivity extends BaseActivity {
     protected void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_manga_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                break;
+            case R.id.menu_filter:
+                break;
+            case R.id.menu_source:
+                mViewModel.onMenuSourceClick();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

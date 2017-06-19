@@ -26,6 +26,8 @@ interface SourceContract {
         void onSaveSourceSucess();
 
         void onSaveSourceFailed();
+
+        void onGetCurrentSourceSuccess();
     }
 
     /**

@@ -11,6 +11,7 @@ interface HomeContract {
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
+        void onMenuSourceClick();
     }
 
     /**

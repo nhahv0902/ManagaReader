@@ -32,4 +32,9 @@ public class SourcesRepository implements SourcesDataSource {
     public Observable<Boolean> saveCurrentSource(Source source) {
         return mLocalDataSource.saveCurrentSource(source);
     }
+
+    @Override
+    public String getCurrentSourceCode() {
+        return mLocalDataSource.getCurrentSourceCode();
+    }
 }

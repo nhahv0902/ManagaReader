@@ -1,5 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.source;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +23,21 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
  */
 public class SourceActivity extends BaseActivity {
 
+    public static final String EXTRA_IS_SHOW_FROM_MAIN = "EXTRA_IS_SHOW_FROM_MAIN";
     private SourceContract.ViewModel mViewModel;
+    private boolean mIsShowFromMain;
+
+    public static Intent getInstance(Context context, boolean isShowFromMain) {
+        return new Intent(context, SourceActivity.class).putExtra(EXTRA_IS_SHOW_FROM_MAIN,
+                isShowFromMain);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getIntentData();
 
-        mViewModel = new SourceViewModel(new Navigator(this));
+        mViewModel = new SourceViewModel(new Navigator(this), mIsShowFromMain);
 
         SourceContract.Presenter presenter = new SourcePresenter(mViewModel,
                 new SourcesRepository(new SourcesRemoteDataSource(AppServiceClient.getInstance()),
@@ -45,6 +55,13 @@ public class SourceActivity extends BaseActivity {
 
         binding.setViewModel((SourceViewModel) mViewModel);
         setTitle(R.string.title_source);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(mIsShowFromMain);
+    }
+
+    private void getIntentData() {
+        if (getIntent() == null || getIntent().getExtras() == null) return;
+        mIsShowFromMain = getIntent().getExtras().getBoolean(EXTRA_IS_SHOW_FROM_MAIN);
     }
 
     @Override
@@ -70,6 +87,9 @@ public class SourceActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_done:
                 mViewModel.onDoneClick();
+                break;
+            case android.R.id.home:
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
