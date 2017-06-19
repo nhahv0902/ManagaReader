@@ -1,6 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit.utils.navigator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -38,6 +40,10 @@ public class Navigator {
     public Navigator(Fragment fragment) {
         mFragment = fragment;
         mActivity = fragment.getActivity();
+    }
+
+    public Context getContext() {
+        return mActivity != null ? mActivity : mFragment != null ? mFragment.getContext() : null;
     }
 
     public void startActivity(@NonNull Intent intent) {
@@ -146,6 +152,10 @@ public class Navigator {
     }
 
     public void showToast(String message) {
-        Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
+        Activity activity =
+                mActivity != null ? mActivity : mFragment != null ? mFragment.getActivity() : null;
+        if (activity == null) return;
+        Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                .show();
     }
 }
