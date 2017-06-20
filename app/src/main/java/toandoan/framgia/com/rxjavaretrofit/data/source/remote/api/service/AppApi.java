@@ -20,4 +20,8 @@ public interface AppApi {
 
     @GET("api/sources")
     Observable<Response<List<Source>>> getSource(@Query("version_app") String version);
+
+    @GET("getallstory")
+    Observable<Response<List<Manga>>> getAllMangas(@Query("version_app") String version,
+            @Query("source") String source);
 }
