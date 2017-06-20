@@ -2,10 +2,10 @@ package toandoan.framgia.com.rxjavaretrofit.screen.mana.allmanga;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.MangaDetailActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 import static android.view.View.GONE;
@@ -63,7 +63,8 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
 
     @Override
     public void onItemClick(Manga source) {
-        // TODO: 20/06/2017 open manga detail
+        mNavigator.startActivity(
+                MangaDetailActivity.getInstance(mNavigator.getContext(), source));
     }
 
     public AllMangaAdapter getAdapter() {
@@ -83,6 +84,4 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
         mProgressVisible = progressVisible;
         notifyPropertyChanged(BR.progressVisible);
     }
-
-
 }

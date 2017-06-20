@@ -20,6 +20,8 @@ interface MangaContract {
         void hideProgressBar();
 
         void showProgressBar();
+
+        void onItemClick(Manga manga);
     }
 
     /**

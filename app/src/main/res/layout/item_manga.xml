@@ -6,6 +6,10 @@
 
     <data>
         <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mana.MangaViewModel"
+            />
+        <variable
             name="manga"
             type="toandoan.framgia.com.rxjavaretrofit.data.model.Manga"
             />
@@ -16,6 +20,7 @@
         android:layout_marginLeft="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_5"
+        android:onClick="{()-> viewModel.onItemClick(manga)}"
         android:orientation="vertical"
         android:padding="@dimen/dp_5"
         app:cardElevation="@dimen/dp_5"
