@@ -31,4 +31,15 @@ public class ManagaRemoteDataSource extends BaseRemoteDataSource implements Mang
                     }
                 });
     }
+
+    @Override
+    public Observable<List<Manga>> getAllMangas(String source) {
+        return mApi.getAllMangas(VERSION_APP, source)
+                .flatMap(new Func1<Response<List<Manga>>, Observable<List<Manga>>>() {
+                    @Override
+                    public Observable<List<Manga>> call(Response<List<Manga>> listResponse) {
+                        return Utils.getResponse(listResponse);
+                    }
+                });
+    }
 }

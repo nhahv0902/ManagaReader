@@ -19,4 +19,9 @@ public class MangaDataRepository implements MangaDataSource {
     public Observable<List<Manga>> getPopularManga(String source, String option, int page) {
         return mRemoteDataSource.getPopularManga(source, option, page);
     }
+
+    @Override
+    public Observable<List<Manga>> getAllMangas(String source) {
+        return mRemoteDataSource.getAllMangas(source);
+    }
 }
