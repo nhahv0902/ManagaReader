@@ -49,7 +49,7 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
     };
 
     public MangaViewModel(Navigator navigator) {
-        mAdapter = new MangaAdapter();
+        mAdapter = new MangaAdapter(this);
         mNavigator = navigator;
     }
 

@@ -1,5 +1,6 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.mana.allmanga;
 
+import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,7 +13,6 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
-import toandoan.framgia.com.rxjavaretrofit.data.model.Response;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.SourcesDataSource;
 
@@ -106,9 +106,11 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
 
     private void optimizeData(List<Manga> mangas) {
         for (Manga manga : mangas) {
+            if (manga == null || TextUtils.isEmpty(manga.getName())) continue;
             while (manga.getName().startsWith("\"")
                     || manga.getName().startsWith("+")
                     || manga.getName().startsWith("-")
+                    || manga.getName().startsWith(" ")
                     || manga.getName().startsWith(")")
                     || manga.getName().startsWith("(")
                     || manga.getName().startsWith("\'")
@@ -127,9 +129,15 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
             Collections.sort(mangas, new Comparator<Manga>() {
                 @Override
                 public int compare(final Manga object1, final Manga object2) {
+                    if (object1 == null
+                            || object2 == null
+                            || TextUtils.isEmpty(object1.getName())
+                            || TextUtils.isEmpty(object2.getName())) {
+                        return -1;
+                    }
                     String firstAlpha = String.valueOf(object1.getName().substring(0, 1));
                     String secondAlpha = String.valueOf(object2.getName().substring(0, 1));
-                    return firstAlpha.compareTo(secondAlpha);
+                    return firstAlpha.compareTo(secondAlpha );
                 }
             });
         }

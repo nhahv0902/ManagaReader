@@ -11,19 +11,19 @@ import java.io.Serializable;
 public class Chap implements Serializable {
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("vol")
     @Expose
     private String vol;
     @SerializedName("chap")
     @Expose
-    private Integer chap;
+    private String chap;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -35,11 +35,11 @@ public class Chap implements Serializable {
         this.vol = vol;
     }
 
-    public Integer getChap() {
+    public String getChap() {
         return chap;
     }
 
-    public void setChap(Integer chap) {
+    public void setChap(String chap) {
         this.chap = chap;
     }
 }

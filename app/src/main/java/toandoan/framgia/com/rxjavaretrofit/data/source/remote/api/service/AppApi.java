@@ -24,4 +24,7 @@ public interface AppApi {
     @GET("getallstory")
     Observable<Response<List<Manga>>> getAllMangas(@Query("version_app") String version,
             @Query("source") String source);
+
+    @GET("getmangainfo")
+    Observable<Response<Manga>> getMangaById(@Query("story_id") int storyId);
 }

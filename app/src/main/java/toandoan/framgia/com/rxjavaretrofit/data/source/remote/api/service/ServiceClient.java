@@ -2,7 +2,6 @@ package toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,7 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import toandoan.framgia.com.rxjavaretrofit.BuildConfig;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.adapter.BooleanAdapter;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.adapter.IntegerAdapter;
-import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.middleware.RxErrorHandlingCallAdapterFactory;
+import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.middleware
+        .RxErrorHandlingCallAdapterFactory;
+import toandoan.framgia.com.rxjavaretrofit.utils.Constant;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -35,8 +36,8 @@ public class ServiceClient {
         return createService(application, endPoint, serviceClass, getGsonConfig(), interceptor);
     }
 
-    private static <T> T createService(Application application, String endPoint, Class<T> serviceClass,
-            @NonNull Gson gson, Interceptor interceptor) {
+    private static <T> T createService(Application application, String endPoint,
+            Class<T> serviceClass, @NonNull Gson gson, Interceptor interceptor) {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         httpClientBuilder.cache(new Cache(application.getCacheDir(), cacheSize));
