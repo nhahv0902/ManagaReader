@@ -20,12 +20,12 @@
         android:layout_marginLeft="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_5"
-        android:onClick="{()-> viewModel.onItemClick(manga)}"
         android:orientation="vertical"
         android:padding="@dimen/dp_5"
         app:cardElevation="@dimen/dp_5"
         >
         <RelativeLayout
+            android:onClick="@{() -> viewModel.onItemClick(manga)}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

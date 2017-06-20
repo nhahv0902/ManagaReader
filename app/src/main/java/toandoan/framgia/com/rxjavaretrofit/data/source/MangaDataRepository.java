@@ -24,4 +24,9 @@ public class MangaDataRepository implements MangaDataSource {
     public Observable<List<Manga>> getAllMangas(String source) {
         return mRemoteDataSource.getAllMangas(source);
     }
+
+    @Override
+    public Observable<Manga> getMangaById(int id) {
+        return mRemoteDataSource.getMangaById(id);
+    }
 }

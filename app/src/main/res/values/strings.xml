@@ -12,4 +12,9 @@
     <string name="title_sources">Source</string>
     <string name="title_search">Search</string>
     <string name="title_filter">Filter</string>
+    <string name="loading">Loading...</string>
+    <string name="title_sumarry">Summary</string>
+    <string name="title_chapter">Chapter</string>
+    <string name="title_item_chaper">Chap %s</string>
+
 </resources>

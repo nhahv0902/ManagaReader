@@ -34,6 +34,7 @@ public final class BindingUtils {
     @BindingAdapter({ "bind:adapter" })
     public static void setViewPagerAdapter(final ViewPager viewPager,
             final FragmentPagerAdapter adapter) {
+        if (adapter == null) return;
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getCount());
     }
@@ -53,7 +54,6 @@ public final class BindingUtils {
     public static void loadImage(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
                 .load(url)
-                .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(imageView);
     }

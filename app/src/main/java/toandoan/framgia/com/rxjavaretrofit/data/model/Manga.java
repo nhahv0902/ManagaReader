@@ -22,19 +22,15 @@ public class Manga extends BaseObservable implements Serializable {
     @SerializedName("author")
     @Expose
     private List<String> author;
-
     @SerializedName("artist")
     @Expose
     private List<Object> artist;
-
     @SerializedName("update_at")
     @Expose
     private String updateAt;
-
     @SerializedName("released")
     @Expose
     private String released;
-
     @SerializedName("avatar")
     @Expose
     private String avatar;
@@ -42,27 +38,21 @@ public class Manga extends BaseObservable implements Serializable {
     @SerializedName("other_name")
     @Expose
     private List<Object> otherName = null;
-
     @SerializedName("slug")
     @Expose
     private String slug;
-
     @SerializedName("view")
     @Expose
     private long view;
-
     @SerializedName("lastest_chap")
     @Expose
     private LastestChap lastestChap;
-
     @SerializedName("orther_name")
     @Expose
     private List<String> ortherName;
-
     @SerializedName("genre")
     @Expose
     private List<String> genre;
-
     @SerializedName("chaps")
     @Expose
     private List<Chap> chaps;

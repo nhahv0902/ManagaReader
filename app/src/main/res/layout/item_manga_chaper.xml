@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="toandoan.framgia.com.rxjavaretrofit.data.model.Chap"
+            />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bluegrey_900"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/text_source_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_30"
+            android:paddingTop="@dimen/dp_10"
+            android:text="@{@string/title_item_chaper(item.chap)}"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/color_bluegrey_850"
+            />
+
+    </LinearLayout>
+</layout>
+
+
+

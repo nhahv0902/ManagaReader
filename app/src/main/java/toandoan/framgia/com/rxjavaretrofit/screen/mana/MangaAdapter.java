@@ -19,6 +19,10 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.ViewHolder> 
     private LayoutInflater mInflater;
     private MangaViewModel mViewModel;
 
+    public MangaAdapter(MangaViewModel viewModel) {
+        mViewModel = viewModel;
+    }
+
     public void updateManga(List<Manga> updatedManga) {
         if (updatedManga == null) return;
         mMangas.addAll(updatedManga);

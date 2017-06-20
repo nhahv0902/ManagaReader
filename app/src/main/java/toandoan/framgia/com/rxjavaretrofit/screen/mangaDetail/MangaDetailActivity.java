@@ -8,8 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
+import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityMangaDetailBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * MangaDetail Screen.
@@ -30,10 +34,13 @@ public class MangaDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getDataIntent();
 
-        mViewModel = new MangaDetailViewModel();
+        mViewModel = new MangaDetailViewModel(this, new Navigator(this));
 
-        MangaDetailContract.Presenter presenter = new MangaDetailPresenter(mViewModel);
+        MangaDetailContract.Presenter presenter = new MangaDetailPresenter(mViewModel,
+                new MangaDataRepository(
+                        new ManagaRemoteDataSource(AppServiceClient.getInstance())));
         mViewModel.setPresenter(presenter);
+        presenter.getMangaDetail(mManga.getId());
 
         ActivityMangaDetailBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_manga_detail);
