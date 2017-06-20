@@ -27,9 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screen.mana.mangaDashboard.MangaDashboardActivity"
+            android:name=".screen.mangaDetail.MangaDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/DetailMangaTheme"/>
     </application>
 
 </manifest>

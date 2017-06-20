@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.MangaDetailActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 import static android.view.View.GONE;
@@ -97,6 +98,12 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
     @Override
     public void showProgressBar() {
         setProgressbarVisible(VISIBLE);
+    }
+
+    @Override
+    public void onItemClick(Manga manga) {
+        mNavigator.startActivity(
+                MangaDetailActivity.getInstance(mNavigator.getContext(), manga));
     }
 
     @Bindable

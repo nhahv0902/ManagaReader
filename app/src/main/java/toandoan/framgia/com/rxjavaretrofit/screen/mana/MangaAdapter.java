@@ -17,6 +17,7 @@ import toandoan.framgia.com.rxjavaretrofit.databinding.ItemMangaBinding;
 public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.ViewHolder> {
     private List<Manga> mMangas = new ArrayList<>();
     private LayoutInflater mInflater;
+    private MangaViewModel mViewModel;
 
     public void updateManga(List<Manga> updatedManga) {
         if (updatedManga == null) return;
@@ -53,6 +54,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.ViewHolder> 
         public void bindData(Manga manga) {
             if (manga == null) return;
             mBinding.setManga(manga);
+            mBinding.setViewModel(mViewModel);
             mBinding.executePendingBindings();
         }
     }

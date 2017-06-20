@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 
@@ -11,7 +12,7 @@ import toandoan.framgia.com.rxjavaretrofit.BR;
  * Created by toand on 6/19/2017.
  */
 
-public class Manga extends BaseObservable {
+public class Manga extends BaseObservable implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -21,33 +22,50 @@ public class Manga extends BaseObservable {
     @SerializedName("author")
     @Expose
     private List<String> author;
+
     @SerializedName("artist")
     @Expose
     private List<Object> artist;
+
     @SerializedName("update_at")
     @Expose
     private String updateAt;
+
     @SerializedName("released")
     @Expose
     private String released;
+
     @SerializedName("avatar")
     @Expose
     private String avatar;
+
     @SerializedName("other_name")
     @Expose
     private List<Object> otherName = null;
-    @SerializedName("genre")
-    @Expose
-    private List<String> genre = null;
+
     @SerializedName("slug")
     @Expose
     private String slug;
+
     @SerializedName("view")
     @Expose
     private long view;
+
     @SerializedName("lastest_chap")
     @Expose
     private LastestChap lastestChap;
+
+    @SerializedName("orther_name")
+    @Expose
+    private List<String> ortherName;
+
+    @SerializedName("genre")
+    @Expose
+    private List<String> genre;
+
+    @SerializedName("chaps")
+    @Expose
+    private List<Chap> chaps;
 
     public Integer getId() {
         return id;
@@ -117,14 +135,6 @@ public class Manga extends BaseObservable {
         this.otherName = otherName;
     }
 
-    public List<String> getGenre() {
-        return genre;
-    }
-
-    public void setGenre(List<String> genre) {
-        this.genre = genre;
-    }
-
     public String getSlug() {
         return slug;
     }
@@ -147,5 +157,29 @@ public class Manga extends BaseObservable {
 
     public void setLastestChap(LastestChap lastestChap) {
         this.lastestChap = lastestChap;
+    }
+
+    public List<String> getOrtherName() {
+        return ortherName;
+    }
+
+    public void setOrtherName(List<String> ortherName) {
+        this.ortherName = ortherName;
+    }
+
+    public List<String> getGenre() {
+        return genre;
+    }
+
+    public void setGenre(List<String> genre) {
+        this.genre = genre;
+    }
+
+    public List<Chap> getChaps() {
+        return chaps;
+    }
+
+    public void setChaps(List<Chap> chaps) {
+        this.chaps = chaps;
     }
 }
