@@ -17,15 +17,11 @@ import toandoan.framgia.com.rxjavaretrofit.databinding.ItemMangaChaperBinding;
 public class MangaChapterAdapter extends RecyclerView.Adapter<MangaChapterAdapter.ViewHolder> {
     private List<Chap> mChaps = new ArrayList<>();
     private LayoutInflater mInflater;
+    private MangaChapterViewModel mViewModel;
 
-    public MangaChapterAdapter(List<Chap> chaps) {
+    public MangaChapterAdapter(MangaChapterViewModel viewModel, List<Chap> chaps) {
+        mViewModel = viewModel;
         mChaps = chaps;
-    }
-
-    public void updateData(List<Chap> chaps) {
-        if (chaps == null) return;
-        mChaps.addAll(chaps);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -56,6 +52,7 @@ public class MangaChapterAdapter extends RecyclerView.Adapter<MangaChapterAdapte
 
         public void bindData(Chap chap) {
             mBinding.setItem(chap);
+            mBinding.setViewModel(mViewModel);
             mBinding.executePendingBindings();
         }
     }

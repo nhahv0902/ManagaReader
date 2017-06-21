@@ -1,4 +1,4 @@
-package toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter;
+package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.screen.BasePresenter;
@@ -7,17 +7,24 @@ import toandoan.framgia.com.rxjavaretrofit.screen.BaseViewModel;
 /**
  * This specifies the contract between the view and the presenter.
  */
-interface MangaChapterContract {
+interface ReaderContract {
     /**
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
-        void onChapterItemClick(Chap chap);
+        void showProgress();
+
+        void getChapterSuccess(Chap chap);
+
+        void hideProgress();
+
+        void getChapterFailed(String message);
     }
 
     /**
      * Presenter.
      */
     interface Presenter extends BasePresenter {
+        void getChap(String chapId);
     }
 }

@@ -2,6 +2,7 @@ package toandoan.framgia.com.rxjavaretrofit.data.source;
 
 import java.util.List;
 import rx.Observable;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 
 /**
@@ -28,5 +29,10 @@ public class MangaDataRepository implements MangaDataSource {
     @Override
     public Observable<Manga> getMangaById(int id) {
         return mRemoteDataSource.getMangaById(id);
+    }
+
+    @Override
+    public Observable<Chap> getChapById(String chapId) {
+        return mRemoteDataSource.getChapById(chapId);
     }
 }
