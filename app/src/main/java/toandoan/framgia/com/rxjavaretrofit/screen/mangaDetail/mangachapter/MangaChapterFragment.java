@@ -12,6 +12,7 @@ import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentMangaChapterBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseFragment;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * MangaChapter Screen.
@@ -47,13 +48,14 @@ public class MangaChapterFragment extends BaseFragment {
                         false);
         binding.setViewModel((MangaChapterViewModel) mViewModel);
 
-        mViewModel = new MangaChapterViewModel(manga);
+        mViewModel = new MangaChapterViewModel(new Navigator(this));
 
         MangaChapterContract.Presenter presenter = new MangaChapterPresenter(mViewModel);
         mViewModel.setPresenter(presenter);
         RecyclerView recyclerView = binding.recyclerChapter;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MangaChapterAdapter(manga.getChaps()));
+        recyclerView.setAdapter(
+                new MangaChapterAdapter((MangaChapterViewModel) mViewModel, manga.getChaps()));
         return binding.getRoot();
     }
 

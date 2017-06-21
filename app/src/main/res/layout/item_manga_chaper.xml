@@ -5,12 +5,17 @@
             name="item"
             type="toandoan.framgia.com.rxjavaretrofit.data.model.Chap"
             />
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterViewModel"
+            />
     </data>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bluegrey_900"
+        android:onClick="@{() -> viewModel.onChapterItemClick(item)}"
         android:orientation="vertical"
         >
 

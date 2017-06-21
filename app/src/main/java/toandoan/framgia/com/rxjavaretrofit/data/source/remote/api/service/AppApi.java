@@ -4,6 +4,7 @@ import java.util.List;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Response;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Source;
@@ -27,4 +28,7 @@ public interface AppApi {
 
     @GET("getmangainfo")
     Observable<Response<Manga>> getMangaById(@Query("story_id") int storyId);
+
+    @GET("getchapterinfo")
+    Observable<Response<Chap>> getChapById(@Query("chapter_id") String chaperId);
 }

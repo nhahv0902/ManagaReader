@@ -30,6 +30,10 @@
             android:name=".screen.mangaDetail.MangaDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DetailMangaTheme"/>
+        <activity
+            android:name=".screen.reader.ReaderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
