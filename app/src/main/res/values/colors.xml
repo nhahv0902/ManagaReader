@@ -5,10 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_transparent">#80000000</color>
     <color name="color_grey_300">#dddddd</color>
+    <color name="color_grey_400">#bdbdbd</color>
     <color name="color_grey_200">#eeeeee</color>
     <color name="color_bluegrey_900">#2D3E50</color>
     <color name="color_bluegrey_850">#3a5066</color>
     <color name="color_bluegrey_800">#32485F</color>
+    <color name="color_bluegrey_500">#5A82AB</color>
     <color name="color_grey_100">#f5f5f5</color>
     <color name="color_orange_800">#ef6c00</color>
 </resources>

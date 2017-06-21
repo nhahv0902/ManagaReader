@@ -1,6 +1,5 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -13,6 +12,9 @@ import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.Manga
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangaoverview.MangaOverviewFragment;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Exposes the data to be used in the MangaDetail screen.
  */
@@ -22,18 +24,16 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     private static final String TAG = "MangaDetailViewModel";
 
     private MangaDetailContract.Presenter mPresenter;
-    private ProgressDialog mDialog;
     private Manga mManga;
     private Navigator mNavigator;
     private String mAvatar;
     private MangaPagerAdapter mAdapter;
     private AppCompatActivity mActivity;
+    private int mProgressVisible = VISIBLE;
 
     public MangaDetailViewModel(Context context, Navigator navigator) {
-        mDialog = new ProgressDialog(context);
         mActivity = (AppCompatActivity) context;
         mNavigator = navigator;
-        mDialog.setMessage(context.getString(R.string.loading));
     }
 
     @Override
@@ -53,9 +53,7 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
 
     @Override
     public void showProgress() {
-        if (mDialog != null) {
-            mDialog.show();
-        }
+        setProgressVisible(VISIBLE);
     }
 
     @Override
@@ -77,9 +75,7 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
 
     @Override
     public void hideProgress() {
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
+        setProgressVisible(GONE);
     }
 
     public Manga getManga() {
@@ -108,5 +104,15 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     public void setAdapter(MangaPagerAdapter adapter) {
         mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
+    }
+
+    @Bindable
+    public int getProgressVisible() {
+        return mProgressVisible;
+    }
+
+    public void setProgressVisible(int progressVisible) {
+        mProgressVisible = progressVisible;
+        notifyPropertyChanged(BR.progressVisible);
     }
 }

@@ -29,10 +29,6 @@ public class MangaOverviewFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new MangaOverviewViewModel();
-
-        MangaOverviewContract.Presenter presenter = new MangaOverviewPresenter(mViewModel);
-        mViewModel.setPresenter(presenter);
     }
 
     @Nullable
@@ -40,10 +36,20 @@ public class MangaOverviewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
+        Bundle bundle = this.getArguments();
+        Manga manga = (Manga) bundle.getSerializable(EXTRA_MANGA);
+
+        mViewModel = new MangaOverviewViewModel(manga);
+
+        MangaOverviewContract.Presenter presenter = new MangaOverviewPresenter(mViewModel);
+        mViewModel.setPresenter(presenter);
+
         FragmentMangaOverviewBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_manga_overview, container,
                         false);
+
         binding.setViewModel((MangaOverviewViewModel) mViewModel);
+        binding.setManga(manga);
         return binding.getRoot();
     }
 

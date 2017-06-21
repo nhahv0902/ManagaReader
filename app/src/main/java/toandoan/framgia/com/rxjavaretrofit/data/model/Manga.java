@@ -41,6 +41,15 @@ public class Manga extends BaseObservable implements Serializable {
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("create_at")
+    @Expose
+    private String create_at;
+    @SerializedName("describe")
+    @Expose
+    private String describe;
     @SerializedName("view")
     @Expose
     private long view;
@@ -171,5 +180,42 @@ public class Manga extends BaseObservable implements Serializable {
 
     public void setChaps(List<Chap> chaps) {
         this.chaps = chaps;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreate_at() {
+        return create_at;
+    }
+
+    public void setCreate_at(String create_at) {
+        this.create_at = create_at;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getAuthorStr() {
+        String str = "";
+        if (author != null) {
+            for (String s : author) {
+                str += s + ", ";
+            }
+        }
+        if (str.length() > 0) {
+            str = str.substring(0, str.length() - 2);
+        }
+        return str;
     }
 }

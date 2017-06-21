@@ -11,6 +11,7 @@ interface MangaOverviewContract {
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
+        void onGenresClick(String genres);
     }
 
     /**
