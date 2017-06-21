@@ -23,6 +23,7 @@
             android:paddingBottom="@dimen/dp_10"
             android:paddingLeft="@dimen/dp_30"
             android:paddingTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_14"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
             />

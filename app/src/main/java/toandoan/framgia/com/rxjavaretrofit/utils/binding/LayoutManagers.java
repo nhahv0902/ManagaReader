@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -34,6 +35,25 @@ public class LayoutManagers {
             @Override
             public RecyclerView.LayoutManager create(RecyclerView recyclerView) {
                 return new GridLayoutManager(recyclerView.getContext(), spanCount);
+            }
+        };
+    }
+
+    public static LayoutManagerFactory straight(final int spanCount) {
+        return new LayoutManagerFactory() {
+            @Override
+            public RecyclerView.LayoutManager create(RecyclerView recyclerView) {
+                return new StaggeredGridLayoutManager(spanCount,
+                        StaggeredGridLayoutManager.VERTICAL);
+            }
+        };
+    }
+
+    public static LayoutManagerFactory straight(final int spanCount, final int orientatation) {
+        return new LayoutManagerFactory() {
+            @Override
+            public RecyclerView.LayoutManager create(RecyclerView recyclerView) {
+                return new StaggeredGridLayoutManager(spanCount, orientatation);
             }
         };
     }

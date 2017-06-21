@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:paddingEnd="@dimen/dp_16"
+        android:textSize="@dimen/sp_15"
         android:paddingStart="@dimen/dp_16"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/darker_gray"
