@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="url"
             type="String"
             />
     </data>
-    <toandoan.framgia.com.rxjavaretrofit.utils.widget.zoomimage.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/dp_10"
-        bind:imageUrl="@{url}"
-        />
+        android:layout_marginBottom="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_2"
+        >
+        <toandoan.framgia.com.rxjavaretrofit.utils.widget.zoomimage.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+
 </layout>

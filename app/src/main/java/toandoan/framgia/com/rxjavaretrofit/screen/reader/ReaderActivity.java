@@ -11,7 +11,6 @@ import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSo
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityReaderBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
-import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterViewModel;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
@@ -42,6 +41,8 @@ public class ReaderActivity extends BaseActivity {
         ActivityReaderBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_reader);
         binding.setViewModel((ReaderViewModel) mViewModel);
+
+        getSupportActionBar().hide();
     }
 
     @Override
