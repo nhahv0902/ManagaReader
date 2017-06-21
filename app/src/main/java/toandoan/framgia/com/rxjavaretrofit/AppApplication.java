@@ -1,6 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit;
 
 import android.app.Application;
+import android.content.Context;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.realm.DataLocalMigration;
@@ -13,12 +14,14 @@ import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppSer
 public class AppApplication extends Application {
     private static final String REALM_SCHEMA_NAME = "data.realm";
     private static final int REALM_SCHEMA_VERSION = 0;
+    private static Context sContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
         AppServiceClient.initialize(this);
         initAndMigrateRealmIfNeeded();
+        sContext = this;
     }
 
     private void initAndMigrateRealmIfNeeded() {
@@ -30,5 +33,9 @@ public class AppApplication extends Application {
         Realm.setDefaultConfiguration(config);
         Realm realm = Realm.getDefaultInstance(); // Automatically run migration if needed
         realm.close();
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 }

@@ -2,7 +2,6 @@ package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
@@ -20,6 +19,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     private ReaderContract.Presenter mPresenter;
     private int mProgressVisible = VISIBLE;
     private Navigator mNavigator;
+    private ReaderAdapter mAdapter;
 
     public ReaderViewModel(Navigator navigator) {
         mNavigator = navigator;
@@ -47,7 +47,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     @Override
     public void getChapterSuccess(Chap chap) {
-        Log.d(TAG, "getChapterSuccess: " + chap.getContent().size());
+        setAdapter(new ReaderAdapter(chap.getContent()));
     }
 
     @Override
@@ -68,5 +68,15 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     public void setProgressVisible(int progressVisible) {
         mProgressVisible = progressVisible;
         notifyPropertyChanged(BR.progressVisible);
+    }
+
+    @Bindable
+    public ReaderAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    public void setAdapter(ReaderAdapter adapter) {
+        mAdapter = adapter;
+        notifyPropertyChanged(BR.adapter);
     }
 }
