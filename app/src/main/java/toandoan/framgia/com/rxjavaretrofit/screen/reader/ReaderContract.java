@@ -26,5 +26,7 @@ interface ReaderContract {
      */
     interface Presenter extends BasePresenter {
         void getChap(String chapId);
+
+        void downloadChaper(Chap chap);
     }
 }

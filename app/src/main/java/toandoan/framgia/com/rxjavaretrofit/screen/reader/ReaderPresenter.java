@@ -1,11 +1,17 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BaseTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import java.io.File;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+import toandoan.framgia.com.rxjavaretrofit.AppApplication;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 
@@ -53,7 +59,7 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                 .subscribe(new Action1<Chap>() {
                     @Override
                     public void call(Chap chap) {
-                        mViewModel.getChapterSuccess(chap);
+                        downloadChaper(chap);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -64,9 +70,34 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                 }, new Action0() {
                     @Override
                     public void call() {
-                        mViewModel.hideProgress();
                     }
                 });
         mSubscription.add(subscription);
+    }
+
+    int count;
+    @Override
+    public void downloadChaper(final Chap chap) {
+       count = chap.getContent().size();
+
+        for (String url : chap.getContent()) {
+            Glide.with(AppApplication.getContext()).load(url)
+                    .downloadOnly(new BaseTarget<File>() {
+                @Override
+                public void onResourceReady(File resource,
+                        GlideAnimation<? super File> glideAnimation) {
+                    count--;
+                    if (count == 0) {
+                        mViewModel.getChapterSuccess(chap);
+                        mViewModel.hideProgress();
+                    }
+                }
+
+                @Override
+                public void getSize(SizeReadyCallback cb) {
+
+                }
+            });
+        }
     }
 }
