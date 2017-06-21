@@ -12,6 +12,8 @@ interface HomeContract {
      */
     interface ViewModel extends BaseViewModel<Presenter> {
         void onMenuSourceClick();
+
+        void onFilterClick();
     }
 
     /**

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="filter"
+            type="toandoan.framgia.com.rxjavaretrofit.data.model.FilterModel"
+            />
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterViewModel"
+            />
+    </data>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@{filter.selected? @drawable/bg_filter_selected : @drawable/bg_filter}"
+        android:foregroundGravity="right"
+        android:gravity="center"
+        android:lines="1"
+        android:onClick="@{()-> viewModel.onItemFilterClick(filter)}"
+        android:text="@{filter.name}"
+        android:textColor="@{filter.selected? @color/color_white : @color/color_grey_300}"
+        android:textSize="@dimen/sp_16"
+        />
+</layout>
