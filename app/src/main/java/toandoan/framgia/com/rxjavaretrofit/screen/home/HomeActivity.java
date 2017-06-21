@@ -63,6 +63,7 @@ public class HomeActivity extends BaseActivity {
             case R.id.menu_search:
                 break;
             case R.id.menu_filter:
+                mViewModel.onFilterClick();
                 break;
             case R.id.menu_source:
                 mViewModel.onMenuSourceClick();

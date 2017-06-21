@@ -44,7 +44,7 @@ public class LayoutManagers {
             @Override
             public RecyclerView.LayoutManager create(RecyclerView recyclerView) {
                 return new StaggeredGridLayoutManager(spanCount,
-                        StaggeredGridLayoutManager.VERTICAL);
+                        StaggeredGridLayoutManager.HORIZONTAL);
             }
         };
     }

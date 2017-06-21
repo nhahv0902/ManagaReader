@@ -10,7 +10,6 @@
                 android:top="@dimen/dp_5"/>
             <solid android:color="@color/color_bluegrey_800"/>
         </shape>
-
     </item>
     <item>
         <shape>
