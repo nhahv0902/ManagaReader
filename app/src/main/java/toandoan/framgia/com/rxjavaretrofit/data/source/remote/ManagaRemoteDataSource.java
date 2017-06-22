@@ -1,10 +1,9 @@
 package toandoan.framgia.com.rxjavaretrofit.data.source.remote;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import rx.Observable;
 import rx.functions.Func1;
+import toandoan.framgia.com.rxjavaretrofit.AppApplication;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Response;
@@ -48,6 +47,7 @@ public class ManagaRemoteDataSource extends BaseRemoteDataSource implements Mang
 
     @Override
     public Observable<List<Manga>> getAllMangas(String source) {
+        if (AppApplication.sMangas != null) return Observable.just(AppApplication.sMangas);
         return mApi.getAllMangas(VERSION_APP, source)
                 .flatMap(new Func1<Response<List<Manga>>, Observable<List<Manga>>>() {
                     @Override

@@ -30,6 +30,7 @@
     <string name="update">Update</string>
     <string name="all_manga">All Manga</string>
     <string name="manga_filter">Manga Filter</string>
+    <string name="manga_filter_result">Filter by genres</string>
     <string name="missing_data">There is no mangas!</string>
-
+    <string name="no_data_with_key">No manga found with your key!</string>
 </resources>

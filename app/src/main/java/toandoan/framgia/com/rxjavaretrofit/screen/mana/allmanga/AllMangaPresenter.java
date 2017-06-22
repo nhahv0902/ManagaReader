@@ -12,6 +12,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+import toandoan.framgia.com.rxjavaretrofit.AppApplication;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.SourcesDataSource;
@@ -27,6 +28,7 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
     private MangaDataSource mMangaRepository;
     private SourcesDataSource mSourceRepository;
     private CompositeSubscription mSubscription;
+    private List<Manga> mMangas;
 
     public AllMangaPresenter(AllMangaContract.ViewModel viewModel, MangaDataSource mangaRepository,
             SourcesDataSource sourceRepository) {
@@ -63,6 +65,8 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
                     @Override
                     public void call(List<Manga> mangas) {
                         if (mangas == null) return;
+                        mMangas = mangas;
+                        AppApplication.sMangas = mangas;
                         optimizeResponse(mangas);
                     }
                 }, new Action1<Throwable>() {
@@ -74,6 +78,42 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
                 });
 
         mSubscription.add(subscription);
+    }
+
+    @Override
+    public void searchMangaByName(String key) {
+        Subscription subscription = Observable.just(searchManga(key))
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mViewModel.showProgressBar();
+                    }
+                })
+                .subscribe(new Action1<List<Manga>>() {
+                    @Override
+                    public void call(List<Manga> mangas) {
+                        optimizeResponse(mangas);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mViewModel.hideProgressBar();
+                    }
+                });
+        mSubscription.add(subscription);
+    }
+
+    public List<Manga> searchManga(String key) {
+        if (TextUtils.isEmpty(key)) return mMangas;
+        List<Manga> searchManga = new ArrayList<>();
+        for (Manga manga : mMangas) {
+            if (manga.getName().toLowerCase().contains(key.toLowerCase())) {
+                searchManga.add(manga);
+            }
+        }
+        return searchManga;
     }
 
     private void optimizeResponse(List<Manga> mangas) {
@@ -137,7 +177,7 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
                     }
                     String firstAlpha = String.valueOf(object1.getName().substring(0, 1));
                     String secondAlpha = String.valueOf(object2.getName().substring(0, 1));
-                    return firstAlpha.compareTo(secondAlpha );
+                    return firstAlpha.compareTo(secondAlpha);
                 }
             });
         }
@@ -174,7 +214,7 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
                 mangaModel.getMangas().add(manga);
             }
         }
-        models.add(mangaModel);
+        if (mangaModel != null) models.add(mangaModel);
         return models;
     }
 }

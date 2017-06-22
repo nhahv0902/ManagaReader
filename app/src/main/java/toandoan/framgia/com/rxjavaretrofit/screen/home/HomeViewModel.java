@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.mangaDashboard.MangaDashboardFragment;
+import toandoan.framgia.com.rxjavaretrofit.screen.search.SearchActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.source.SourceActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
@@ -65,5 +66,10 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
     @Override
     public void onFilterClick() {
         mNavigator.startActivity(FilterActivity.getInstance(mNavigator.getContext()));
+    }
+
+    @Override
+    public void onSearchClick() {
+        mNavigator.startActivity(SearchActivity.getInstance(mNavigator.getContext()));
     }
 }

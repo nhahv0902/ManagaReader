@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     >
 
     <data>
@@ -23,11 +24,20 @@
             android:layout_height="match_parent"
             />
 
+        <include
+            layout="@layout/empty_state"
+            bind:image="@{@drawable/ic_no_report}"
+            bind:text="@{@string/no_data_with_key}"
+            bind:visibleState="@{viewModel.emptyViewVisible}"
+            />
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="@{viewModel.progressVisible}"
             />
+
+
     </RelativeLayout>
 </layout>

@@ -43,7 +43,7 @@ public class FilterResultActivity extends BaseActivity {
         binding.setViewModel((FilterResultViewModel) mViewModel);
 
         new Navigator(this).replaceFragment(R.id.frame_content, mangaFragment);
-        setTitle(R.string.manga_filter);
+        setTitle(R.string.manga_filter_result);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

@@ -10,6 +10,7 @@ import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentMangaOverviewBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseFragment;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * MangaOverview Screen.
@@ -39,7 +40,7 @@ public class MangaOverviewFragment extends BaseFragment {
         Bundle bundle = this.getArguments();
         Manga manga = (Manga) bundle.getSerializable(EXTRA_MANGA);
 
-        mViewModel = new MangaOverviewViewModel(manga);
+        mViewModel = new MangaOverviewViewModel(new Navigator(this), manga);
 
         MangaOverviewContract.Presenter presenter = new MangaOverviewPresenter(mViewModel);
         mViewModel.setPresenter(presenter);

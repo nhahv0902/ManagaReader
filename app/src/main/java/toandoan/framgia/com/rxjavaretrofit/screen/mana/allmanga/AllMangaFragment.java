@@ -70,4 +70,8 @@ public class AllMangaFragment extends BaseFragment {
         mViewModel.onStop();
         super.onStop();
     }
+
+    public void searchMangaByName(String key){
+        mViewModel.searchMangaByName(key);
+    }
 }

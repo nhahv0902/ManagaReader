@@ -61,6 +61,7 @@ public class HomeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_search:
+                mViewModel.onSearchClick();
                 break;
             case R.id.menu_filter:
                 mViewModel.onFilterClick();

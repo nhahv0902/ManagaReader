@@ -2,7 +2,9 @@ package toandoan.framgia.com.rxjavaretrofit.screen.source;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.MenuItem;
 import java.util.List;
+import toandoan.framgia.com.rxjavaretrofit.AppApplication;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Source;
@@ -25,10 +27,19 @@ public class SourceViewModel extends BaseObservable implements SourceContract.Vi
     private Navigator mNavigator;
     private SourceAdapter mAdapter;
     private boolean mIsStartFromMain;
+    private MenuItem mMenuDone;
 
     public SourceViewModel(Navigator navigator, boolean isStartFromMain) {
         mNavigator = navigator;
         mIsStartFromMain = isStartFromMain;
+    }
+
+    public MenuItem getMenuDone() {
+        return mMenuDone;
+    }
+
+    public void setMenuDone(MenuItem menuDone) {
+        mMenuDone = menuDone;
     }
 
     @Override
@@ -78,6 +89,7 @@ public class SourceViewModel extends BaseObservable implements SourceContract.Vi
 
     @Override
     public void onSaveSourceSucess() {
+        AppApplication.sMangas = null;
         mNavigator.startActivity(HomeActivity.getInstance(mNavigator.getContext()));
     }
 
@@ -91,6 +103,11 @@ public class SourceViewModel extends BaseObservable implements SourceContract.Vi
         if (!mIsStartFromMain) {
             mNavigator.startActivity(HomeActivity.getInstance(mNavigator.getContext()));
         }
+    }
+
+    @Override
+    public void onSourceClick(Source source) {
+        mMenuDone.setVisible(true);
     }
 
     @Bindable
