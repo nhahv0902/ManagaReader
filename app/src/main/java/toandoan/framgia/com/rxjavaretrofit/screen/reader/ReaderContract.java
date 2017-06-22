@@ -19,6 +19,10 @@ interface ReaderContract {
         void hideProgress();
 
         void getChapterFailed(String message);
+
+        void onPreviewItemClick(int adapterPosition);
+
+        void onRecyclerReaderClick();
     }
 
     /**
