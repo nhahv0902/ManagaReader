@@ -21,6 +21,7 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
     private AllMangaAdapter mAdapter;
     private Navigator mNavigator;
     private int mProgressVisible = VISIBLE;
+    private int mEmptyViewVisible = GONE;
 
     public AllMangaViewModel(Navigator navigator) {
         mNavigator = navigator;
@@ -54,6 +55,7 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
     @Override
     public void onGetMangaSucess(List<AllMangaAdapter.MangaModel> mangas) {
         mAdapter.updateData(mangas);
+        setEmptyViewVisible(mangas == null || mangas.size() == 0 ? VISIBLE : GONE);
     }
 
     @Override
@@ -63,8 +65,13 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
 
     @Override
     public void onItemClick(Manga source) {
-        mNavigator.startActivity(
-                MangaDetailActivity.getInstance(mNavigator.getContext(), source));
+        mNavigator.startActivity(MangaDetailActivity.getInstance(mNavigator.getContext(), source));
+    }
+
+    @Override
+    public void searchMangaByName(String key) {
+        mPresenter.searchMangaByName(key);
+        mAdapter.clear();
     }
 
     public AllMangaAdapter getAdapter() {
@@ -83,5 +90,15 @@ public class AllMangaViewModel extends BaseObservable implements AllMangaContrac
     public void setProgressVisible(int progressVisible) {
         mProgressVisible = progressVisible;
         notifyPropertyChanged(BR.progressVisible);
+    }
+
+    @Bindable
+    public int getEmptyViewVisible() {
+        return mEmptyViewVisible;
+    }
+
+    public void setEmptyViewVisible(int emptyViewVisible) {
+        mEmptyViewVisible = emptyViewVisible;
+        notifyPropertyChanged(BR.emptyViewVisible);
     }
 }

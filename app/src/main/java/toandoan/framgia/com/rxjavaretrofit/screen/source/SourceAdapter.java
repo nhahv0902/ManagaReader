@@ -19,6 +19,11 @@ import toandoan.framgia.com.rxjavaretrofit.data.model.Source;
 public class SourceAdapter extends SectioningAdapter {
     private List<SourceAdapterModel> mModels = new ArrayList<>();
     private LayoutInflater mInflater;
+    private SourceViewModel mViewModel;
+
+    public SourceAdapter(SourceViewModel viewModel) {
+        mViewModel = viewModel;
+    }
 
     public void updateData(List<Source> sources) {
         if (sources == null) return;
@@ -135,6 +140,7 @@ public class SourceAdapter extends SectioningAdapter {
             Source source = mModels.get(section).getSources().get(item);
             source.setSelected(true);
             notifyAllSectionsDataSetChanged();
+            mViewModel.onSourceClick(source);
         }
     }
 

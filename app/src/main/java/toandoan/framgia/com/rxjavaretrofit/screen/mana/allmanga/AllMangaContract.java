@@ -22,6 +22,8 @@ interface AllMangaContract {
         void onGetMangaFailed(String msg);
 
         void onItemClick(Manga source);
+
+        void searchMangaByName(String key);
     }
 
     /**
@@ -29,5 +31,7 @@ interface AllMangaContract {
      */
     interface Presenter extends BasePresenter {
         void getAllMangas();
+        
+        void searchMangaByName(String key);
     }
 }

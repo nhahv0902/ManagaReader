@@ -49,7 +49,7 @@ public class SourceActivity extends BaseActivity {
 
         RecyclerView recyclerView = binding.recyclerSource;
         recyclerView.setLayoutManager(new StickyHeaderLayoutManager());
-        SourceAdapter adapter = new SourceAdapter();
+        SourceAdapter adapter = new SourceAdapter((SourceViewModel) mViewModel);
         recyclerView.setAdapter(adapter);
         ((SourceViewModel) mViewModel).setAdapter(adapter);
 
@@ -79,6 +79,9 @@ public class SourceActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.source_menu, menu);
+        MenuItem menuDone = menu.findItem(R.id.menu_done);
+        menuDone.setVisible(false);
+        ((SourceViewModel) mViewModel).setMenuDone(menuDone);
         return super.onCreateOptionsMenu(menu);
     }
 

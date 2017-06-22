@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import java.util.List;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.realm.DataLocalMigration;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 
@@ -15,6 +17,7 @@ public class AppApplication extends Application {
     private static final String REALM_SCHEMA_NAME = "data.realm";
     private static final int REALM_SCHEMA_VERSION = 0;
     private static Context sContext;
+    public static List<Manga> sMangas;
 
     @Override
     public void onCreate() {

@@ -28,6 +28,8 @@ interface SourceContract {
         void onSaveSourceFailed();
 
         void onGetCurrentSourceSuccess();
+
+        void onSourceClick(Source source);
     }
 
     /**

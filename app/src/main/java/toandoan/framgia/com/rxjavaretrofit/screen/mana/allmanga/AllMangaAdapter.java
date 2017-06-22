@@ -26,7 +26,13 @@ public class AllMangaAdapter extends SectioningAdapter {
 
     public void updateData(List<MangaModel> mangas) {
         if (mangas == null) return;
+        mModels.clear();
         mModels.addAll(mangas);
+        notifyAllSectionsDataSetChanged();
+    }
+
+    public void clear() {
+        mModels.clear();
         notifyAllSectionsDataSetChanged();
     }
 
@@ -143,5 +149,4 @@ public class AllMangaAdapter extends SectioningAdapter {
             mMangas = mangas;
         }
     }
-
 }
