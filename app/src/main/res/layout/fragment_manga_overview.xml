@@ -6,6 +6,7 @@
 
     <data>
         <import type="toandoan.framgia.com.rxjavaretrofit.utils.binding.LayoutManagers"/>
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
         <variable
             name="viewModel"
             type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangaoverview.MangaOverviewViewModel"
@@ -118,7 +119,7 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                bind:layoutManager="@{LayoutManagers.straight(3)}"
+                bind:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.HORIZONTAL)}"
                 bind:recyclerAdapter="@{viewModel.adapter}"
                 />
 

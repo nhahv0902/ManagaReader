@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityFilterBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * Filter Screen.
@@ -25,7 +26,7 @@ public class FilterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModel = new FilterViewModel();
+        mViewModel = new FilterViewModel(new Navigator(this));
 
         FilterContract.Presenter presenter = new FilterPresenter(mViewModel);
         mViewModel.setPresenter(presenter);
@@ -34,6 +35,7 @@ public class FilterActivity extends BaseActivity {
                 DataBindingUtil.setContentView(this, R.layout.activity_filter);
         binding.setViewModel((FilterViewModel) mViewModel);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(R.string.manga_filter);
     }
 
     @Override

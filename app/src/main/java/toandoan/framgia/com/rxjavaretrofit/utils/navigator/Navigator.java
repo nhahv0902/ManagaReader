@@ -12,9 +12,9 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.widget.Toast;
 import toandoan.framgia.com.rxjavaretrofit.R;
 
 /**
@@ -30,16 +30,16 @@ public class Navigator {
     public static final int LEFT_RIGHT = 4;
 
     @NonNull
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
     private Fragment mFragment;
 
-    public Navigator(@NonNull Activity activity) {
+    public Navigator(@NonNull AppCompatActivity activity) {
         mActivity = activity;
     }
 
     public Navigator(Fragment fragment) {
         mFragment = fragment;
-        mActivity = fragment.getActivity();
+        mActivity = (AppCompatActivity) fragment.getActivity();
     }
 
     public Context getContext() {
@@ -145,6 +145,23 @@ public class Navigator {
     @interface ActivityTransition {
         int START = 0x00;
         int FINISH = 0x01;
+    }
+
+    public void replaceFragment(int resource, Fragment fragment) {
+        if (mActivity != null) {
+            mActivity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(resource, fragment)
+                    .commit();
+            return;
+        }
+        if (mFragment != null) {
+            mFragment.getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(resource, fragment)
+                    .commit();
+            return;
+        }
     }
 
     public void showToast(@StringRes int stringId) {

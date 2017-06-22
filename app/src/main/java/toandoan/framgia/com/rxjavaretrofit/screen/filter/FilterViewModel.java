@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.data.model.FilterModel;
+import toandoan.framgia.com.rxjavaretrofit.screen.filterResult.FilterResultActivity;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * Exposes the data to be used in the Filter screen.
@@ -16,8 +18,10 @@ public class FilterViewModel extends BaseObservable implements FilterContract.Vi
     private FilterContract.Presenter mPresenter;
     private MenuItem mMenuDone;
     private FilterAdapter mAdapter;
+    private Navigator mNavigator;
 
-    public FilterViewModel() {
+    public FilterViewModel(Navigator navigator) {
+        mNavigator = navigator;
     }
 
     @Override
@@ -43,7 +47,9 @@ public class FilterViewModel extends BaseObservable implements FilterContract.Vi
 
     @Override
     public void onDoneClick() {
-
+        List<String> genres = mAdapter.getSelectedFilter();
+        if (genres == null || genres.size() == 0) return;
+        mNavigator.startActivity(FilterResultActivity.getInstance(mNavigator.getContext(), genres));
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import toandoan.framgia.com.rxjavaretrofit.BR;
+import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.screen.home.MangaPagerAdapter;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.MangaFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.allmanga.AllMangaFragment;
@@ -21,10 +22,14 @@ public class MangaDashboardViewModel extends BaseObservable
 
     public MangaDashboardViewModel(Fragment fragment) {
         mAdapter = new MangaPagerAdapter(fragment.getChildFragmentManager());
-        mAdapter.addFragment(AllMangaFragment.newInstance(), "All Manga");
-        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.POPULAR), "Popular");
-        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.NEW), "New Manga");
-        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.UPDATE), "Last Update");
+        mAdapter.addFragment(AllMangaFragment.newInstance(),
+                fragment.getString(R.string.all_manga));
+        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.POPULAR),
+                fragment.getString(R.string.popular));
+        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.NEW),
+                fragment.getString(R.string.title_new));
+        mAdapter.addFragment(MangaFragment.newInstance(Constant.MangaType.UPDATE),
+                fragment.getString(R.string.update));
         notifyPropertyChanged(BR.adapter);
     }
 
