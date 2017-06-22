@@ -50,6 +50,7 @@ public class FilterViewModel extends BaseObservable implements FilterContract.Vi
         List<String> genres = mAdapter.getSelectedFilter();
         if (genres == null || genres.size() == 0) return;
         mNavigator.startActivity(FilterResultActivity.getInstance(mNavigator.getContext(), genres));
+        mNavigator.finishActivity();
     }
 
     @Override

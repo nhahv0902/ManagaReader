@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
@@ -25,6 +26,7 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
 
     private boolean mIsLoadMore;
     private int mProgressbarVisible = VISIBLE;
+    private int mEmptyViewVisible = GONE;
 
     private RecyclerView.OnScrollListener mScrollListenner = new RecyclerView.OnScrollListener() {
         @Override
@@ -81,12 +83,14 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
     @Override
     public void onGetMangaSuccess(List<Manga> mangas) {
         mAdapter.updateManga(mangas);
+        setEmptyViewVisible(mAdapter.getItemCount() != 0 ? View.GONE : View.VISIBLE);
         setLoadMore(false);
     }
 
     @Override
     public void onGetMangaFailed(String msg) {
         mNavigator.showToast(msg);
+        setEmptyViewVisible(mAdapter.getItemCount() != 0 ? View.GONE : View.VISIBLE);
         setLoadMore(false);
     }
 
@@ -102,8 +106,7 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
 
     @Override
     public void onItemClick(Manga manga) {
-        mNavigator.startActivity(
-                MangaDetailActivity.getInstance(mNavigator.getContext(), manga));
+        mNavigator.startActivity(MangaDetailActivity.getInstance(mNavigator.getContext(), manga));
     }
 
     @Bindable
@@ -134,5 +137,15 @@ public class MangaViewModel extends BaseObservable implements MangaContract.View
     public void setProgressbarVisible(int progressbarVisible) {
         mProgressbarVisible = progressbarVisible;
         notifyPropertyChanged(BR.progressbarVisible);
+    }
+
+    @Bindable
+    public int getEmptyViewVisible() {
+        return mEmptyViewVisible;
+    }
+
+    public void setEmptyViewVisible(int emptyViewVisible) {
+        mEmptyViewVisible = emptyViewVisible;
+        notifyPropertyChanged(BR.emptyViewVisible);
     }
 }

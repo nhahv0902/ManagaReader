@@ -35,5 +35,11 @@
             android:layout_gravity="center"
             android:visibility="@{viewModel.progressbarVisible}"
             />
+        <include
+            layout="@layout/empty_state"
+            bind:image="@{@drawable/ic_no_report}"
+            bind:text="@{@string/missing_data}"
+            bind:visibleState="@{viewModel.emptyViewVisible}"
+            />
     </RelativeLayout>
 </layout>
