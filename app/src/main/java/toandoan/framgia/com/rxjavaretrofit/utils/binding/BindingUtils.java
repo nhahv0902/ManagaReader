@@ -54,7 +54,6 @@ public final class BindingUtils {
     public static void loadImage(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
                 .load(url)
-                .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(imageView);
     }

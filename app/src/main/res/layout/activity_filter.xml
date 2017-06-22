@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:background="@color/color_bluegrey_900"
         android:padding="@dimen/dp_10"
-        bind:layoutManager="@{LayoutManagers.straight(viewModel.adapter.getItemCount()/3)}"
+        bind:layoutManager="@{LayoutManagers.straight(3)}"
         bind:recyclerAdapter="@{viewModel.adapter}"
         />
 

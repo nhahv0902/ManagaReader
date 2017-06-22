@@ -19,6 +19,11 @@ public interface AppApi {
             @Query("source") String source, @Query("limit") int limit,
             @Query("option") String option, @Query("page") int page);
 
+    @GET("getstoryoption")
+    Observable<Response<List<Manga>>> getMangaByGenres(@Query("version_app") String version,
+            @Query("source") String source, @Query("limit") int limit,
+            @Query("cate") List<String> genres, @Query("page") int page);
+
     @GET("api/sources")
     Observable<Response<List<Source>>> getSource(@Query("version_app") String version);
 

@@ -25,5 +25,10 @@
     <string name="genres">Genres</string>
     <string name="unknow">Unknow</string>
     <string name="total_chaps">%s Chaps</string>
+    <string name="popular">Popular</string>
+    <string name="title_new">New</string>
+    <string name="update">Update</string>
+    <string name="all_manga">All Manga</string>
+    <string name="manga_filter">Manga Filter</string>
 
 </resources>

@@ -12,6 +12,8 @@ import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 public interface MangaDataSource {
     Observable<List<Manga>> getPopularManga(String source, String option, int page);
 
+    Observable<List<Manga>> getMangaByGenres(String source, List<String> genres, int page);
+
     Observable<List<Manga>> getAllMangas(String source);
 
     Observable<Manga> getMangaById(int id);
