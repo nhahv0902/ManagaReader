@@ -43,6 +43,7 @@ public class ReaderActivity extends BaseActivity {
         binding.setViewModel((ReaderViewModel) mViewModel);
 
         getSupportActionBar().hide();
+        ((ReaderViewModel) mViewModel).setRecyclerReader(binding.recyclerReader);
     }
 
     @Override

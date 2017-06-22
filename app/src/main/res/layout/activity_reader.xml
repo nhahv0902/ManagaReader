@@ -5,7 +5,8 @@
     >
 
     <data>
-
+        <import type="toandoan.framgia.com.rxjavaretrofit.utils.binding.LayoutManagers"/>
+        <import type="android.widget.LinearLayout"/>
         <variable
             name="viewModel"
             type="toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderViewModel"
@@ -19,10 +20,22 @@
         android:background="@color/color_bluegrey_900"
         >
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_reader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:onClick="@{()-> viewModel.onRecyclerReaderClick()}"
             bind:layoutManager="LinearLayoutManager"
             bind:recyclerAdapter="@{viewModel.adapter}"
             />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_transparent_30"
+            bind:layoutManager="@{LayoutManagers.linear(LinearLayout.HORIZONTAL)}"
+            bind:recyclerAdapter="@{viewModel.previewAdapter}"
+            />
+
     </RelativeLayout>
 </layout>

@@ -52,10 +52,7 @@ public final class BindingUtils {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView imageView, String url) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .placeholder(R.mipmap.ic_launcher)
-                .into(imageView);
+        Glide.with(imageView.getContext()).load(url).error(R.mipmap.ic_launcher).into(imageView);
     }
 
     @BindingAdapter({ "scrollListenner" })
