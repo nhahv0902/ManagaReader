@@ -34,5 +34,6 @@
     <string name="missing_data">There is no mangas!</string>
     <string name="no_data_with_key">No manga found with your key!</string>
     <string name="action_close">Close</string>
+    <string name="last_chap">This is the last chap!</string>
 
 </resources>
