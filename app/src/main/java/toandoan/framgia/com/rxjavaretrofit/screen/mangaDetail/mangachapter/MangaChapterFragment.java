@@ -48,10 +48,11 @@ public class MangaChapterFragment extends BaseFragment {
                         false);
         binding.setViewModel((MangaChapterViewModel) mViewModel);
 
-        mViewModel = new MangaChapterViewModel(new Navigator(this));
+        mViewModel = new MangaChapterViewModel(new Navigator(this), manga);
 
         MangaChapterContract.Presenter presenter = new MangaChapterPresenter(mViewModel);
         mViewModel.setPresenter(presenter);
+
         RecyclerView recyclerView = binding.recyclerChapter;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(

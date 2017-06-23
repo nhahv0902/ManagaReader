@@ -23,19 +23,14 @@
             android:id="@+id/recycler_reader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{()-> viewModel.onRecyclerReaderClick()}"
             bind:layoutManager="LinearLayoutManager"
             bind:recyclerAdapter="@{viewModel.adapter}"
+            bind:scrollListenner="@{viewModel.sroll}"
             />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/color_transparent_30"
-            bind:layoutManager="@{LayoutManagers.linear(LinearLayout.HORIZONTAL)}"
-            bind:recyclerAdapter="@{viewModel.previewAdapter}"
+        <include
+            layout="@layout/reader_control"
+            bind:viewModel="@{viewModel}"
             />
-
     </RelativeLayout>
 </layout>

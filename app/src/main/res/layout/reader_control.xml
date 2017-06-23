@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <import type="toandoan.framgia.com.rxjavaretrofit.utils.binding.LayoutManagers"/>
+        <import type="android.widget.LinearLayout"/>
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderViewModel"
+            />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.layoutControlVisible}"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_transparent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:onClick="@{() -> viewModel.onCloseClick()}"
+                android:text="@string/action_close"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingRight="@dimen/dp_5"
+                    android:text="@{viewModel.manga.name}"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_15"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingRight="@dimen/dp_5"
+                    android:text="@{@string/title_item_chaper(viewModel.chap.chap)}"
+                    android:textColor="@color/color_grey_100"
+                    android:textSize="@dimen/sp_13"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:padding="@dimen/dp_5"
+                bind:srcCompat="@drawable/ic_settings_white"
+                />
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                bind:srcCompat="@drawable/ic_menu"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_transparent_30"
+            android:visibility="@{viewModel.previewVisible}"
+            bind:layoutManager="@{LayoutManagers.linear(LinearLayout.HORIZONTAL)}"
+            bind:recyclerAdapter="@{viewModel.previewAdapter}"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recycler_preview"
+            android:background="@color/color_transparent"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            >
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:onClick="@{()-> viewModel.onBackClick()}"
+                android:padding="@dimen/dp_5"
+                bind:srcCompat="@drawable/ic_back"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@{(viewModel.currentPosition +1)+ `/` + viewModel.chap.content.size()}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_toLeftOf="@+id/image_next"
+                android:onClick="@{()-> viewModel.onPreviewItemClick()}"
+                android:padding="@dimen/dp_5"
+                bind:srcCompat="@drawable/ic_preview"
+                />
+
+            <ImageView
+                android:id="@+id/image_next"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_alignParentRight="true"
+                android:onClick="@{()-> viewModel.onNextClick()}"
+                android:padding="@dimen/dp_5"
+                bind:srcCompat="@drawable/ic_next"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

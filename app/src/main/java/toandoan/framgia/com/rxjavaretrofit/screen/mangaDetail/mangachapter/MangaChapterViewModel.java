@@ -15,9 +15,11 @@ public class MangaChapterViewModel extends BaseObservable
 
     private MangaChapterContract.Presenter mPresenter;
     private Navigator mNavigator;
+    private Manga mManga;
 
-    public MangaChapterViewModel(Navigator navigator) {
+    public MangaChapterViewModel(Navigator navigator, Manga manga) {
         mNavigator = navigator;
+        mManga = manga;
     }
 
     @Override
@@ -36,7 +38,8 @@ public class MangaChapterViewModel extends BaseObservable
     }
 
     @Override
-    public void onChapterItemClick(Chap chap) {
-        mNavigator.startActivity(ReaderActivity.getInstance(mNavigator.getContext(), chap));
+    public void onChapterItemClick(Chap chap, int pos) {
+        mNavigator.startActivity(
+                ReaderActivity.getInstance(mNavigator.getContext(), mManga, chap, pos));
     }
 }
