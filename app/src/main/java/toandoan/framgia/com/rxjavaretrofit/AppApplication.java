@@ -2,6 +2,7 @@ package toandoan.framgia.com.rxjavaretrofit;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import java.util.List;
@@ -25,6 +26,7 @@ public class AppApplication extends Application {
         AppServiceClient.initialize(this);
         initAndMigrateRealmIfNeeded();
         sContext = this;
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     private void initAndMigrateRealmIfNeeded() {

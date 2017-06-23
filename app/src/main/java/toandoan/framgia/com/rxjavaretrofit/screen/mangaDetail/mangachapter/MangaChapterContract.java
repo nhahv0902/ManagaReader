@@ -12,7 +12,7 @@ interface MangaChapterContract {
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
-        void onChapterItemClick(Chap chap);
+        void onChapterItemClick(Chap chap, int pos);
     }
 
     /**

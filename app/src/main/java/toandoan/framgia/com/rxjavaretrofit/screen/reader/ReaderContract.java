@@ -22,7 +22,13 @@ interface ReaderContract {
 
         void onPreviewItemClick(int adapterPosition);
 
-        void onRecyclerReaderClick();
+        void onCloseClick();
+
+        void onPreviewItemClick();
+
+        void onNextClick();
+
+        void onBackClick();
     }
 
     /**

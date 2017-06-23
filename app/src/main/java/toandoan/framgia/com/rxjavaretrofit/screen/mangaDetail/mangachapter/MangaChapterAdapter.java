@@ -52,6 +52,7 @@ public class MangaChapterAdapter extends RecyclerView.Adapter<MangaChapterAdapte
 
         public void bindData(Chap chap) {
             mBinding.setItem(chap);
+            mBinding.setPos(getAdapterPosition());
             mBinding.setViewModel(mViewModel);
             mBinding.executePendingBindings();
         }

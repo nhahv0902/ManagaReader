@@ -3,8 +3,7 @@ package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.GestureDetector;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.bumptech.glide.request.target.Target;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ItemReaderBinding;
+import toandoan.framgia.com.rxjavaretrofit.utils.widget.zoomimage.OnDoubleTapListener;
 import toandoan.framgia.com.rxjavaretrofit.utils.widget.zoomimage.PhotoView;
 
 /**
@@ -27,8 +27,10 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
     private List<String> mUrls;
     private Context mContext;
     private LayoutInflater mInflater;
+    private ReaderViewModel mViewModel;
 
-    public ReaderAdapter(List<String> urls) {
+    public ReaderAdapter(ReaderViewModel viewModel, List<String> urls) {
+        mViewModel = viewModel;
         mUrls = urls;
     }
 
@@ -60,34 +62,23 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
             super(binding.getRoot());
             mPhotoView = binding.photoView;
             mProgressBar = binding.progressBar;
-
-            mPhotoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "onClick: ");
-
-                }
-            });
-            mPhotoView.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+            mPhotoView.setCustomTapListener(new OnDoubleTapListener() {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    Log.d(TAG, "onSingleTapConfirmed: ");
+                    mViewModel.onItemImageReaderClick();
                     return false;
                 }
 
                 @Override
-                public boolean onDoubleTap(MotionEvent e) {
-                    Log.d(TAG, "onDoubleTap: ");
+                public boolean onDoubleTap(MotionEvent ev) {
                     return false;
                 }
 
                 @Override
                 public boolean onDoubleTapEvent(MotionEvent e) {
-                    Log.d(TAG, "onDoubleTapEvent: ");
                     return false;
                 }
             });
-
         }
 
         private void bindData(String url) {
@@ -108,8 +99,6 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
                     return false;
                 }
             }).into(mPhotoView);
-
-            
         }
     }
 }

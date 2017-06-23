@@ -232,6 +232,10 @@ public class PhotoView extends ImageView {
         attacher.setOnDoubleTapListener(onDoubleTapListener);
     }
 
+    public void setCustomTapListener(OnDoubleTapListener onDoubleTapListener){
+        attacher.setCustomTapListener(onDoubleTapListener);
+    }
+
     public void setOnScaleChangeListener(OnScaleChangedListener onScaleChangedListener) {
         attacher.setOnScaleChangeListener(onScaleChangedListener);
     }

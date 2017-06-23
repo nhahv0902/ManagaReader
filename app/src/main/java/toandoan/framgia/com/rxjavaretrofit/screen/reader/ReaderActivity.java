@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
@@ -18,12 +19,18 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
  */
 public class ReaderActivity extends BaseActivity {
     private static final String EXTRA_CHAP = "EXTRA_CHAP";
+    private static final String EXTRA_MANGA = "EXTRA_MANGA";
+    private static final String EXTRA_CHAP_POS = "EXTRA_CHAP_POS";
     private ReaderContract.ViewModel mViewModel;
 
     private Chap mChap;
+    private Manga mManga;
+    private int mChapPos;
 
-    public static Intent getInstance(Context context, Chap chap) {
-        return new Intent(context, ReaderActivity.class).putExtra(EXTRA_CHAP, chap);
+    public static Intent getInstance(Context context, Manga manga, Chap chap, int chapPosition) {
+        return new Intent(context, ReaderActivity.class).putExtra(EXTRA_CHAP, chap)
+                .putExtra(EXTRA_MANGA, manga)
+                .putExtra(EXTRA_CHAP_POS, chapPosition);
     }
 
     @Override
@@ -31,7 +38,7 @@ public class ReaderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getDataIntent();
 
-        mViewModel = new ReaderViewModel(new Navigator(this));
+        mViewModel = new ReaderViewModel(new Navigator(this), mManga, mChapPos);
 
         ReaderContract.Presenter presenter = new ReaderPresenter(mViewModel, mChap,
                 new MangaDataRepository(
@@ -61,5 +68,7 @@ public class ReaderActivity extends BaseActivity {
     private void getDataIntent() {
         if (getIntent() == null || getIntent().getExtras() == null) return;
         mChap = (Chap) getIntent().getExtras().getSerializable(EXTRA_CHAP);
+        mManga = (Manga) getIntent().getExtras().getSerializable(EXTRA_MANGA);
+        mChapPos = getIntent().getExtras().getInt(EXTRA_CHAP_POS);
     }
 }
