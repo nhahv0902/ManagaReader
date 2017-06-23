@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import toandoan.framgia.com.rxjavaretrofit.BR;
+import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
@@ -28,10 +29,10 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     private ReaderPreviewAdapter mPreviewAdapter;
     private RecyclerView mRecyclerReader;
     private int mCurrentPosition = 0;
-    private int mChapSize;
     private Chap mChap;
     private Manga mManga;
     private int mChapPos;
+    private boolean mIsLoadMore;
 
     private RecyclerView.OnScrollListener mSroll = new RecyclerView.OnScrollListener() {
         @Override
@@ -48,8 +49,32 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
             if (pos != mCurrentPosition) {
                 setCurrentPosition(pos);
             }
+
+            LinearLayoutManager layoutManager =
+                    (LinearLayoutManager) recyclerView.getLayoutManager();
+
+            int visibleItemCount = layoutManager.getChildCount();
+            int totalItemCount = layoutManager.getItemCount();
+            int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+            if (!mIsLoadMore && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                setLoadMore(true);
+                loadMoreData();
+            }
         }
     };
+
+    private void loadMoreData() {
+        mChapPos++;
+        if (mChapPos != mManga.getChaps().size()) {
+            setChap(mManga.getChaps().get(mChapPos));
+            setCurrentPosition(0);
+            setLayoutControlVisible(VISIBLE);
+            mPresenter.getChap(mChap.getId());
+        } else {
+            mNavigator.showToast(R.string.last_chap);
+        }
+    }
 
     public ReaderViewModel(Navigator navigator, Manga manga, int chapPos) {
         mNavigator = navigator;
@@ -83,9 +108,11 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     @Override
     public void getChapterSuccess(Chap chap) {
+        setLoadMore(false);
         setChap(chap);
         setAdapter(new ReaderAdapter(this, chap.getContent()));
         setPreviewAdapter(new ReaderPreviewAdapter(this, chap.getContent()));
+        setCurrentPosition(0);
     }
 
     @Override
@@ -95,6 +122,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     @Override
     public void getChapterFailed(String message) {
+        setLoadMore(false);
         mNavigator.showToast(message);
     }
 
@@ -118,7 +146,9 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
         mCurrentPosition++;
         if (mCurrentPosition != mChap.getContent().size()) {
             setCurrentPosition(mCurrentPosition);
-            mRecyclerReader.smoothScrollToPosition(mCurrentPosition);
+            mRecyclerReader.scrollToPosition(mCurrentPosition);
+        } else {
+            mCurrentPosition--;
         }
         setLayoutControlVisible(VISIBLE);
     }
@@ -128,7 +158,9 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
         mCurrentPosition--;
         if (mCurrentPosition != -1) {
             setCurrentPosition(mCurrentPosition);
-            mRecyclerReader.smoothScrollToPosition(mCurrentPosition);
+            mRecyclerReader.scrollToPosition(mCurrentPosition);
+        } else {
+            mCurrentPosition--;
         }
         setLayoutControlVisible(VISIBLE);
     }
@@ -228,16 +260,6 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     }
 
     @Bindable
-    public int getChapSize() {
-        return mChapSize;
-    }
-
-    public void setChapSize(int chapSize) {
-        mChapSize = chapSize;
-        notifyPropertyChanged(BR.chapSize);
-    }
-
-    @Bindable
     public Manga getManga() {
         return mManga;
     }
@@ -245,5 +267,15 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     public void setManga(Manga manga) {
         mManga = manga;
         notifyPropertyChanged(BR.manga);
+    }
+
+    @Bindable
+    public boolean isLoadMore() {
+        return mIsLoadMore;
+    }
+
+    public void setLoadMore(boolean loadMore) {
+        mIsLoadMore = loadMore;
+        notifyPropertyChanged(BR.loadMore);
     }
 }
