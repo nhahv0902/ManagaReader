@@ -29,6 +29,8 @@ interface ReaderContract {
         void onNextClick();
 
         void onBackClick();
+
+        void onLoadNextChapClick();
     }
 
     /**

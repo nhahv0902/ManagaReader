@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderViewModel"
+            />
+        <variable
+            name="nextChap"
+            type="String"
+            />
         <variable
             name="url"
             type="String"
+            />
+        <variable
+            name="isShowLoadMore"
+            type="int"
             />
     </data>
     <RelativeLayout
@@ -23,6 +38,42 @@
             android:layout_height="@dimen/dp_30"
             android:layout_centerInParent="true"
             />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:background="@drawable/bg_genre"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.onLoadNextChapClick()}"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            android:visibility="@{isShowLoadMore}"
+            >
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                app:srcCompat="@drawable/ic_down_arrow"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_10"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:text="@{@string/load_next_chap(nextChap)}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+
+                />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 
