@@ -3,7 +3,6 @@ package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,29 +22,32 @@ import toandoan.framgia.com.rxjavaretrofit.utils.widget.zoomimage.PhotoView;
  * Created by framgia on 21/06/2017.
  */
 
-public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder> {
+public class ReaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<String> mUrls;
+    private String mNextChap;
     private Context mContext;
     private LayoutInflater mInflater;
     private ReaderViewModel mViewModel;
 
-    public ReaderAdapter(ReaderViewModel viewModel, List<String> urls) {
-        mViewModel = viewModel;
+    public ReaderAdapter(ReaderViewModel viewModel, List<String> urls, String nextChap) {
         mUrls = urls;
+        mViewModel = viewModel;
+        mNextChap = nextChap;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) mContext = parent.getContext();
         if (mInflater == null) mInflater = LayoutInflater.from(parent.getContext());
-        ItemReaderBinding binding =
+
+        ItemReaderBinding itemReaderBinding =
                 DataBindingUtil.inflate(mInflater, R.layout.item_reader, parent, false);
-        return new ViewHolder(binding);
+        return new ItemViewHolder(itemReaderBinding);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bindData(mUrls.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((ItemViewHolder) holder).bindData(mUrls.get(position), position);
     }
 
     @Override
@@ -53,13 +55,14 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
         return mUrls != null ? mUrls.size() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "ViewHolder";
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         private PhotoView mPhotoView;
         private ProgressBar mProgressBar;
+        private ItemReaderBinding mBinding;
 
-        public ViewHolder(ItemReaderBinding binding) {
+        public ItemViewHolder(ItemReaderBinding binding) {
             super(binding.getRoot());
+            mBinding = binding;
             mPhotoView = binding.photoView;
             mProgressBar = binding.progressBar;
             mPhotoView.setCustomTapListener(new OnDoubleTapListener() {
@@ -81,7 +84,7 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
             });
         }
 
-        private void bindData(String url) {
+        private void bindData(String url, int position) {
             mProgressBar.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(url).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
@@ -99,6 +102,11 @@ public class ReaderAdapter extends RecyclerView.Adapter<ReaderAdapter.ViewHolder
                     return false;
                 }
             }).into(mPhotoView);
+            mBinding.setViewModel(mViewModel);
+            mBinding.setNextChap(mNextChap);
+            mBinding.setIsShowLoadMore(
+                    mNextChap != null && position == getItemCount() - 1 ? View.VISIBLE : View.GONE);
+            mBinding.executePendingBindings();
         }
     }
 }
