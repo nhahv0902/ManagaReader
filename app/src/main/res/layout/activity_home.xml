@@ -19,7 +19,7 @@
         tools:context="toandoan.framgia.com.rxjavaretrofit.screen.main.MainActivity"
         >
 
-        <android.support.v4.view.ViewPager
+        <toandoan.framgia.com.rxjavaretrofit.utils.widget.UnSwipeViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -28,11 +28,11 @@
             />
 
         <android.support.design.widget.BottomNavigationView
-            android:background="@color/color_bluegrey_850"
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="@color/color_bluegrey_850"
             app:menu="@menu/navigation"
             />
 

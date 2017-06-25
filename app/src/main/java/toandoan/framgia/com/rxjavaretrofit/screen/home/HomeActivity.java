@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
@@ -12,12 +16,20 @@ import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityHomeBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.Utils;
 
+import static toandoan.framgia.com.rxjavaretrofit.screen.home.HomeActivity.HomeTab.DOWNLOAD;
+import static toandoan.framgia.com.rxjavaretrofit.screen.home.HomeActivity.HomeTab.FAVORITE;
+import static toandoan.framgia.com.rxjavaretrofit.screen.home.HomeActivity.HomeTab.MANGA;
+import static toandoan.framgia.com.rxjavaretrofit.screen.home.HomeActivity.HomeTab.RECENT;
+import static toandoan.framgia.com.rxjavaretrofit.screen.home.HomeActivity.HomeTab.SETTINGS;
+
 /**
  * Home Screen.
  */
 public class HomeActivity extends BaseActivity {
 
     private HomeContract.ViewModel mViewModel;
+    private ViewPager mViewPager;
+    private ActivityHomeBinding mBinding;
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -35,8 +47,46 @@ public class HomeActivity extends BaseActivity {
         mViewModel.setPresenter(presenter);
 
         ActivityHomeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        mBinding = binding;
         binding.setViewModel((HomeViewModel) mViewModel);
+        mViewPager = binding.viewPager;
+
         Utils.disableShiftMode(binding.navigation);
+        binding.navigation.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            default:
+                            case R.id.navigation_home:
+                                onNavigationClick(MANGA);
+                                setTitle(R.string.title_manga);
+                                break;
+                            case R.id.navigation_recent:
+                                onNavigationClick(RECENT);
+                                setTitle(R.string.title_recent);
+                                break;
+                            case R.id.navigation_download:
+                                onNavigationClick(DOWNLOAD);
+                                setTitle(R.string.title_download);
+                                break;
+                            case R.id.navigation_favorite:
+                                onNavigationClick(FAVORITE);
+                                setTitle(R.string.title_favorites);
+                                break;
+                            case R.id.navigation_setting:
+                                onNavigationClick(SETTINGS);
+                                setTitle(R.string.title_setting);
+                                break;
+                        }
+                        item.setChecked(true);
+                        return false;
+                    }
+                });
+    }
+
+    private void onNavigationClick(int openNavigation) {
+        mViewPager.setCurrentItem(openNavigation);
     }
 
     @Override
@@ -73,5 +123,14 @@ public class HomeActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @IntDef({ MANGA, RECENT, DOWNLOAD, FAVORITE, SETTINGS })
+    @interface HomeTab {
+        int MANGA = 0;
+        int RECENT = 1;
+        int DOWNLOAD = 2;
+        int FAVORITE = 3;
+        int SETTINGS = 4;
     }
 }
