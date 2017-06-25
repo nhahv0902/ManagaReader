@@ -16,6 +16,8 @@ interface HomeContract {
         void onFilterClick();
 
         void onSearchClick();
+
+        void onMenuClearClick();
     }
 
     /**

@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import toandoan.framgia.com.rxjavaretrofit.R;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentMangaChapterBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseFragment;
+import toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
@@ -22,6 +24,16 @@ public class MangaChapterFragment extends BaseFragment {
     private MangaChapterContract.ViewModel mViewModel;
 
     public static final String EXTRA_MANGA = "EXTRA_MANGA";
+    public static final String EXTRA_CHAP = "EXTRA_CHAP";
+
+    public static MangaChapterFragment newInstance(Manga manga, Chap currentChap) {
+        MangaChapterFragment fragment = new MangaChapterFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EXTRA_MANGA, manga);
+        bundle.putSerializable(EXTRA_CHAP, currentChap);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public static MangaChapterFragment newInstance(Manga manga) {
         MangaChapterFragment fragment = new MangaChapterFragment();
@@ -42,6 +54,7 @@ public class MangaChapterFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         Manga manga = (Manga) bundle.getSerializable(EXTRA_MANGA);
+        Chap currentChap = (Chap) bundle.getSerializable(EXTRA_CHAP);
 
         FragmentMangaChapterBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_manga_chapter, container,
@@ -57,6 +70,16 @@ public class MangaChapterFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(
                 new MangaChapterAdapter((MangaChapterViewModel) mViewModel, manga.getChaps()));
+
+        if (currentChap != null) {
+            for (int i = 0; i < manga.getChaps().size(); i++) {
+                if (manga.getChaps().get(i).getId().equals(currentChap.getId())) {
+                    new Navigator(this).startActivity(
+                            ReaderActivity.getInstance(getContext(), manga, currentChap, i));
+                    break;
+                }
+            }
+        }
         return binding.getRoot();
     }
 

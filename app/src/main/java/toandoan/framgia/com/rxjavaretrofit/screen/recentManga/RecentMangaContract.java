@@ -15,9 +15,13 @@ interface RecentMangaContract {
     interface ViewModel extends BaseViewModel<Presenter> {
         void onItemMangaClick(Manga manga);
 
-        void onDeleteMangaClick(Manga manga);
+        void onDeleteMangaClick(Manga manga, int pos);
 
         void onGetRecentMangaSuccess(List<Manga> mangas);
+
+        void onUndoDeleteClick();
+
+        void onDeleteAllManga();
     }
 
     /**
@@ -25,5 +29,9 @@ interface RecentMangaContract {
      */
     interface Presenter extends BasePresenter {
         void getAllRecentMangas();
+
+        void deleteManga(Manga manga);
+
+        void deleteAllManga();
     }
 }

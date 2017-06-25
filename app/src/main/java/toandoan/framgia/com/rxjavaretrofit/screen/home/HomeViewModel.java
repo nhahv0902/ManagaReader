@@ -2,6 +2,8 @@ package toandoan.framgia.com.rxjavaretrofit.screen.home;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterActivity;
@@ -21,11 +23,16 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
     private MangaPagerAdapter mAdapter;
     private AppCompatActivity mActivity;
     private Navigator mNavigator;
+    private ViewPager mViewPager;
 
     public HomeViewModel(AppCompatActivity activity) {
         mActivity = activity;
         mNavigator = new Navigator(mActivity);
         initAdapter();
+    }
+
+    public void setViewPager(ViewPager viewPager) {
+        mViewPager = viewPager;
     }
 
     private void initAdapter() {
@@ -76,5 +83,14 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
     @Override
     public void onSearchClick() {
         mNavigator.startActivity(SearchActivity.getInstance(mNavigator.getContext()));
+    }
+
+    @Override
+    public void onMenuClearClick() {
+        int currentPos = mViewPager.getCurrentItem();
+        Fragment currentFragment = mAdapter.getItem(currentPos);
+        if (currentFragment instanceof RecentMangaFragment) {
+            ((RecentMangaFragment) currentFragment).deleteAllRecentManga();
+        }
     }
 }
