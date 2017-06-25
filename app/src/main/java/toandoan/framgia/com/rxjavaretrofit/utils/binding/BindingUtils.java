@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import java.util.Calendar;
 import toandoan.framgia.com.rxjavaretrofit.R;
 
 /**
@@ -76,5 +79,12 @@ public final class BindingUtils {
     @BindingAdapter("errorText")
     public static void setErrorText(EditText editText, String text) {
         editText.setError(text);
+    }
+
+    @BindingAdapter("bind:milisecond")
+    public static void setDate(TextView view, long milisecond) {
+        String niceDateStr = String.valueOf(DateUtils.getRelativeTimeSpanString(milisecond,
+                Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS));
+        view.setText(niceDateStr);
     }
 }

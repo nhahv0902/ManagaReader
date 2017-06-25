@@ -7,7 +7,9 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.RecentMangaDataSource;
 
 /**
  * Listens to user actions from the UI ({@link ReaderActivity}), retrieves the data and updates
@@ -18,16 +20,20 @@ final class ReaderPresenter implements ReaderContract.Presenter {
 
     private final ReaderContract.ViewModel mViewModel;
     private Chap mChap;
+    private Manga mManga;
     private CompositeSubscription mSubscription;
     private MangaDataSource mRepository;
+    private RecentMangaDataSource mRecentMangaRepository;
 
-    public ReaderPresenter(ReaderContract.ViewModel viewModel, Chap chap,
-            MangaDataSource repository) {
+    public ReaderPresenter(ReaderContract.ViewModel viewModel, Manga manga, Chap chap,
+            MangaDataSource repository, RecentMangaDataSource recentMangaRepository) {
         mViewModel = viewModel;
+        mManga = manga;
         mChap = chap;
         mRepository = repository;
+        mRecentMangaRepository = recentMangaRepository;
         mSubscription = new CompositeSubscription();
-        getChap(mChap.getId());
+        getChap(mChap);
     }
 
     @Override
@@ -40,8 +46,8 @@ final class ReaderPresenter implements ReaderContract.Presenter {
     }
 
     @Override
-    public void getChap(String chapId) {
-        Subscription subscription = mRepository.getChapById(chapId)
+    public void getChap(Chap chap) {
+        Subscription subscription = mRepository.getChapById(chap.getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
@@ -54,6 +60,7 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                     @Override
                     public void call(Chap chap) {
                         mViewModel.getChapterSuccess(chap);
+                        addRecentMangaChap(chap);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -68,5 +75,11 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                     }
                 });
         mSubscription.add(subscription);
+    }
+
+    private void addRecentMangaChap(Chap chap) {
+        mManga.setLastModifiedData(System.currentTimeMillis());
+        mManga.setLastLocalChap(chap);
+        mRecentMangaRepository.addRecentManga(mManga);
     }
 }

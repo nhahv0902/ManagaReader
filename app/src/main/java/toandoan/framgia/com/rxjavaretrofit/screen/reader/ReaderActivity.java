@@ -8,6 +8,7 @@ import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
+import toandoan.framgia.com.rxjavaretrofit.data.source.local.RecentMangaRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityReaderBinding;
@@ -40,9 +41,10 @@ public class ReaderActivity extends BaseActivity {
 
         mViewModel = new ReaderViewModel(new Navigator(this), mManga, mChapPos);
 
-        ReaderContract.Presenter presenter = new ReaderPresenter(mViewModel, mChap,
-                new MangaDataRepository(
-                        new ManagaRemoteDataSource(AppServiceClient.getInstance())));
+        ReaderContract.Presenter presenter = new ReaderPresenter(mViewModel, mManga, mChap,
+                new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
+                new RecentMangaRepository(this));
+
         mViewModel.setPresenter(presenter);
 
         ActivityReaderBinding binding =

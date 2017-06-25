@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.R;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.local.RecentMangaRepository;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentRecentMangaBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseFragment;
 import toandoan.framgia.com.rxjavaretrofit.utils.widget.itemtouch.ItemTouchHelperExtension;
@@ -31,9 +34,10 @@ public class RecentMangaFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new RecentMangaViewModel();
+        mViewModel = new RecentMangaViewModel(this);
 
-        RecentMangaContract.Presenter presenter = new RecentMangaPresenter(mViewModel);
+        RecentMangaContract.Presenter presenter =
+                new RecentMangaPresenter(mViewModel, new RecentMangaRepository(getContext()));
         mViewModel.setPresenter(presenter);
     }
 
@@ -49,12 +53,11 @@ public class RecentMangaFragment extends BaseFragment {
         mRecyclerView = binding.recyclerRecent;
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new RecentMangaAdapter(getContext());
+        mAdapter = new RecentMangaAdapter((RecentMangaViewModel) mViewModel);
         mRecyclerView.setAdapter(mAdapter);
         mCallback = new ItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mAdapter.setItemTouchHelperExtension(mItemTouchHelper);
         return binding.getRoot();
     }
 
@@ -68,5 +71,9 @@ public class RecentMangaFragment extends BaseFragment {
     public void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    public void onGetRecentMangaSuccess(List<Manga> mangas) {
+        mAdapter.updateData(mangas);
     }
 }

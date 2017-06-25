@@ -66,6 +66,10 @@ public class Manga extends BaseObservable implements Serializable {
     @Expose
     private List<Chap> chaps;
 
+    private Chap lastLocalChap;
+
+    private long lastModifiedData;
+
     public Integer getId() {
         return id;
     }
@@ -206,6 +210,16 @@ public class Manga extends BaseObservable implements Serializable {
         this.describe = describe;
     }
 
+    @Bindable
+    public Chap getLastLocalChap() {
+        return lastLocalChap;
+    }
+
+    public void setLastLocalChap(Chap lastLocalChap) {
+        this.lastLocalChap = lastLocalChap;
+        notifyPropertyChanged(BR.lastLocalChap);
+    }
+
     public String getAuthorStr() {
         String str = "";
         if (author != null) {
@@ -217,5 +231,13 @@ public class Manga extends BaseObservable implements Serializable {
             str = str.substring(0, str.length() - 2);
         }
         return str;
+    }
+
+    public long getLastModifiedData() {
+        return lastModifiedData;
+    }
+
+    public void setLastModifiedData(long lastModifiedData) {
+        this.lastModifiedData = lastModifiedData;
     }
 }
