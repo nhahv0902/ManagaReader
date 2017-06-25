@@ -23,7 +23,7 @@
             android:id="@+id/recycler_reader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:alpha="@{viewModel.setting.brightnessFloat}"
+            bind:alpha="@{viewModel.setting.brightNess}"
             bind:layoutManager="LinearLayoutManager"
             bind:recyclerAdapter="@{viewModel.adapter}"
             bind:scrollListenner="@{viewModel.sroll}"
