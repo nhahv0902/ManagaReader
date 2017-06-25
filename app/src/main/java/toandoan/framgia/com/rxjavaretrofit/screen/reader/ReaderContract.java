@@ -37,6 +37,6 @@ interface ReaderContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter {
-        void getChap(String chapId);
+        void getChap(Chap chap);
     }
 }

@@ -1,18 +1,16 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.recentManga;
 
-import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.databinding.ItemRecentMangaBinding;
 import toandoan.framgia.com.rxjavaretrofit.utils.widget.itemtouch.Extension;
-import toandoan.framgia.com.rxjavaretrofit.utils.widget.itemtouch.ItemTouchHelperExtension;
 
 /**
  * Created by toand on 6/25/2017.
@@ -20,12 +18,11 @@ import toandoan.framgia.com.rxjavaretrofit.utils.widget.itemtouch.ItemTouchHelpe
 
 public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.ViewHolder> {
     private List<Manga> mDatas;
-    private Context mContext;
-    private ItemTouchHelperExtension mItemTouchHelperExtension;
+    private RecentMangaViewModel mViewModel;
 
-    public RecentMangaAdapter(Context context) {
+    public RecentMangaAdapter(RecentMangaViewModel viewModel) {
         mDatas = new ArrayList<>();
-        mContext = context;
+        mViewModel = viewModel;
     }
 
     public void setDatas(List<Manga> datas) {
@@ -38,18 +35,16 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
         notifyDataSetChanged();
     }
 
-    public void setItemTouchHelperExtension(ItemTouchHelperExtension itemTouchHelperExtension) {
-        mItemTouchHelperExtension = itemTouchHelperExtension;
-    }
-
-    private LayoutInflater getLayoutInflater() {
-        return LayoutInflater.from(mContext);
+    private LayoutInflater getLayoutInflater(ViewGroup parent) {
+        return LayoutInflater.from(parent.getContext());
     }
 
     @Override
     public RecentMangaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_recent_manga, parent, false);
-        return new ViewHolder(view);
+        ItemRecentMangaBinding binding =
+                DataBindingUtil.inflate(getLayoutInflater(parent), R.layout.item_recent_manga,
+                        parent, false);
+        return new ViewHolder(binding);
     }
 
     public void move(int from, int to) {
@@ -60,15 +55,7 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
 
     @Override
     public void onBindViewHolder(final RecentMangaAdapter.ViewHolder holder, int position) {
-        holder.bind(null);
-        holder.mActionViewDelete.setOnClickListener(new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            doDelete(holder.getAdapterPosition());
-                                                        }
-                                                    }
-
-        );
+        holder.bindData(mDatas.get(position));
     }
 
     private void doDelete(int adapterPosition) {
@@ -78,23 +65,26 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mDatas != null ? mDatas.size() : 0;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements Extension {
-        View mViewContent;
-        View mActionContainer;
-        View mActionViewDelete;
+        private View mActionContainer;
+        public View mViewContent;
+        private ItemRecentMangaBinding mBinding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            mViewContent = itemView.findViewById(R.id.view_content);
-            mActionContainer = itemView.findViewById(R.id.view_list_repo_action_container);
-            mActionViewDelete = itemView.findViewById(R.id.view_list_repo_action_delete);
+        public ViewHolder(ItemRecentMangaBinding binding) {
+            super(binding.getRoot());
+            mBinding = binding;
+            mActionContainer = binding.actionContainer;
+            mViewContent = binding.layoutContent.viewContent;
         }
 
-        public void bind(Manga testModel) {
-
+        public void bindData(Manga manga) {
+            if (manga == null) return;
+            mBinding.setManga(manga);
+            mBinding.setViewModel(mViewModel);
+            mBinding.executePendingBindings();
         }
 
         @Override

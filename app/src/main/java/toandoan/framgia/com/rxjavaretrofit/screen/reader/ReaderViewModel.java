@@ -148,7 +148,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
             setChap(mManga.getChaps().get(mChapPos));
             setCurrentPosition(0);
             setLayoutControlVisible(VISIBLE);
-            mPresenter.getChap(mChap.getId());
+            mPresenter.getChap(mChap);
         } else {
             mNavigator.showToast(R.string.last_chap);
         }

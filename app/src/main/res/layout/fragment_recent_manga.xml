@@ -16,6 +16,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_recent"
+        android:background="@color/color_bluegrey_900"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaActivity"
