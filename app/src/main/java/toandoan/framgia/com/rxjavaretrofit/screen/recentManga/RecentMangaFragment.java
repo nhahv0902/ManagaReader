@@ -2,7 +2,9 @@ package toandoan.framgia.com.rxjavaretrofit.screen.recentManga;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -75,5 +77,40 @@ public class RecentMangaFragment extends BaseFragment {
 
     public void onGetRecentMangaSuccess(List<Manga> mangas) {
         mAdapter.updateData(mangas);
+    }
+
+    public void onDeleteMangaClick(int pos) {
+        mAdapter.deleteManga(pos);
+    }
+
+    public void deleteAllRecentManga() {
+        mAdapter.clearData();
+        Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content),
+                R.string.title_delete_done, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewModel.onUndoDeleteClick();
+                    }
+                })
+                .setDuration(2000);
+
+        snack.getView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mViewModel.onDeleteAllManga();
+                    }
+                }, 2000);
+            }
+        });
+
+        snack.show();
     }
 }

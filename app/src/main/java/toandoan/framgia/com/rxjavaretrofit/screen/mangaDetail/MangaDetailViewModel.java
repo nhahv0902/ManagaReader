@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.support.v7.app.AppCompatActivity;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.screen.home.MangaPagerAdapter;
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterFragment;
@@ -30,10 +31,12 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     private MangaPagerAdapter mAdapter;
     private AppCompatActivity mActivity;
     private int mProgressVisible = VISIBLE;
+    private Chap mCurrentChap;
 
-    public MangaDetailViewModel(Context context, Navigator navigator) {
+    public MangaDetailViewModel(Context context, Navigator navigator, Chap currentChap) {
         mActivity = (AppCompatActivity) context;
         mNavigator = navigator;
+        mCurrentChap = currentChap;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
         mAdapter = new MangaPagerAdapter(mActivity.getSupportFragmentManager());
         mAdapter.addFragment(MangaOverviewFragment.newInstance(mManga),
                 mActivity.getString(R.string.title_sumarry));
-        mAdapter.addFragment(MangaChapterFragment.newInstance(mManga),
+        mAdapter.addFragment(MangaChapterFragment.newInstance(mManga, mCurrentChap),
                 mActivity.getString(R.string.title_chapter));
         notifyPropertyChanged(BR.adapter);
     }

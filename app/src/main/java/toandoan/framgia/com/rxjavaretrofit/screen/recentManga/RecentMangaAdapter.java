@@ -29,6 +29,10 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
         mDatas.clear();
         mDatas.addAll(datas);
     }
+    public void clearData(){
+        mDatas.clear();
+        notifyDataSetChanged();
+    }
 
     public void updateData(List<Manga> datas) {
         setDatas(datas);
@@ -58,7 +62,7 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
         holder.bindData(mDatas.get(position));
     }
 
-    private void doDelete(int adapterPosition) {
+    public void deleteManga(int adapterPosition) {
         mDatas.remove(adapterPosition);
         notifyItemRemoved(adapterPosition);
     }
@@ -83,6 +87,7 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
         public void bindData(Manga manga) {
             if (manga == null) return;
             mBinding.setManga(manga);
+            mBinding.setPos(getAdapterPosition());
             mBinding.setViewModel(mViewModel);
             mBinding.executePendingBindings();
         }

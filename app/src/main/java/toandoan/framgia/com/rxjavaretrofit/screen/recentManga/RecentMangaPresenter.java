@@ -1,6 +1,5 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.recentManga;
 
-import android.util.Log;
 import java.util.List;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,5 +53,15 @@ final class RecentMangaPresenter implements RecentMangaContract.Presenter {
                     }
                 });
         mSubscription.add(subscription);
+    }
+
+    @Override
+    public void deleteManga(Manga manga) {
+        mRepository.removeRecentMangaById(manga.getId());
+    }
+
+    @Override
+    public void deleteAllManga() {
+        mRepository.removeAllRecentManga();
     }
 }

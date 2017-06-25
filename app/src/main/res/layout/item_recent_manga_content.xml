@@ -7,15 +7,16 @@
             />
         <variable
             name="manga"
-            type="toandoan.framgia.com.rxjavaretrofit.data.model.Manga"/>
+            type="toandoan.framgia.com.rxjavaretrofit.data.model.Manga"
+            />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/view_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bluegrey_900"
-        android:orientation="vertical"
         android:onClick="@{() -> viewModel.onItemMangaClick(manga)}"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/dp_5"
         android:paddingTop="@dimen/dp_5"
         >
@@ -27,9 +28,9 @@
             >
             <ImageView
                 android:layout_width="@dimen/dp_80"
-                bind:imageUrl="@{manga.avatar}"
                 android:layout_height="@dimen/dp_100"
                 android:layout_marginBottom="@dimen/dp_5"
+                bind:imageUrl="@{manga.avatar}"
                 />
 
             <RelativeLayout
@@ -66,9 +67,9 @@
                     android:layout_marginBottom="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:gravity="right"
-                    bind:milisecond="@{manga.lastModifiedData}"
                     android:textColor="@color/color_grey_300"
                     android:textSize="@dimen/sp_13"
+                    bind:milisecond="@{manga.lastModifiedData}"
                     />
             </RelativeLayout>
         </LinearLayout>

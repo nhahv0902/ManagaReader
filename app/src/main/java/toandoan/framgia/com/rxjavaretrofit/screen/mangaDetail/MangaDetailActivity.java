@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityMangaDetailBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
+import toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
@@ -21,9 +23,16 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 public class MangaDetailActivity extends BaseActivity {
 
     public static final String EXTRA_MANGA_ID = "EXTRA_MANGA_ID";
+    public static final String EXTRA_MANGA_CHAP = "EXTRA_MANGA_CHAP";
 
     private MangaDetailContract.ViewModel mViewModel;
     private Manga mManga;
+    private Chap mCurrentChap;
+
+    public static Intent getInstance(Context context, Manga manga, Chap currentChap) {
+        return new Intent(context, MangaDetailActivity.class).putExtra(EXTRA_MANGA_ID, manga)
+                .putExtra(EXTRA_MANGA_CHAP, currentChap);
+    }
 
     public static Intent getInstance(Context context, Manga manga) {
         return new Intent(context, MangaDetailActivity.class).putExtra(EXTRA_MANGA_ID, manga);
@@ -34,7 +43,7 @@ public class MangaDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getDataIntent();
 
-        mViewModel = new MangaDetailViewModel(this, new Navigator(this));
+        mViewModel = new MangaDetailViewModel(this, new Navigator(this), mCurrentChap);
 
         MangaDetailContract.Presenter presenter = new MangaDetailPresenter(mViewModel,
                 new MangaDataRepository(
@@ -54,6 +63,7 @@ public class MangaDetailActivity extends BaseActivity {
     private void getDataIntent() {
         if (getIntent() == null || getIntent().getExtras() == null) return;
         mManga = (Manga) getIntent().getExtras().getSerializable(EXTRA_MANGA_ID);
+        mCurrentChap = (Chap) getIntent().getExtras().getSerializable(EXTRA_MANGA_CHAP);
         if (mManga == null) finish();
     }
 

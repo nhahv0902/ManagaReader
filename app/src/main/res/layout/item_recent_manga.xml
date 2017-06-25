@@ -3,6 +3,10 @@
 <layout xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
+            name="pos"
+            type="Integer"
+            />
+        <variable
             name="viewModel"
             type="toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaViewModel"
             />
@@ -24,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:background="@android:color/holo_red_light"
-            android:onClick="@{()-> viewModel.onDeleteMangaClick(manga)}"
+            android:onClick="@{()-> viewModel.onDeleteMangaClick(manga, pos)}"
             android:gravity="center"
             android:orientation="horizontal"
             >

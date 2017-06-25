@@ -30,6 +30,7 @@ public class HomeActivity extends BaseActivity {
     private HomeContract.ViewModel mViewModel;
     private ViewPager mViewPager;
     private ActivityHomeBinding mBinding;
+    private Menu mMenu;
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -48,21 +49,26 @@ public class HomeActivity extends BaseActivity {
 
         ActivityHomeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         mBinding = binding;
+
         binding.setViewModel((HomeViewModel) mViewModel);
         mViewPager = binding.viewPager;
+        ((HomeViewModel) mViewModel).setViewPager(mViewPager);
 
         Utils.disableShiftMode(binding.navigation);
         binding.navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        mMenu.clear();
                         switch (item.getItemId()) {
                             default:
                             case R.id.navigation_home:
+                                getMenuInflater().inflate(R.menu.home_manga_menu, mMenu);
                                 onNavigationClick(MANGA);
                                 setTitle(R.string.title_manga);
                                 break;
                             case R.id.navigation_recent:
+                                getMenuInflater().inflate(R.menu.recent_menu, mMenu);
                                 onNavigationClick(RECENT);
                                 setTitle(R.string.title_recent);
                                 break;
@@ -103,6 +109,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.home_manga_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -118,6 +125,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.menu_source:
                 mViewModel.onMenuSourceClick();
+                break;
+            case R.id.menu_clear:
+                mViewModel.onMenuClearClick();
                 break;
             default:
                 break;

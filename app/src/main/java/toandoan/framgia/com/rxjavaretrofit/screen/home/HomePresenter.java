@@ -1,5 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.home;
 
+import android.support.v4.view.ViewPager;
+
 /**
  * Listens to user actions from the UI ({@link HomeActivity}), retrieves the data and updates
  * the UI as required.
