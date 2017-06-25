@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.mangaDashboard.MangaDashboardFragment;
+import toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.search.SearchActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.source.SourceActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
@@ -30,6 +31,10 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
     private void initAdapter() {
         mAdapter = new MangaPagerAdapter(mActivity.getSupportFragmentManager());
         mAdapter.addFragment(MangaDashboardFragment.newInstance(), null);
+        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
+        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
+        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
+        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
         notifyPropertyChanged(BR.adapter);
     }
 
