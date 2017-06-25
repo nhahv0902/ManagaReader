@@ -69,7 +69,7 @@ public class MangaChapterFragment extends BaseFragment {
         RecyclerView recyclerView = binding.recyclerChapter;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(
-                new MangaChapterAdapter((MangaChapterViewModel) mViewModel, manga.getChaps()));
+                new MangaChapterAdapter(manga.getChaps(), (OnChapterClickListtenner) mViewModel));
 
         if (currentChap != null) {
             for (int i = 0; i < manga.getChaps().size(); i++) {

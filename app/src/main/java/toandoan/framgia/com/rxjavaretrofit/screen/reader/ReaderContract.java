@@ -31,6 +31,10 @@ interface ReaderContract {
         void onBackClick();
 
         void onLoadNextChapClick();
+
+        void onOpenChapListClick();
+
+        void onOpenSettingClick();
     }
 
     /**

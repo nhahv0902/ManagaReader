@@ -6,8 +6,8 @@
             type="toandoan.framgia.com.rxjavaretrofit.data.model.Chap"
             />
         <variable
-            name="viewModel"
-            type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterViewModel"
+            name="listenner"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.OnChapterClickListtenner"
             />
         <variable
             name="pos"
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bluegrey_900"
-        android:onClick="@{() -> viewModel.onChapterItemClick(item, pos)}"
+        android:onClick="@{() -> listenner.onChapterItemClick(item, pos)}"
         android:orientation="vertical"
         >
 
