@@ -8,6 +8,7 @@ import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Setting;
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.OnChapterClickListtenner;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 import toandoan.framgia.com.rxjavaretrofit.utils.widget.dialog.ChapterDialog;
@@ -34,6 +35,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     private Chap mChap;
     private Manga mManga;
     private int mChapPos;
+    private Setting mSetting;
 
     private RecyclerView.OnScrollListener mSroll = new RecyclerView.OnScrollListener() {
         @Override
@@ -179,7 +181,12 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     @Override
     public void onOpenSettingClick() {
+        // TODO: 6/25/2017
+    }
 
+    @Override
+    public void onGetSettingSuccess(Setting setting) {
+        setSetting(setting);
     }
 
     @Bindable
@@ -284,5 +291,15 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     public void setManga(Manga manga) {
         mManga = manga;
         notifyPropertyChanged(BR.manga);
+    }
+
+    @Bindable
+    public Setting getSetting() {
+        return mSetting;
+    }
+
+    public void setSetting(Setting setting) {
+        mSetting = setting;
+        notifyPropertyChanged(BR.setting);
     }
 }

@@ -1,6 +1,7 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.reader;
 
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Setting;
 import toandoan.framgia.com.rxjavaretrofit.screen.BasePresenter;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseViewModel;
 
@@ -35,6 +36,8 @@ interface ReaderContract {
         void onOpenChapListClick();
 
         void onOpenSettingClick();
+
+        void onGetSettingSuccess(Setting setting);
     }
 
     /**
@@ -42,5 +45,7 @@ interface ReaderContract {
      */
     interface Presenter extends BasePresenter {
         void getChap(Chap chap);
+        
+        void getSetting();
     }
 }
