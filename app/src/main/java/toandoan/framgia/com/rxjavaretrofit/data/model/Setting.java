@@ -1,6 +1,9 @@
 package toandoan.framgia.com.rxjavaretrofit.data.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.IntDef;
+import toandoan.framgia.com.rxjavaretrofit.BR;
 
 import static toandoan.framgia.com.rxjavaretrofit.data.model.Setting.ReadingDirection.LEFT_TO_RIGHT;
 import static toandoan.framgia.com.rxjavaretrofit.data.model.Setting.ReadingDirection.RIGHT_TO_LEFT;
@@ -11,25 +14,27 @@ import static toandoan.framgia.com.rxjavaretrofit.data.model.Setting.ReadingMode
  * Created by toand on 6/25/2017.
  */
 
-public class Setting {
-    private int mBrightNess;
+public class Setting extends BaseObservable {
+    private float mBrightNess;
     @ReadingMode
     private int mReadingMode;
     @ReadingDirection
     private int mReadingDirection;
 
     public Setting() {
-        mBrightNess = 50;
+        mBrightNess = 0.5f;
         mReadingMode = VERTICAL;
         mReadingDirection = LEFT_TO_RIGHT;
     }
 
-    public int getBrightNess() {
+    @Bindable
+    public float getBrightNess() {
         return mBrightNess;
     }
 
-    public void setBrightNess(int brightNess) {
+    public void setBrightNess(float brightNess) {
         mBrightNess = brightNess;
+        notifyPropertyChanged(BR.brightNess);
     }
 
     public int getReadingMode() {
@@ -58,10 +63,5 @@ public class Setting {
     @interface ReadingDirection {
         int LEFT_TO_RIGHT = 0;
         int RIGHT_TO_LEFT = 1;
-    }
-
-    public float getBrightnessFloat() {
-        float br = mBrightNess;
-        return br / 100;
     }
 }

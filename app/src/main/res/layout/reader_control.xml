@@ -85,6 +85,12 @@
 
         </LinearLayout>
 
+        <include
+            layout="@layout/dialog_setting"
+            android:visibility="@{viewModel.settingVissile}"
+            bind:setting="@{viewModel.setting}"
+            />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"

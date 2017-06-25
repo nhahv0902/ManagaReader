@@ -4,16 +4,22 @@ import android.databinding.BindingAdapter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.Calendar;
 import toandoan.framgia.com.rxjavaretrofit.R;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Setting;
+import toandoan.framgia.com.rxjavaretrofit.data.source.SettingDataRepository;
+import toandoan.framgia.com.rxjavaretrofit.data.source.SettingDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.local.sharedprf.SharedPrefsImpl;
 
 /**
  * Created by le.quang.dao on 20/03/2017.
@@ -89,7 +95,33 @@ public final class BindingUtils {
     }
 
     @BindingAdapter("bind:alpha")
-    public static void setDate(RecyclerView view, float alpha) {
+    public static void setAlpha(RecyclerView view, float alpha) {
         view.setAlpha(alpha);
+    }
+
+    @BindingAdapter("bind:setting")
+    public static void setSeekbarListenner(AppCompatSeekBar view, final Setting setting) {
+        final SettingDataSource settingDataSource =
+                new SettingDataRepository(new SharedPrefsImpl(view.getContext()));
+        if (setting == null) return;
+        view.setProgress((int) (setting.getBrightNess() * 100));
+        view.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float br = (float) (50 + progress) / (float) 100;
+                setting.setBrightNess(br);
+                settingDataSource.saveSetting(setting);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 }

@@ -27,6 +27,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     private int mProgressVisible = VISIBLE;
     private int mLayoutControlVisible = VISIBLE;
     private int mPreviewVisible = GONE;
+    private int mSettingVissile = GONE;
     private Navigator mNavigator;
     private ReaderAdapter mAdapter;
     private ReaderPreviewAdapter mPreviewAdapter;
@@ -181,7 +182,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     @Override
     public void onOpenSettingClick() {
-        // TODO: 6/25/2017
+        setSettingVissile(mSettingVissile == VISIBLE ? GONE : VISIBLE);
     }
 
     @Override
@@ -211,12 +212,18 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     public void onItemImageReaderClick() {
         setLayoutControlVisible(mLayoutControlVisible == VISIBLE ? GONE : VISIBLE);
-        if (mLayoutControlVisible == GONE) setPreviewVisible(GONE);
+        if (mLayoutControlVisible == GONE) {
+            setPreviewVisible(GONE);
+            setSettingVissile(GONE);
+        }
     }
 
     public void onScrollDown() {
         setLayoutControlVisible(GONE);
-        if (mLayoutControlVisible == GONE) setPreviewVisible(GONE);
+        if (mLayoutControlVisible == GONE) {
+            setPreviewVisible(GONE);
+            setSettingVissile(GONE);
+        }
     }
 
     private void onScrollUp() {
@@ -301,5 +308,15 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     public void setSetting(Setting setting) {
         mSetting = setting;
         notifyPropertyChanged(BR.setting);
+    }
+
+    @Bindable
+    public int getSettingVissile() {
+        return mSettingVissile;
+    }
+
+    public void setSettingVissile(int settingVissile) {
+        mSettingVissile = settingVissile;
+        notifyPropertyChanged(BR.settingVissile);
     }
 }

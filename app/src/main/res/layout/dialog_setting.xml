@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="setting"
+            type="toandoan.framgia.com.rxjavaretrofit.data.model.Setting"
+            />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:alpha="0.9"
+            android:background="@color/color_bluegrey_800"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10"
+            >
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/brightness"
+                android:textColor="@android:color/white"
+                />
+            <android.support.v7.widget.AppCompatSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="50"
+                bind:setting="@{setting}"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
