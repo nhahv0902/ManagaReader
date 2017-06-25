@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="adapter"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterAdapter"
+            />
+    </data>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bluegrey_900"
+        android:orientation="vertical"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_chapter"
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            bind:layoutManager="LinearLayoutManager"
+            bind:recyclerAdapter="@{adapter}"
+            />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/recycler_chapter"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/dp_5"
+            android:text="@string/action_close"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+</layout>
+

@@ -11,7 +11,7 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
  */
 
 public class MangaChapterViewModel extends BaseObservable
-        implements MangaChapterContract.ViewModel {
+        implements MangaChapterContract.ViewModel, OnChapterClickListtenner {
 
     private MangaChapterContract.Presenter mPresenter;
     private Navigator mNavigator;

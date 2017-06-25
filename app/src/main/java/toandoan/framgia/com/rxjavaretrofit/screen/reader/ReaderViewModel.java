@@ -8,7 +8,9 @@ import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.OnChapterClickListtenner;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
+import toandoan.framgia.com.rxjavaretrofit.utils.widget.dialog.ChapterDialog;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -152,6 +154,32 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
         } else {
             mNavigator.showToast(R.string.last_chap);
         }
+    }
+
+    @Override
+    public void onOpenChapListClick() {
+        final ChapterDialog dialog = new ChapterDialog(mNavigator.getContext());
+        dialog.initData(mManga.getChaps(), mChapPos, new OnChapterClickListtenner() {
+            @Override
+            public void onChapterItemClick(Chap chap, int pos) {
+                dialog.dismiss();
+                mChapPos = pos;
+                if (mChapPos != mManga.getChaps().size()) {
+                    setChap(mManga.getChaps().get(mChapPos));
+                    setCurrentPosition(0);
+                    setLayoutControlVisible(VISIBLE);
+                    mPresenter.getChap(mChap);
+                } else {
+                    mNavigator.showToast(R.string.last_chap);
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onOpenSettingClick() {
+
     }
 
     @Bindable

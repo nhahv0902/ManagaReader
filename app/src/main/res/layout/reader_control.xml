@@ -71,6 +71,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
+                android:onClick="@{() -> viewModel.onOpenSettingClick()}"
                 android:padding="@dimen/dp_5"
                 bind:srcCompat="@drawable/ic_settings_white"
                 />
@@ -78,6 +79,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
+                android:onClick="@{() -> viewModel.onOpenChapListClick()}"
                 bind:srcCompat="@drawable/ic_menu"
                 />
 

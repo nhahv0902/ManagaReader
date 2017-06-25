@@ -85,12 +85,14 @@ public class RecentMangaFragment extends BaseFragment {
 
     public void deleteAllRecentManga() {
         mAdapter.clearData();
+        final boolean[] isDelete = new boolean[1];
         Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content),
                 R.string.title_delete_done, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mViewModel.onUndoDeleteClick();
+                        isDelete[0] = false;
                     }
                 })
                 .setDuration(2000);
@@ -105,7 +107,9 @@ public class RecentMangaFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mViewModel.onDeleteAllManga();
+                        if (isDelete[0]) {
+                            mViewModel.onDeleteAllManga();
+                        }
                     }
                 }, 2000);
             }
