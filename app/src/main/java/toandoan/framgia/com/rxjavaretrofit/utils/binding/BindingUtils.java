@@ -87,4 +87,9 @@ public final class BindingUtils {
                 Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS));
         view.setText(niceDateStr);
     }
+
+    @BindingAdapter("bind:alpha")
+    public static void setDate(RecyclerView view, float alpha) {
+        view.setAlpha(alpha);
+    }
 }

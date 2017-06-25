@@ -8,8 +8,10 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Setting;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.RecentMangaDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.SettingDataSource;
 
 /**
  * Listens to user actions from the UI ({@link ReaderActivity}), retrieves the data and updates
@@ -24,16 +26,20 @@ final class ReaderPresenter implements ReaderContract.Presenter {
     private CompositeSubscription mSubscription;
     private MangaDataSource mRepository;
     private RecentMangaDataSource mRecentMangaRepository;
+    private SettingDataSource mSettingRepository;
 
     public ReaderPresenter(ReaderContract.ViewModel viewModel, Manga manga, Chap chap,
-            MangaDataSource repository, RecentMangaDataSource recentMangaRepository) {
+            MangaDataSource repository, RecentMangaDataSource recentMangaRepository,
+            SettingDataSource settingRepository) {
         mViewModel = viewModel;
         mManga = manga;
         mChap = chap;
         mRepository = repository;
         mRecentMangaRepository = recentMangaRepository;
+        mSettingRepository = settingRepository;
         mSubscription = new CompositeSubscription();
         getChap(mChap);
+        getSetting();
     }
 
     @Override
@@ -72,6 +78,20 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                     @Override
                     public void call() {
                         mViewModel.hideProgress();
+                    }
+                });
+        mSubscription.add(subscription);
+    }
+
+    @Override
+    public void getSetting() {
+        Subscription subscription = mSettingRepository.getSettings()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action1<Setting>() {
+                    @Override
+                    public void call(Setting setting) {
+                        mViewModel.onGetSettingSuccess(setting);
                     }
                 });
         mSubscription.add(subscription);
