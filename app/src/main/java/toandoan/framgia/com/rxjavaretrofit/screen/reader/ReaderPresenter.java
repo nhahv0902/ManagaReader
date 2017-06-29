@@ -97,6 +97,11 @@ final class ReaderPresenter implements ReaderContract.Presenter {
         mSubscription.add(subscription);
     }
 
+    @Override
+    public void saveSetting(Setting setting) {
+        mSettingRepository.saveSetting(setting);
+    }
+
     private void addRecentMangaChap(Chap chap) {
         mManga.setLastModifiedData(System.currentTimeMillis());
         mManga.setLastLocalChap(chap);

@@ -38,6 +38,8 @@ interface ReaderContract {
         void onOpenSettingClick();
 
         void onGetSettingSuccess(Setting setting);
+
+        void onReadingModeClick(int readingMode);
     }
 
     /**
@@ -45,7 +47,9 @@ interface ReaderContract {
      */
     interface Presenter extends BasePresenter {
         void getChap(Chap chap);
-        
+
         void getSetting();
+
+        void saveSetting(Setting setting);
     }
 }

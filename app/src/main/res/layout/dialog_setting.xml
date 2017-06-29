@@ -1,23 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
         <variable
             name="setting"
             type="toandoan.framgia.com.rxjavaretrofit.data.model.Setting"
             />
+        <variable
+            name="viewModel"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderViewModel"
+            />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_300"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/bg_setting"
         android:orientation="vertical"
         >
 
         <LinearLayout
-            android:layout_width="@dimen/dp_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:alpha="0.9"
-            android:background="@color/color_bluegrey_800"
+            android:layout_margin="@dimen/dp_5"
+            android:background="@color/color_bluegrey_900"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            >
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_weight="1"
+                android:text="@string/reading_mode"
+                android:textColor="@android:color/white"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_35"
+                android:background="@drawable/bg_setting_detail"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_2"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@{setting.readingMode == LinearLayoutManager.HORIZONTAL? @color/colorPrimaryDark:@android:color/transparent}"
+                    android:gravity="center"
+                    android:onClick="@{()-> viewModel.onReadingModeClick(LinearLayoutManager.HORIZONTAL)}"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        bind:srcCompat="@drawable/ic_horizontal"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@{setting.readingMode == LinearLayoutManager.VERTICAL? @color/colorPrimaryDark:@android:color/transparent}"
+                    android:gravity="center"
+                    android:onClick="@{()-> viewModel.onReadingModeClick(LinearLayoutManager.VERTICAL)}"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_15"
+                        android:layout_height="@dimen/dp_15"
+                        bind:srcCompat="@drawable/ic_vertical"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/color_bluegrey_850"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            >
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1"
+                android:text="@string/reading_mode"
+                android:textColor="@android:color/white"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/bg_setting_detail"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_2"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_15"
+                        android:layout_height="@dimen/dp_15"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_15"
+                        android:layout_height="@dimen/dp_15"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/dp_5"
+            android:background="@color/color_bluegrey_900"
             android:orientation="horizontal"
             android:padding="@dimen/dp_10"
             >
@@ -28,9 +155,11 @@
                 android:textColor="@android:color/white"
                 />
             <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="50"
+                android:progress="@{((int)(setting.getBrightNess() * 100) - 50)}"
                 bind:setting="@{setting}"
                 />
         </LinearLayout>
