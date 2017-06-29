@@ -1,10 +1,10 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail;
 
+import toandoan.framgia.com.rxjavaretrofit.BR;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.app.AppCompatActivity;
-import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
@@ -81,12 +81,19 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
         setProgressVisible(GONE);
     }
 
+    @Override
+    public void onFavoriteClick() {
+        mPresenter.onFavoriteClick(mManga);
+    }
+
+    @Bindable
     public Manga getManga() {
         return mManga;
     }
 
     public void setManga(Manga manga) {
         mManga = manga;
+        notifyPropertyChanged(BR.manga);
     }
 
     @Bindable

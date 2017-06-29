@@ -9,12 +9,12 @@ import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.FavoriteRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityMangaDetailBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
-import toandoan.framgia.com.rxjavaretrofit.screen.reader.ReaderActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
@@ -46,8 +46,8 @@ public class MangaDetailActivity extends BaseActivity {
         mViewModel = new MangaDetailViewModel(this, new Navigator(this), mCurrentChap);
 
         MangaDetailContract.Presenter presenter = new MangaDetailPresenter(mViewModel,
-                new MangaDataRepository(
-                        new ManagaRemoteDataSource(AppServiceClient.getInstance())));
+                new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
+                new FavoriteRepository(this));
         mViewModel.setPresenter(presenter);
         presenter.getMangaDetail(mManga.getId());
 

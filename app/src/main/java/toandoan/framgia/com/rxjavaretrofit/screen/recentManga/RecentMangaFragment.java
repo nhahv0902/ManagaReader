@@ -84,8 +84,10 @@ public class RecentMangaFragment extends BaseFragment {
     }
 
     public void deleteAllRecentManga() {
+        if (mAdapter.getItemCount()==0) return;
         mAdapter.clearData();
         final boolean[] isDelete = new boolean[1];
+        isDelete[0] = true;
         Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content),
                 R.string.title_delete_done, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, new View.OnClickListener() {

@@ -25,9 +25,9 @@
         app:cardElevation="@dimen/dp_5"
         >
         <RelativeLayout
-            android:onClick="@{() -> viewModel.onItemClick(manga)}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onItemClick(manga)}"
             android:orientation="vertical"
             >
             <ImageView
