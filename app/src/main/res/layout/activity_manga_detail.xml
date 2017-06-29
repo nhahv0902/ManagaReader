@@ -94,10 +94,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:onClick="@{()-> viewModel.onFavoriteClick()}"
+            android:src="@{viewModel.manga.favorite? @drawable/ic_star_yellow:@drawable/ic_favorite_white}"
             app:fabSize="normal"
             app:layout_anchor="@id/app_bar_layout"
             app:layout_anchorGravity="bottom|right"
-            app:srcCompat="@drawable/ic_favorite_white"
             />
 
     </android.support.design.widget.CoordinatorLayout>

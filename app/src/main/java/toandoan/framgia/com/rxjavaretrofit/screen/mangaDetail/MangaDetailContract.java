@@ -19,6 +19,8 @@ interface MangaDetailContract {
         void onGetMangaFailed(String message);
 
         void hideProgress();
+        
+        void onFavoriteClick();
     }
 
     /**
@@ -26,5 +28,7 @@ interface MangaDetailContract {
      */
     interface Presenter extends BasePresenter {
         void getMangaDetail(int id);
+
+        void onFavoriteClick(Manga manga);
     }
 }

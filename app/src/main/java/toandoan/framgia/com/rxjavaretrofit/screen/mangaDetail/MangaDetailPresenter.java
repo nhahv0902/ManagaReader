@@ -7,6 +7,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.FavoriteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 
 /**
@@ -19,11 +20,13 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
     private final MangaDetailContract.ViewModel mViewModel;
     private MangaDataSource mMangaRepository;
     private CompositeSubscription mSubscription;
+    private FavoriteDataSource mFavoriteRepository;
 
     public MangaDetailPresenter(MangaDetailContract.ViewModel viewModel,
-            MangaDataSource mangaRepository) {
+            MangaDataSource mangaRepository, FavoriteDataSource favoriteRepository) {
         mViewModel = viewModel;
         mMangaRepository = mangaRepository;
+        mFavoriteRepository = favoriteRepository;
         mSubscription = new CompositeSubscription();
     }
 
@@ -37,7 +40,7 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
     }
 
     @Override
-    public void getMangaDetail(int id) {
+    public void getMangaDetail(final int id) {
         Subscription subscription = mMangaRepository.getMangaById(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -50,6 +53,7 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
                 .subscribe(new Action1<Manga>() {
                     @Override
                     public void call(Manga manga) {
+                        manga.setFavorite(mFavoriteRepository.isExitFavoriteManga(id));
                         mViewModel.onGetMangaSuccess(manga);
                     }
                 }, new Action1<Throwable>() {
@@ -65,5 +69,15 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
                     }
                 });
         mSubscription.add(subscription);
+    }
+
+    @Override
+    public void onFavoriteClick(Manga manga) {
+        manga.setFavorite(!manga.isFavorite());
+        if (manga.isFavorite()) {
+            mFavoriteRepository.addFavoriteManga(manga);
+        } else {
+            mFavoriteRepository.removeFavoriteMangaById(manga.getId());
+        }
     }
 }

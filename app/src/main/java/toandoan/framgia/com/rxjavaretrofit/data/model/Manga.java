@@ -6,7 +6,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
-import toandoan.framgia.com.rxjavaretrofit.BR;
 
 /**
  * Created by toand on 6/19/2017.
@@ -70,6 +69,8 @@ public class Manga extends BaseObservable implements Serializable {
 
     private long lastModifiedData;
 
+    private boolean mIsFavorite;
+
     public Integer getId() {
         return id;
     }
@@ -85,7 +86,7 @@ public class Manga extends BaseObservable implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-        notifyPropertyChanged(BR.name);
+        notifyPropertyChanged(toandoan.framgia.com.rxjavaretrofit.BR.name);
     }
 
     public List<String> getAuthor() {
@@ -127,7 +128,7 @@ public class Manga extends BaseObservable implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-        notifyPropertyChanged(BR.avatar);
+        notifyPropertyChanged(toandoan.framgia.com.rxjavaretrofit.BR.avatar);
     }
 
     public List<Object> getOtherName() {
@@ -217,7 +218,7 @@ public class Manga extends BaseObservable implements Serializable {
 
     public void setLastLocalChap(Chap lastLocalChap) {
         this.lastLocalChap = lastLocalChap;
-        notifyPropertyChanged(BR.lastLocalChap);
+        notifyPropertyChanged(toandoan.framgia.com.rxjavaretrofit.BR.lastLocalChap);
     }
 
     public String getAuthorStr() {
@@ -239,5 +240,15 @@ public class Manga extends BaseObservable implements Serializable {
 
     public void setLastModifiedData(long lastModifiedData) {
         this.lastModifiedData = lastModifiedData;
+    }
+
+    @Bindable
+    public boolean isFavorite() {
+        return mIsFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        mIsFavorite = favorite;
+        notifyPropertyChanged(toandoan.framgia.com.rxjavaretrofit.BR.favorite);
     }
 }
