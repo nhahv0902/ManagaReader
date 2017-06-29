@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -104,13 +105,14 @@ public final class BindingUtils {
         final SettingDataSource settingDataSource =
                 new SettingDataRepository(new SharedPrefsImpl(view.getContext()));
         if (setting == null) return;
-        view.setProgress((int) (setting.getBrightNess() * 100));
         view.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                float br = (float) (50 + progress) / (float) 100;
-                setting.setBrightNess(br);
-                settingDataSource.saveSetting(setting);
+                if (fromUser) {
+                    float br = (float) (50 + progress) / (float) 100;
+                    setting.setBrightNess(br);
+                    settingDataSource.saveSetting(setting);
+                }
             }
 
             @Override

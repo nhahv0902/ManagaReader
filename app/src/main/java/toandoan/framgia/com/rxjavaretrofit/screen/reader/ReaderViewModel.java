@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.SeekBar;
 import toandoan.framgia.com.rxjavaretrofit.BR;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
@@ -37,6 +39,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     private Manga mManga;
     private int mChapPos;
     private Setting mSetting;
+    private int mLayoutOrientation;
 
     private RecyclerView.OnScrollListener mSroll = new RecyclerView.OnScrollListener() {
         @Override
@@ -188,6 +191,19 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     @Override
     public void onGetSettingSuccess(Setting setting) {
         setSetting(setting);
+        mRecyclerReader.setLayoutManager(
+                new LinearLayoutManager(mRecyclerReader.getContext(), setting.getReadingMode(),
+                        false));
+    }
+
+    @Override
+    public void onReadingModeClick(int readingMode) {
+        mSetting.setReadingMode(readingMode);
+        mPresenter.saveSetting(mSetting);
+        mRecyclerReader.setLayoutManager(
+                new LinearLayoutManager(mRecyclerReader.getContext(), mSetting.getReadingMode(),
+                        false));
+        setSettingVissile(GONE);
     }
 
     @Bindable
@@ -307,6 +323,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
 
     public void setSetting(Setting setting) {
         mSetting = setting;
+        setLayoutOrientation(setting.getReadingMode());
         notifyPropertyChanged(BR.setting);
     }
 
@@ -318,5 +335,15 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
     public void setSettingVissile(int settingVissile) {
         mSettingVissile = settingVissile;
         notifyPropertyChanged(BR.settingVissile);
+    }
+
+    @Bindable
+    public int getLayoutOrientation() {
+        return mLayoutOrientation;
+    }
+
+    public void setLayoutOrientation(int layoutOrientation) {
+        mLayoutOrientation = layoutOrientation;
+        notifyPropertyChanged(BR.layoutOrientation);
     }
 }

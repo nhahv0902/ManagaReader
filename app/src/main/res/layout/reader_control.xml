@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="right"
         android:visibility="@{viewModel.layoutControlVisible}"
         >
 
@@ -86,9 +87,11 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/setting"
             layout="@layout/dialog_setting"
             android:visibility="@{viewModel.settingVissile}"
             bind:setting="@{viewModel.setting}"
+            bind:viewModel="@{viewModel}"
             />
 
         <View

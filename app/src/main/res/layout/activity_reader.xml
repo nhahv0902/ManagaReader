@@ -24,12 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             bind:alpha="@{viewModel.setting.brightNess}"
-            bind:layoutManager="LinearLayoutManager"
             bind:recyclerAdapter="@{viewModel.adapter}"
             bind:scrollListenner="@{viewModel.sroll}"
             />
 
         <include
+            android:id="@+id/reader_control"
             layout="@layout/reader_control"
             bind:viewModel="@{viewModel}"
             />
