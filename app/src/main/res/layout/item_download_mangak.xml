@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="item"
+            type="toandoan.framgia.com.rxjavaretrofit.data.model.Chap"
+            />
+        <variable
+            name="listenner"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.OnChapterClickListtenner"
+            />
+        <variable
+            name="position"
+            type="int"
+            />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bluegrey_900"
+        android:onClick="@{() -> listenner.onChapterItemClick(item, position)}"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        >
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:clickable="false"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:checked="@{item.isChecked}"
+            android:text="@{@string/title_item_chaper(item.chap)}"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_14"
+            app:buttonTint="@drawable/bg_radio_button"
+            />
+        <View
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_bluegrey_850"
+            />
+    </LinearLayout>
+</layout>
+
+
+

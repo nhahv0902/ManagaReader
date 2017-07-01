@@ -47,6 +47,10 @@
             android:name=".screen.search.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".screen.download.DownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailMangaTheme"/>
     </application>
 
 </manifest>

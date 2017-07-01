@@ -1,13 +1,16 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail;
 
 import toandoan.framgia.com.rxjavaretrofit.BR;
+
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.app.AppCompatActivity;
+
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.screen.download.DownloadActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.home.MangaPagerAdapter;
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.MangaChapterFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangaoverview.MangaOverviewFragment;
@@ -74,6 +77,13 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     @Override
     public void onGetMangaFailed(String message) {
         mNavigator.showToast(message);
+    }
+
+    @Override
+    public void onStartDownload() {
+        if (mNavigator != null && mManga != null) {
+            mNavigator.startActivity(DownloadActivity.getIntent(mNavigator.getContext(), mManga));
+        }
     }
 
     @Override

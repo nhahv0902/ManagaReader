@@ -19,8 +19,10 @@ interface MangaDetailContract {
         void onGetMangaFailed(String message);
 
         void hideProgress();
-        
+
         void onFavoriteClick();
+
+        void onStartDownload();
     }
 
     /**
