@@ -37,7 +37,8 @@
     <string name="last_chap">This is the last chap!</string>
     <string name="load_next_chap">Load chap %s</string>
     <string name="title_delete">Delete</string>
-    <string name="title_delete_done">All recent manga has been deleted!</string>
+    <string name="title_delete_recent_done">All recent manga has been deleted!</string>
+    <string name="title_delete_favorite_done">All favorit manga has been deleted!</string>
     <string name="action_undo">Undo</string>
     <string name="brightness">Brightness</string>
     <string name="reading_mode">Reading Mode</string>
