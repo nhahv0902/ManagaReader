@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentSettingsBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseFragment;
+import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
 /**
  * Settings Screen.
@@ -25,7 +26,7 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new SettingsViewModel();
+        mViewModel = new SettingsViewModel(new Navigator(this));
 
         SettingsContract.Presenter presenter = new SettingsPresenter(mViewModel);
         mViewModel.setPresenter(presenter);

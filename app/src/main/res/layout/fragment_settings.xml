@@ -42,6 +42,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:onClick="@{() -> viewModel.onShareAppClick()}"
                 android:layout_height="wrap_content"
                 android:background="@color/color_bluegrey_500"
                 android:gravity="center"
@@ -76,6 +77,7 @@
                 android:background="@color/color_bluegrey_500"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:onClick="@{() -> viewModel.onRateAppClick()}"
                 android:padding="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_8"
                 android:paddingLeft="@dimen/dp_10"
