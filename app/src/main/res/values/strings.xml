@@ -48,4 +48,14 @@
     <string name="action_download">Download</string>
     <string name="text_number_chap_download" formatted="false">Download %d chapter</string>
     <string name="action_cancel">Cancel</string>
+    <string name="title_general">General</string>
+    <string name="title_share_with_friend">Share Manga Reader with friends</string>
+    <string name="title_upgrade">Upgrade</string>
+    <string name="title_upgrade_remove_ads">Purchase Full Version - Remove Ads</string>
+    <string name="title_restore">Already purchased? Restore</string>
+    <string name="title_clear_cache">Clear cache</string>
+    <string name="title_about_us">About us</string>
+    <string name="title_disclaimer">Disclaimer</string>
+    <string name="title_email">Email Support</string>
+    <string name="title_rate_review"><![CDATA[Rate & Review App on Play Store]]></string>
 </resources>
