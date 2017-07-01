@@ -9,6 +9,9 @@ import android.view.MenuItem;
 
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
+import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityDownloadBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
 
@@ -42,9 +45,11 @@ public class DownloadActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         Manga mangak = getMangak();
-        mViewModel = new DownloadViewModel(mangak);
+        mViewModel = new DownloadViewModel(this, mangak);
 
-        DownloadContract.Presenter presenter = new DownloadPresenter(mViewModel);
+        DownloadContract.Presenter presenter = new DownloadPresenter(mViewModel,
+                new MangaDataRepository(
+                        new ManagaRemoteDataSource(AppServiceClient.getInstance())));
         mViewModel.setPresenter(presenter);
 
         ActivityDownloadBinding binding =

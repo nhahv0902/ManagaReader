@@ -2,6 +2,8 @@ package toandoan.framgia.com.rxjavaretrofit.data.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
 import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +14,7 @@ import java.util.List;
  * Created by framgia on 20/06/2017.
  */
 
-public class Chap extends BaseObservable implements Serializable {
+public class Chap extends BaseObservable implements Serializable, Comparable<Chap> {
     @SerializedName("id")
     @Expose
     private String id;
@@ -101,5 +103,16 @@ public class Chap extends BaseObservable implements Serializable {
     public void setChecked(boolean checked) {
         isChecked = checked;
         notifyPropertyChanged(BR.checked);
+    }
+
+    @Override
+    public int compareTo(@NonNull Chap chap) {
+        try {
+            float otherChapId = Float.parseFloat(chap.getChap());
+            float chapId = Float.parseFloat(this.chap);
+            return (int) (chapId - otherChapId);
+        } catch (NumberFormatException ex) {
+            return 1;
+        }
     }
 }

@@ -58,4 +58,7 @@
     <string name="title_disclaimer">Disclaimer</string>
     <string name="title_email">Email Support</string>
     <string name="title_rate_review"><![CDATA[Rate & Review App on Play Store]]></string>
+    <string name="msg_download_chapter" formatted="false">Downloading chapter %s</string>
+    <string name="msg_downloading" formatted="false">Downloading %s/100</string>
+    <string name="msg_download_success">Download success</string>
 </resources>
