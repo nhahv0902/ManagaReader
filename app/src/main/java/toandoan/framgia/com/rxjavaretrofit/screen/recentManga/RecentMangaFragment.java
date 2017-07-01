@@ -89,7 +89,7 @@ public class RecentMangaFragment extends BaseFragment {
         final boolean[] isDelete = new boolean[1];
         isDelete[0] = true;
         Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content),
-                R.string.title_delete_done, Snackbar.LENGTH_LONG)
+                R.string.title_delete_recent_done, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

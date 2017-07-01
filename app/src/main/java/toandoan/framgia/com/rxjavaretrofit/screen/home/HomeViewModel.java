@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import toandoan.framgia.com.rxjavaretrofit.BR;
+import toandoan.framgia.com.rxjavaretrofit.screen.favorite.FavoriteFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.mangaDashboard.MangaDashboardFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaFragment;
@@ -40,7 +41,7 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
         mAdapter.addFragment(MangaDashboardFragment.newInstance(), null);
         mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
         mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
-        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
+        mAdapter.addFragment(FavoriteFragment.newInstance(), null);
         mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
         notifyPropertyChanged(BR.adapter);
     }
@@ -91,6 +92,11 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
         Fragment currentFragment = mAdapter.getItem(currentPos);
         if (currentFragment instanceof RecentMangaFragment) {
             ((RecentMangaFragment) currentFragment).deleteAllRecentManga();
+            return;
+        }
+        if (currentFragment instanceof FavoriteFragment) {
+            ((FavoriteFragment) currentFragment).removeAllFavorite();
+            return;
         }
     }
 }

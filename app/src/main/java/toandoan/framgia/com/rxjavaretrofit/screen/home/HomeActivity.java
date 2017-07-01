@@ -77,6 +77,7 @@ public class HomeActivity extends BaseActivity {
                                 setTitle(R.string.title_download);
                                 break;
                             case R.id.navigation_favorite:
+                                getMenuInflater().inflate(R.menu.recent_menu, mMenu);
                                 onNavigationClick(FAVORITE);
                                 setTitle(R.string.title_favorites);
                                 break;
