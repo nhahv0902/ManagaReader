@@ -11,6 +11,9 @@ interface SettingsContract {
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
+        void onShareAppClick();
+
+        void onRateAppClick();
     }
 
     /**
