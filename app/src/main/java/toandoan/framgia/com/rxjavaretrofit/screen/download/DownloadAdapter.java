@@ -11,16 +11,20 @@ import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ItemDownloadMangakBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter.OnChapterClickListtenner;
 
-public class DownloadMangakAdapter extends RecyclerView.Adapter<DownloadMangakAdapter.ViewHolder> {
+public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHolder> {
     private List<Chap> mChaps = new ArrayList<>();
     private LayoutInflater mInflater;
     private OnChapterClickListtenner mListtenner;
 
-    public DownloadMangakAdapter(List<Chap> chaps, OnChapterClickListtenner listtenner) {
+    public DownloadAdapter(List<Chap> chaps, OnChapterClickListtenner listtenner) {
         mChaps = chaps;
         mListtenner = listtenner;
     }
 
+    public void update(List<Chap> chapters){
+        mChaps = chapters;
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mInflater == null) mInflater = LayoutInflater.from(parent.getContext());

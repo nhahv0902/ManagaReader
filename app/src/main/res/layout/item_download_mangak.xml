@@ -19,12 +19,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_bluegrey_900"
+        android:background="@{item.downloaded ? @color/color_grey_400 : @color/color_bluegrey_900}"
+        android:clickable="@{item.downloaded ? false : true}"
         android:onClick="@{() -> listenner.onChapterItemClick(item, position)}"
         android:orientation="vertical"
-        android:paddingTop="@dimen/dp_10"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
         >
 
         <android.support.v7.widget.AppCompatRadioButton
@@ -32,10 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
+            android:checked="@{item.isChecked}"
             android:clickable="false"
             android:paddingBottom="@dimen/dp_10"
             android:paddingTop="@dimen/dp_10"
-            android:checked="@{item.isChecked}"
             android:text="@{@string/title_item_chaper(item.chap)}"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
@@ -43,9 +44,9 @@
             app:buttonTint="@drawable/bg_radio_button"
             />
         <View
-            android:layout_marginTop="@dimen/dp_10"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="@color/color_bluegrey_850"
             />
     </LinearLayout>

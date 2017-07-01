@@ -82,7 +82,8 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     @Override
     public void onStartDownload() {
         if (mNavigator != null && mManga != null) {
-            mNavigator.startActivity(DownloadActivity.getIntent(mNavigator.getContext(), mManga));
+            mNavigator.startActivity(
+                    DownloadActivity.getIntent(mNavigator.getContext(), mManga.getId()));
         }
     }
 

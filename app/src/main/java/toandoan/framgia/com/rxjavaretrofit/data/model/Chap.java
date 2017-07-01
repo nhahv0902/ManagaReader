@@ -38,6 +38,8 @@ public class Chap extends BaseObservable implements Serializable, Comparable<Cha
     private List<String> content;
     private boolean isChecked;
 
+    private boolean isDownloaded;
+
     public String getId() {
         return id;
     }
@@ -103,6 +105,16 @@ public class Chap extends BaseObservable implements Serializable, Comparable<Cha
     public void setChecked(boolean checked) {
         isChecked = checked;
         notifyPropertyChanged(BR.checked);
+    }
+
+    @Bindable
+    public boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        isDownloaded = downloaded;
+        notifyPropertyChanged(BR.downloaded);
     }
 
     @Override

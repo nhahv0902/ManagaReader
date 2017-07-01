@@ -1,14 +1,13 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.download;
 
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Handler;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.databinding.library.baseAdapters.BR;
@@ -29,9 +28,10 @@ import toandoan.framgia.com.rxjavaretrofit.utils.ImageDownloadManager;
 public class DownloadViewModel extends BaseObservable implements DownloadContract.ViewModel {
 
     private final Context mContext;
+    private final int mMangakId;
     private DownloadContract.Presenter mPresenter;
-    private DownloadMangakAdapter mAdapter;
-    private Manga mMangak;
+    private DownloadAdapter mAdapter;
+    private Manga mMangak = new Manga();
     private int mNumberChapDownload;
     private boolean mIsSelectAll;
     private ImageDownloadManager mDownloadManager;
@@ -40,6 +40,7 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     public boolean mBinded;
     private String mChapIndex;
     private boolean mIsDownload;
+    private List<String> mChapterDownload = new ArrayList<>();
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -56,30 +57,16 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
         }
     };
 
-    public DownloadViewModel(Context context, Manga mangak) {
+    public DownloadViewModel(Context context, int mangakId) {
         mContext = context;
-        mMangak = mangak;
-        Collections.sort(mMangak.getChaps());
-        mAdapter = new DownloadMangakAdapter(mangak.getChaps(), new OnChapterClickListtenner() {
-            @Override
-            public void onChapterItemClick(Chap chap, int pos) {
-                if (mChapIndex == null) mChapIndex = chap.getChap();
-                chap.setChecked(!chap.isChecked());
-                setNumberChapDownload(0);
-                for (Chap item : mMangak.getChaps()) {
-                    if (item.isChecked()) {
-                        mNumberChapDownload++;
-                    }
-                }
-                setNumberChapDownload(mNumberChapDownload);
-            }
-        });
+        mMangakId = mangakId;
         mDownloadManager = ImageDownloadManager.getInstance(context);
     }
 
     @Override
     public void onStart() {
         mPresenter.onStart();
+        mPresenter.getMangakById(mMangakId);
     }
 
     @Override
@@ -94,6 +81,67 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     @Override
     public void setPresenter(DownloadContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onGetMangakSuccess(Manga mangak) {
+        setMangak(mangak);
+        Collections.sort(mMangak.getChaps());
+        mPresenter.getMangakByIdOfLocal(mMangakId);
+        mAdapter = new DownloadAdapter(mMangak.getChaps(), new OnChapterClickListtenner() {
+            @Override
+            public void onChapterItemClick(Chap chap, int pos) {
+                if (mChapIndex == null) mChapIndex = chap.getChap();
+                chap.setChecked(!chap.isChecked());
+                setNumberChapDownload(0);
+                for (Chap item : mMangak.getChaps()) {
+                    if (item.isChecked()) {
+                        mNumberChapDownload++;
+                    }
+                }
+                setNumberChapDownload(mNumberChapDownload);
+            }
+        });
+        setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onGetMangakOfLocalSuccess(Manga mangak) {
+        if (mMangak != null
+                && mMangak.getChaps() != null
+                && mMangak.getChaps().size() > 0
+                && mangak != null
+                && mangak.getChaps() != null
+                && mangak.getChaps().size() > 0) {
+
+            mChapterDownload.clear();
+            for (Chap chap : mangak.getChaps()) {
+                mChapterDownload.add(chap.getId());
+            }
+            for (Chap chapter : mMangak.getChaps()) {
+                for (Chap chap : mangak.getChaps()) {
+                    if (TextUtils.equals(chapter.getId(), chap.getId())) {
+                        chapter.setDownloaded(true);
+                    }
+                }
+            }
+
+            mAdapter = new DownloadAdapter(mMangak.getChaps(), new OnChapterClickListtenner() {
+                @Override
+                public void onChapterItemClick(Chap chap, int pos) {
+                    if (mChapIndex == null) mChapIndex = chap.getChap();
+                    chap.setChecked(!chap.isChecked());
+                    setNumberChapDownload(0);
+                    for (Chap item : mMangak.getChaps()) {
+                        if (item.isChecked()) {
+                            mNumberChapDownload++;
+                        }
+                    }
+                    setNumberChapDownload(mNumberChapDownload);
+                }
+            });
+            setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -138,13 +186,15 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
         }
         if (mMangak == null || mMangak.getChaps() == null || mMangak.getChaps().size() == 0) return;
         List<Chap> chaps = new ArrayList<>();
+        List<String> chapters = new ArrayList<>();
         setDownload(true);
         for (Chap item : mMangak.getChaps()) {
             if (item.isChecked()) {
                 chaps.add(item);
+                chapters.add(item.getId());
             }
         }
-
+        mPresenter.addMangakDownload(mMangak, chapters);
         int size = chaps.size();
         for (int i = 0; i < size; i++) {
             if (i == size - 1) {
@@ -170,7 +220,7 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
                     public void onDownloaded() {
                         if (isItemEnd) {
                             setDownload(false);
-                            Log.d("TAG", "success download");
+                            mPresenter.getMangakByIdOfLocal(mMangakId);
                             Toast.makeText(mContext, R.string.msg_download_success,
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -193,11 +243,11 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     }
 
     @Bindable
-    public DownloadMangakAdapter getAdapter() {
+    public DownloadAdapter getAdapter() {
         return mAdapter;
     }
 
-    public void setAdapter(DownloadMangakAdapter adapter) {
+    public void setAdapter(DownloadAdapter adapter) {
         mAdapter = adapter;
         notifyPropertyChanged(BR.adapter);
     }

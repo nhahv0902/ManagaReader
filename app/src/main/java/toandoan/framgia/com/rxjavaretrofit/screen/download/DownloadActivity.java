@@ -6,9 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import toandoan.framgia.com.rxjavaretrofit.R;
-import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
@@ -26,30 +25,29 @@ public class DownloadActivity extends BaseActivity {
     private DownloadContract.ViewModel mViewModel;
     private boolean mIsSelectAll;
 
-    public static Intent getIntent(Context context, Manga manga) {
+    public static Intent getIntent(Context context, int idMangak) {
         Intent intent = new Intent(context, DownloadActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTRA_MANGA, manga);
+        bundle.putInt(EXTRA_MANGA, idMangak);
         intent.putExtras(bundle);
         return intent;
     }
 
-    public Manga getMangak() {
+    public int getMangak() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle == null) return null;
-        return (Manga) bundle.getSerializable(EXTRA_MANGA);
+        if (bundle == null) return 0;
+        return bundle.getInt(EXTRA_MANGA);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Manga mangak = getMangak();
-        mViewModel = new DownloadViewModel(this, mangak);
+        mViewModel = new DownloadViewModel(this, getMangak());
 
         DownloadContract.Presenter presenter = new DownloadPresenter(mViewModel,
-                new MangaDataRepository(
-                        new ManagaRemoteDataSource(AppServiceClient.getInstance())));
+                new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
+                new DownloadRepository(this));
         mViewModel.setPresenter(presenter);
 
         ActivityDownloadBinding binding =

@@ -1,6 +1,8 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.download;
 
+import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.screen.BasePresenter;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseViewModel;
 
@@ -29,6 +31,10 @@ interface DownloadContract {
         void getChapterFailed(String message);
 
         void getChapterSuccess(Chap chap, boolean isItemEnd);
+
+        void onGetMangakSuccess(Manga mangak);
+
+        void onGetMangakOfLocalSuccess(Manga mangak);
     }
 
     /**
@@ -36,5 +42,11 @@ interface DownloadContract {
      */
     interface Presenter extends BasePresenter {
         void getChap(Chap chap, boolean b);
+
+        void addMangakDownload(Manga manga, List<String> chapters);
+
+        void getMangakById(int id);
+
+        void getMangakByIdOfLocal(int id);
     }
 }
