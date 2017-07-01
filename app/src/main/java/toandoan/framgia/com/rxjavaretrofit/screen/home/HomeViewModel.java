@@ -11,6 +11,7 @@ import toandoan.framgia.com.rxjavaretrofit.screen.filter.FilterActivity;
 import toandoan.framgia.com.rxjavaretrofit.screen.mana.mangaDashboard.MangaDashboardFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.search.SearchActivity;
+import toandoan.framgia.com.rxjavaretrofit.screen.settings.SettingsFragment;
 import toandoan.framgia.com.rxjavaretrofit.screen.source.SourceActivity;
 import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 
@@ -42,7 +43,7 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
         mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
         mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
         mAdapter.addFragment(FavoriteFragment.newInstance(), null);
-        mAdapter.addFragment(RecentMangaFragment.newInstance(), null);
+        mAdapter.addFragment(SettingsFragment.newInstance(), null);
         notifyPropertyChanged(BR.adapter);
     }
 
