@@ -1,5 +1,8 @@
 package toandoan.framgia.com.rxjavaretrofit.data.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
@@ -9,7 +12,7 @@ import java.util.List;
  * Created by framgia on 20/06/2017.
  */
 
-public class Chap implements Serializable {
+public class Chap extends BaseObservable implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -31,6 +34,7 @@ public class Chap implements Serializable {
     @SerializedName("content")
     @Expose
     private List<String> content;
+    private boolean isChecked;
 
     public String getId() {
         return id;
@@ -85,6 +89,17 @@ public class Chap implements Serializable {
     }
 
     public void setContent(List<String> content) {
+
         this.content = content;
+    }
+
+    @Bindable
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        notifyPropertyChanged(BR.checked);
     }
 }
