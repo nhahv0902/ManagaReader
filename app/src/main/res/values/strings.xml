@@ -46,7 +46,7 @@
     <string name="action_un_select_all">Un Select</string>
     <string name="title_add_to_download">Add to Download</string>
     <string name="action_download">Download</string>
-    <string name="text_number_chap_download" formatted="false">Download %d chapter</string>
+    <string formatted="false" name="text_number_chap_download">Download %d chapter</string>
     <string name="action_cancel">Cancel</string>
     <string name="title_general">General</string>
     <string name="title_share_with_friend">Share Manga Reader with friends</string>
@@ -58,7 +58,9 @@
     <string name="title_disclaimer">Disclaimer</string>
     <string name="title_email">Email Support</string>
     <string name="title_rate_review"><![CDATA[Rate & Review App on Play Store]]></string>
-    <string name="msg_download_chapter" formatted="false">Downloading chapter %s</string>
-    <string name="msg_downloading" formatted="false">Downloading %s/100</string>
+    <string formatted="false" name="msg_download_chapter">Downloading chapter %s</string>
+    <string formatted="false" name="msg_downloading">Downloading %s/100</string>
     <string name="msg_download_success">Download success</string>
+    <string name="description_about_us">MiMa team is a mobile development team that creates apps for Play Store with many active users per month worldwide. MiMa Team alaways aims at redefining the way people interact with their mobile devices. The unique blend of passion and skills enables to deliver unrivaled products to the end users. We stay focused and create products that drive value to our users and make their life easier.</string>
+    <string name="description_disclaimer">All manga, characters and logo belong to their respective copyrights owners.\n Manga Reader is developed by MiMa Team and does not have any affiliation with the content providers. We reserve the right to change the source of manga without prior notice.</string>
 </resources>
