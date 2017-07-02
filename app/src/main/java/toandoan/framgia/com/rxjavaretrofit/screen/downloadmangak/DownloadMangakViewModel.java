@@ -41,7 +41,7 @@ public class DownloadMangakViewModel extends BaseObservable
 
     @Override
     public void onItemClick(Manga mangak) {
-        mNavigator.startActivity(MangaDetailActivity.getInstance(mNavigator.getContext(), mangak));
+        mNavigator.startActivity(MangaDetailActivity.getInstance(mNavigator.getContext(), mangak, true));
     }
 
     @Override

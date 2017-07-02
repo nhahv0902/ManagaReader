@@ -11,10 +11,13 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.StringLoader;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BaseTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -85,24 +88,30 @@ public class ImageDownloadManager {
         return 100 * index / size;
     }
 
-    public void download(final String managakName, final String chapId, String url,
+    public void download(final String managakName, final String chapId, final String url,
             final DownloadCallBack callBack) {
-        final String fileName =
-                url.substring(url.lastIndexOf(FORWARD_SLASH) + 1, url.lastIndexOf("."))
-                        + EG_FILE_SUFFIX;
-        File albumF = getAlbumDir(managakName, chapId);
-        final File file = new File(albumF, fileName);
-        if (file.exists()) {
-            callBack.onDownloaded(url);
-            return;
-        }
-        Glide.with(mContext).load(url).downloadOnly(new SimpleTarget<File>() {
-            @Override
-            public void onResourceReady(File resource,
-                    GlideAnimation<? super File> glideAnimation) {
-                writeFile(resource, file, callBack);
-            }
-        });
+        Glide.with(mContext)
+                .load(url)
+                .thumbnail(1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model,
+                            Target<GlideDrawable> target, boolean isFirstResource) {
+                        Log.d("TAG", "Load false");
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                            Target<GlideDrawable> target, boolean isFromMemoryCache,
+                            boolean isFirstResource) {
+                        Log.d("TAG", "Load true");
+                        callBack.onDownloaded(url);
+
+                        return false;
+                    }
+                }).preload();
     }
 
     private File getAlbumDir(final String manakName, final String chapId) {

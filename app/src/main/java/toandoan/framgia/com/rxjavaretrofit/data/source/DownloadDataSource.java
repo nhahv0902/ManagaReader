@@ -2,6 +2,7 @@ package toandoan.framgia.com.rxjavaretrofit.data.source;
 
 import java.util.List;
 import rx.Observable;
+import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 
 /**
@@ -12,9 +13,14 @@ import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 public interface DownloadDataSource {
     Observable<List<Manga>> getAllMangakDownload();
 
-    void addMangakDownload(Manga manga, List<String> chapterDownload);
+    void addMangakDownload(Manga manga, List<Chap> chapterDownload);
 
     Observable<Manga> getMangakById(int id);
 
     boolean isExitDownloadMangak(int id);
+
+    void addChapter(Chap chap);
+
+    Observable<Chap> getChapterById(int id);
+
 }

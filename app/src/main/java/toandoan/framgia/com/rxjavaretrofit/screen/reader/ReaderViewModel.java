@@ -59,7 +59,7 @@ public class ReaderViewModel extends BaseObservable implements ReaderContract.Vi
         }
     };
 
-    public ReaderViewModel(Navigator navigator, Manga manga, int chapPos) {
+    public ReaderViewModel(Navigator navigator, Manga manga, int chapPos, boolean isDownload) {
         mNavigator = navigator;
         mManga = manga;
         mChapPos = chapPos;

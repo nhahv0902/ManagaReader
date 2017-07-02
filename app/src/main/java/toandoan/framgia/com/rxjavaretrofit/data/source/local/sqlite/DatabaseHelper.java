@@ -90,6 +90,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + RecentMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_LASTED_CHAP_ID
             + TEXT_TYPE
             + " )";
+    private static final String SQL_CREATE_CHAPTER = "CREATE TABLE "
+            + ChapterMangaPersistenceContract.RecentMangaEntry.TABLE_NAME
+            + " ("
+            + ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID
+            + TEXT_TYPE
+            + " PRIMARY KEY,"
+            + ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CHAPTER
+            + TEXT_TYPE
+            + COMMA_SEP
+            + ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_NAME
+            + TEXT_TYPE
+            + COMMA_SEP
+            + ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CONTENT
+            + TEXT_TYPE
+            + " )";
 
     private static final String SQL_DELETE_RECENT_MANGA =
             "DROP TABLE IF EXISTS " + RecentMangaPersistenceContract.RecentMangaEntry.TABLE_NAME;
@@ -97,6 +112,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + FavoriteMangaPersistenceContract.RecentMangaEntry.TABLE_NAME;
     private static final String SQL_DELETE_DOWNLOAD_MANGA =
             "DROP TABLE IF EXISTS " + DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME;
+    private static final String SQL_DELETE_CHAPTER =
+            "DROP TABLE IF EXISTS " + ChapterMangaPersistenceContract.RecentMangaEntry.TABLE_NAME;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -107,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_RECENT_MANGA);
         sqLiteDatabase.execSQL(SQL_CREATE_FAVORITE_MANGA);
         sqLiteDatabase.execSQL(SQL_CREATE_DOWNLOAD_MANGA);
+        sqLiteDatabase.execSQL(SQL_CREATE_CHAPTER);
     }
 
     @Override
@@ -114,9 +132,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_DELETE_RECENT_MANGA);
         sqLiteDatabase.execSQL(SQL_DELETE_FAVORITE_MANGA);
         sqLiteDatabase.execSQL(SQL_DELETE_DOWNLOAD_MANGA);
+        sqLiteDatabase.execSQL(SQL_DELETE_CHAPTER);
 
         sqLiteDatabase.execSQL(SQL_CREATE_RECENT_MANGA);
         sqLiteDatabase.execSQL(SQL_CREATE_FAVORITE_MANGA);
         sqLiteDatabase.execSQL(SQL_CREATE_DOWNLOAD_MANGA);
+        sqLiteDatabase.execSQL(SQL_CREATE_CHAPTER);
     }
 }

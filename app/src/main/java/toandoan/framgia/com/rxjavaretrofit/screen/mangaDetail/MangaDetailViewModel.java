@@ -26,6 +26,7 @@ import static android.view.View.VISIBLE;
 public class MangaDetailViewModel extends BaseObservable implements MangaDetailContract.ViewModel {
 
     private static final String TAG = "MangaDetailViewModel";
+    private final boolean mIsDownloaded;
 
     private MangaDetailContract.Presenter mPresenter;
     private Manga mManga;
@@ -36,10 +37,12 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
     private int mProgressVisible = VISIBLE;
     private Chap mCurrentChap;
 
-    public MangaDetailViewModel(Context context, Navigator navigator, Chap currentChap) {
+    public MangaDetailViewModel(Context context, Navigator navigator, Chap currentChap,
+            boolean isDownloaded) {
         mActivity = (AppCompatActivity) context;
         mNavigator = navigator;
         mCurrentChap = currentChap;
+        mIsDownloaded = isDownloaded;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class MangaDetailViewModel extends BaseObservable implements MangaDetailC
         mAdapter = new MangaPagerAdapter(mActivity.getSupportFragmentManager());
         mAdapter.addFragment(MangaOverviewFragment.newInstance(mManga),
                 mActivity.getString(R.string.title_sumarry));
-        mAdapter.addFragment(MangaChapterFragment.newInstance(mManga, mCurrentChap),
+        mAdapter.addFragment(MangaChapterFragment.newInstance(mManga, mCurrentChap, mIsDownloaded),
                 mActivity.getString(R.string.title_chapter));
         notifyPropertyChanged(BR.adapter);
     }

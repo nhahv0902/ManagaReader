@@ -20,16 +20,18 @@ final class DownloadPresenter implements DownloadContract.Presenter {
     private static final String TAG = DownloadPresenter.class.getName();
 
     private final DownloadContract.ViewModel mViewModel;
+    private final int mMangakId;
     private MangaDataSource mRepository;
     private DownloadDataSource mDownloadRepository;
     private CompositeSubscription mSubscription;
 
     public DownloadPresenter(DownloadContract.ViewModel viewModel, MangaDataSource repository,
-            DownloadDataSource downloadRepository) {
+            DownloadDataSource downloadRepository, int mangakId) {
         mViewModel = viewModel;
         mRepository = repository;
         mDownloadRepository = downloadRepository;
         mSubscription = new CompositeSubscription();
+        mMangakId = mangakId;
     }
 
     @Override
@@ -135,7 +137,12 @@ final class DownloadPresenter implements DownloadContract.Presenter {
     }
 
     @Override
-    public void addMangakDownload(Manga manga, List<String> chapters) {
+    public void addMangakDownload(Manga manga, List<Chap> chapters) {
         mDownloadRepository.addMangakDownload(manga, chapters);
+    }
+
+    @Override
+    public void addChapterToDB(Chap chap) {
+        mDownloadRepository.addChapter(chap);
     }
 }

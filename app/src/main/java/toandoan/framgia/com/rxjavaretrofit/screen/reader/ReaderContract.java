@@ -50,6 +50,8 @@ interface ReaderContract {
 
         void getSetting();
 
+        void getChapterInDB(Chap chap);
+
         void saveSetting(Setting setting);
     }
 }

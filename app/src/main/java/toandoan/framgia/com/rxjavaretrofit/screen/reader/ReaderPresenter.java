@@ -9,6 +9,7 @@ import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Setting;
+import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.RecentMangaDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.SettingDataSource;
@@ -21,24 +22,33 @@ final class ReaderPresenter implements ReaderContract.Presenter {
     private static final String TAG = ReaderPresenter.class.getName();
 
     private final ReaderContract.ViewModel mViewModel;
+    private final boolean mIsDownload;
     private Chap mChap;
     private Manga mManga;
     private CompositeSubscription mSubscription;
     private MangaDataSource mRepository;
     private RecentMangaDataSource mRecentMangaRepository;
     private SettingDataSource mSettingRepository;
+    private DownloadDataSource mDownloadDataSource;
 
     public ReaderPresenter(ReaderContract.ViewModel viewModel, Manga manga, Chap chap,
             MangaDataSource repository, RecentMangaDataSource recentMangaRepository,
-            SettingDataSource settingRepository) {
+            SettingDataSource settingRepository, boolean isDownload,
+            DownloadDataSource downloadDataSource) {
         mViewModel = viewModel;
         mManga = manga;
         mChap = chap;
         mRepository = repository;
         mRecentMangaRepository = recentMangaRepository;
         mSettingRepository = settingRepository;
+        mDownloadDataSource = downloadDataSource;
         mSubscription = new CompositeSubscription();
-        getChap(mChap);
+        mIsDownload = isDownload;
+        if (isDownload) {
+            getChapterInDB(chap);
+        } else {
+            getChap(mChap);
+        }
         getSetting();
     }
 
@@ -80,6 +90,39 @@ final class ReaderPresenter implements ReaderContract.Presenter {
                         mViewModel.hideProgress();
                     }
                 });
+        mSubscription.add(subscription);
+    }
+
+    @Override
+    public void getChapterInDB(Chap chap) {
+        Subscription subscription =
+                mDownloadDataSource.getChapterById(Integer.parseInt(chap.getId()))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                mViewModel.showProgress();
+                            }
+                        })
+                        .subscribe(new Action1<Chap>() {
+                            @Override
+                            public void call(Chap chap) {
+                                mViewModel.getChapterSuccess(chap);
+                                addRecentMangaChap(chap);
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                mViewModel.hideProgress();
+                                mViewModel.getChapterFailed(throwable.getMessage());
+                            }
+                        }, new Action0() {
+                            @Override
+                            public void call() {
+                                mViewModel.hideProgress();
+                            }
+                        });
         mSubscription.add(subscription);
     }
 

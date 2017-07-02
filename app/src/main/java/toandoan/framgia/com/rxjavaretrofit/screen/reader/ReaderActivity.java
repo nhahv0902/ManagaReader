@@ -7,6 +7,7 @@ import android.os.Bundle;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.SettingDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.RecentMangaRepository;
@@ -23,17 +24,21 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 public class ReaderActivity extends BaseActivity {
     private static final String EXTRA_CHAP = "EXTRA_CHAP";
     private static final String EXTRA_MANGA = "EXTRA_MANGA";
+    private static final String EXTRA_IS_DOWNLOAD = "EXTRA_IS_DOWNLOAD";
     private static final String EXTRA_CHAP_POS = "EXTRA_CHAP_POS";
     private ReaderContract.ViewModel mViewModel;
 
     private Chap mChap;
     private Manga mManga;
     private int mChapPos;
+    private boolean mIsDownload;
 
-    public static Intent getInstance(Context context, Manga manga, Chap chap, int chapPosition) {
+    public static Intent getInstance(Context context, Manga manga, Chap chap, int chapPosition,
+            boolean isDownloaded) {
         return new Intent(context, ReaderActivity.class).putExtra(EXTRA_CHAP, chap)
                 .putExtra(EXTRA_MANGA, manga)
-                .putExtra(EXTRA_CHAP_POS, chapPosition);
+                .putExtra(EXTRA_CHAP_POS, chapPosition)
+                .putExtra(EXTRA_IS_DOWNLOAD, isDownloaded);
     }
 
     @Override
@@ -41,12 +46,13 @@ public class ReaderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getDataIntent();
 
-        mViewModel = new ReaderViewModel(new Navigator(this), mManga, mChapPos);
+        mViewModel = new ReaderViewModel(new Navigator(this), mManga, mChapPos, mIsDownload);
 
         ReaderContract.Presenter presenter = new ReaderPresenter(mViewModel, mManga, mChap,
                 new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
                 new RecentMangaRepository(this),
-                new SettingDataRepository(new SharedPrefsImpl(this)));
+                new SettingDataRepository(new SharedPrefsImpl(this)), mIsDownload,
+                new DownloadRepository(this));
 
         mViewModel.setPresenter(presenter);
 
@@ -75,5 +81,6 @@ public class ReaderActivity extends BaseActivity {
         mChap = (Chap) getIntent().getExtras().getSerializable(EXTRA_CHAP);
         mManga = (Manga) getIntent().getExtras().getSerializable(EXTRA_MANGA);
         mChapPos = getIntent().getExtras().getInt(EXTRA_CHAP_POS);
+        mIsDownload = getIntent().getExtras().getBoolean(EXTRA_IS_DOWNLOAD);
     }
 }
