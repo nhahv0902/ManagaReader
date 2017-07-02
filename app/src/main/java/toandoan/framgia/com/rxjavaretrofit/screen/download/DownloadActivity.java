@@ -47,7 +47,7 @@ public class DownloadActivity extends BaseActivity {
 
         DownloadContract.Presenter presenter = new DownloadPresenter(mViewModel,
                 new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
-                new DownloadRepository(this));
+                new DownloadRepository(this), getMangak());
         mViewModel.setPresenter(presenter);
 
         ActivityDownloadBinding binding =

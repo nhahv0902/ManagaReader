@@ -13,13 +13,15 @@ import toandoan.framgia.com.rxjavaretrofit.utils.navigator.Navigator;
 public class MangaChapterViewModel extends BaseObservable
         implements MangaChapterContract.ViewModel, OnChapterClickListtenner {
 
+    private final boolean mIsDownloaded;
     private MangaChapterContract.Presenter mPresenter;
     private Navigator mNavigator;
     private Manga mManga;
 
-    public MangaChapterViewModel(Navigator navigator, Manga manga) {
+    public MangaChapterViewModel(Navigator navigator, Manga manga, boolean isDownloaded) {
         mNavigator = navigator;
         mManga = manga;
+        mIsDownloaded = isDownloaded;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class MangaChapterViewModel extends BaseObservable
     @Override
     public void onChapterItemClick(Chap chap, int pos) {
         mNavigator.startActivity(
-                ReaderActivity.getInstance(mNavigator.getContext(), mManga, chap, pos));
+                ReaderActivity.getInstance(mNavigator.getContext(), mManga, chap, pos,
+                        mIsDownloaded));
     }
 }

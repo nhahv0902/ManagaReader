@@ -26,12 +26,15 @@ public class MangaChapterFragment extends BaseFragment {
 
     public static final String EXTRA_MANGA = "EXTRA_MANGA";
     public static final String EXTRA_CHAP = "EXTRA_CHAP";
+    public static final String EXTRA_IS_DOWNLOAD = "EXTRA_IS_DOWNLOAD";
 
-    public static MangaChapterFragment newInstance(Manga manga, Chap currentChap) {
+    public static MangaChapterFragment newInstance(Manga manga, Chap currentChap,
+            boolean isDownload) {
         MangaChapterFragment fragment = new MangaChapterFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_MANGA, manga);
         bundle.putSerializable(EXTRA_CHAP, currentChap);
+        bundle.putBoolean(EXTRA_IS_DOWNLOAD, isDownload);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -56,18 +59,20 @@ public class MangaChapterFragment extends BaseFragment {
         Bundle bundle = this.getArguments();
         Manga manga = (Manga) bundle.getSerializable(EXTRA_MANGA);
         Chap currentChap = (Chap) bundle.getSerializable(EXTRA_CHAP);
+        boolean isDownloaded = bundle.getBoolean(EXTRA_IS_DOWNLOAD);
 
         FragmentMangaChapterBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_manga_chapter, container,
                         false);
         binding.setViewModel((MangaChapterViewModel) mViewModel);
 
-        mViewModel = new MangaChapterViewModel(new Navigator(this), manga);
+        mViewModel = new MangaChapterViewModel(new Navigator(this), manga, isDownloaded);
 
         MangaChapterContract.Presenter presenter = new MangaChapterPresenter(mViewModel);
         mViewModel.setPresenter(presenter);
-
-        Collections.sort(manga.getChaps());
+        if (manga != null && manga.getChaps() != null && manga.getChaps().size() > 0) {
+            Collections.sort(manga.getChaps());
+        }
         RecyclerView recyclerView = binding.recyclerChapter;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(
@@ -77,7 +82,8 @@ public class MangaChapterFragment extends BaseFragment {
             for (int i = 0; i < manga.getChaps().size(); i++) {
                 if (manga.getChaps().get(i).getId().equals(currentChap.getId())) {
                     new Navigator(this).startActivity(
-                            ReaderActivity.getInstance(getContext(), manga, currentChap, i));
+                            ReaderActivity.getInstance(getContext(), manga, currentChap, i,
+                                    isDownloaded));
                     break;
                 }
             }

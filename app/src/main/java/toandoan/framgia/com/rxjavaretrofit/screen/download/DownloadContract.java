@@ -43,10 +43,12 @@ interface DownloadContract {
     interface Presenter extends BasePresenter {
         void getChap(Chap chap, boolean b);
 
-        void addMangakDownload(Manga manga, List<String> chapters);
+        void addMangakDownload(Manga manga, List<Chap> chapters);
 
         void getMangakById(int id);
 
         void getMangakByIdOfLocal(int id);
+
+        void addChapterToDB(Chap chap);
     }
 }

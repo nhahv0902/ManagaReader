@@ -5,12 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
 import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadDataSource;
+import toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite.ChapterMangaPersistenceContract;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite
         .DownloadMangaPersistenceContract;
 
@@ -63,17 +66,13 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
                 DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_NAME)));
         manga.setAvatar(cursor.getString(cursor.getColumnIndex(
                 DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_AVATAR)));
+
         String chapters = cursor.getString(cursor.getColumnIndex(
                 DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_CHAP_DOWNLOAD));
-        manga.setChaps(new ArrayList<Chap>());
-
-        List<String> chapterArrary = new ArrayList<>();
-        chapterArrary.addAll(new Gson().fromJson(chapters, chapterArrary.getClass()));
-        for (String item : chapterArrary) {
-            Chap chap = new Chap();
-            chap.setId(item);
-            manga.getChaps().add(chap);
-        }
+        Type type = new TypeToken<ArrayList<Chap>>() {
+        }.getType();
+        ArrayList<Chap> finalOutputString = new Gson().fromJson(chapters, type);
+        manga.setChaps(finalOutputString);
 
         String authors = cursor.getString(cursor.getColumnIndex(
                 DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_AUTHOR));
@@ -102,16 +101,16 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
             ex.printStackTrace();
         }
 
-        String ganre = cursor.getString(cursor.getColumnIndex(
+        String genre = cursor.getString(cursor.getColumnIndex(
                 DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_GENRE));
         List<String> genreArray = new ArrayList<>();
-        genreArray.addAll(new Gson().fromJson(authors, genreArray.getClass()));
+        genreArray.addAll(new Gson().fromJson(genre, genreArray.getClass()));
         manga.setGenre(genreArray);
         return manga;
     }
 
     @Override
-    public void addMangakDownload(Manga manga, List<String> chapterDownload) {
+    public void addMangakDownload(Manga manga, List<Chap> chapterDownload) {
         if (manga == null) {
             return;
         }
@@ -119,14 +118,15 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
         if (isExitDownloadMangak(manga.getId())) {
             String arg = DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_ID + "=?";
             String[] args = { String.valueOf(manga.getId()) };
-            sqLiteDatabase.delete(TABLE_NAME, arg, args);
+            sqLiteDatabase.update(TABLE_NAME, getContentValues(manga, chapterDownload), arg, args);
+        } else {
+            sqLiteDatabase.insert(DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME,
+                    null, getContentValues(manga, chapterDownload));
         }
-        sqLiteDatabase.insert(DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, null,
-                getContentValues(manga, chapterDownload));
         close();
     }
 
-    private ContentValues getContentValues(Manga manga, List<String> chapterDownload) {
+    private ContentValues getContentValues(Manga manga, List<Chap> chapterDownload) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_ID,
                 manga.getId());
@@ -195,5 +195,91 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
             close();
             if (cursor != null) cursor.close();
         }
+    }
+
+    @Override
+    public void addChapter(Chap chap) {
+        if (chap == null) {
+            return;
+        }
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        if (isExitChapter(chap.getId())) {
+            String arg = ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID + "=?";
+            String[] args = { String.valueOf(chap.getId()) };
+            sqLiteDatabase.update(TABLE_NAME, getContentValuesChapter(chap), arg, args);
+        } else {
+            sqLiteDatabase.insert(ChapterMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, null,
+                    getContentValuesChapter(chap));
+        }
+        close();
+    }
+
+    private ContentValues getContentValuesChapter(Chap chap) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID, chap.getId());
+        contentValues.put(ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CHAPTER,
+                chap.getChap());
+        contentValues.put(ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_NAME,
+                chap.getName());
+        contentValues.put(ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CONTENT,
+                new Gson().toJson(chap.getContent()));
+        return contentValues;
+    }
+
+    private boolean isExitChapter(String id) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String arg = ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID + "=?";
+        String[] args = { String.valueOf(id) };
+        Cursor cursor =
+                sqLiteDatabase.query(ChapterMangaPersistenceContract.RecentMangaEntry.TABLE_NAME,
+                        null, arg, args, null, null, null);
+        if (cursor != null && cursor.moveToNext()) {
+            cursor.close();
+            return true;
+        }
+        if (cursor != null) cursor.close();
+        return false;
+    }
+
+    @Override
+    public Observable<Chap> getChapterById(int id) {
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+            String arg = ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID + "=?";
+            String[] args = { String.valueOf(id) };
+            cursor = sqLiteDatabase.query(
+                    ChapterMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, null, arg, args,
+                    null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return Observable.just(getChapter(cursor));
+            }
+            return Observable.just(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Observable.error(new NullPointerException(e.getMessage()));
+        } finally {
+            close();
+            if (cursor != null) cursor.close();
+        }
+    }
+
+    private Chap getChapter(Cursor cursor) {
+        if (cursor == null) return null;
+        Chap chapter = new Chap();
+        chapter.setId(String.valueOf(cursor.getInt(cursor.getColumnIndex(
+                ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_ID))));
+
+        chapter.setName(cursor.getString(cursor.getColumnIndex(
+                ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_NAME)));
+        chapter.setChap(cursor.getString(cursor.getColumnIndex(
+                ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CHAPTER)));
+        String contents = cursor.getString(cursor.getColumnIndex(
+                ChapterMangaPersistenceContract.RecentMangaEntry.COLUMN_CONTENT));
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        ArrayList<String> array = new Gson().fromJson(contents, type);
+        chapter.setContent(array);
+        return chapter;
     }
 }

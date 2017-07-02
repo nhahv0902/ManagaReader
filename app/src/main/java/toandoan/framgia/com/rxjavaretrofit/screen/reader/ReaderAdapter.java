@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -101,7 +102,7 @@ public class ReaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     mProgressBar.setVisibility(View.GONE);
                     return false;
                 }
-            }).into(mPhotoView);
+            }).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(1f).into(mPhotoView);
             mBinding.setViewModel(mViewModel);
             mBinding.setNextChap(mNextChap);
             mBinding.setIsShowLoadMore(

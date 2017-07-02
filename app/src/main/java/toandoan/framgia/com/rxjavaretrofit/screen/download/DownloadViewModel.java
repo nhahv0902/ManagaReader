@@ -8,8 +8,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.TextureView;
 import android.widget.Toast;
 import com.android.databinding.library.baseAdapters.BR;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     public boolean mBinded;
     private String mChapIndex;
     private boolean mIsDownload;
-    private List<String> mChapterDownload = new ArrayList<>();
+    private List<Chap> mChapterDownload = new ArrayList<>();
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -116,11 +114,9 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
                 && mangak.getChaps().size() > 0) {
 
             mChapterDownload.clear();
-            for (Chap chap : mangak.getChaps()) {
-                mChapterDownload.add(chap.getId());
-            }
+            mChapterDownload.addAll(mangak.getChaps());
             for (Chap chapter : mMangak.getChaps()) {
-                for (Chap chap : mangak.getChaps()) {
+                for (Chap chap : mChapterDownload) {
                     if (TextUtils.equals(chapter.getId(), chap.getId())) {
                         chapter.setDownloaded(true);
                     }
@@ -186,34 +182,35 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
             return;
         }
         if (mMangak == null || mMangak.getChaps() == null || mMangak.getChaps().size() == 0) return;
-        List<Chap> chaps = new ArrayList<>();
-        List<String> chapters = new ArrayList<>();
+        mPresenter.getMangakByIdOfLocal(mMangakId);
+        List<Chap> chapters = new ArrayList<>();
 
         setDownload(true);
         for (Chap item : mMangak.getChaps()) {
             if (item.isChecked()) {
-                chaps.add(item);
-                chapters.add(item.getId());
+                chapters.add(item);
             }
         }
-        for (String chapter : chapters) {
-            if (!chapExists(chapter, mChapterDownload)) {
+
+        for (Chap chapter : chapters) {
+            if (!chapExists(chapter.getId(), mChapterDownload)) {
                 mChapterDownload.add(chapter);
             }
-        } mPresenter.addMangakDownload(mMangak, chapters);
-        int size = chaps.size();
+        }
+        mPresenter.addMangakDownload(mMangak, mChapterDownload);
+        int size = chapters.size();
         for (int i = 0; i < size; i++) {
             if (i == size - 1) {
-                mPresenter.getChap(chaps.get(i), true);
+                mPresenter.getChap(chapters.get(i), true);
             } else {
-                mPresenter.getChap(chaps.get(i), false);
+                mPresenter.getChap(chapters.get(i), false);
             }
         }
     }
 
     @Override
     public void getChapterSuccess(final Chap chap, final boolean isItemEnd) {
-
+        mPresenter.addChapterToDB(chap);
         mDownloadManager.downloads(String.valueOf(mMangak.getId()), String.valueOf(chap.getId()),
                 chap.getContent(), new ImageDownloadManager.PercentCallback() {
                     @Override
@@ -248,9 +245,9 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
 
     }
 
-    private boolean chapExists(String chapId, List<String> chapters) {
-        for (String chapter : chapters) {
-            if (TextUtils.equals(chapId, chapter)) {
+    private boolean chapExists(String chapId, List<Chap> chapters) {
+        for (Chap chapter : chapters) {
+            if (TextUtils.equals(chapId, chapter.getId())) {
                 return true;
             }
         }
