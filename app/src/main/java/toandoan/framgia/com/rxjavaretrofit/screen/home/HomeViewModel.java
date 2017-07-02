@@ -100,5 +100,9 @@ public class HomeViewModel extends BaseObservable implements HomeContract.ViewMo
             ((FavoriteFragment) currentFragment).removeAllFavorite();
             return;
         }
+        if(currentFragment instanceof DownloadMangakFragment){
+            ((DownloadMangakFragment) currentFragment).removeAllMangakDownload();
+            return;
+        }
     }
 }

@@ -56,4 +56,14 @@ final class DownloadMangakPresenter implements DownloadMangakContract.Presenter 
                 });
         mSubscription.add(subscription);
     }
+
+    @Override
+    public void deleteAllMangakDownload() {
+        mRepository.deleteAllMangakDownloaded();
+    }
+
+    @Override
+    public void deleteMangak(Manga manga) {
+        mRepository.deleteMangak(manga.getId());
+    }
 }

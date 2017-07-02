@@ -16,6 +16,8 @@ import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite.ChapterMangaPersistenceContract;
 import toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite
         .DownloadMangaPersistenceContract;
+import toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite
+        .FavoriteMangaPersistenceContract;
 
 import static toandoan.framgia.com.rxjavaretrofit.data.source.local.sqlite
         .DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_ID;
@@ -281,5 +283,22 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
         ArrayList<String> array = new Gson().fromJson(contents, type);
         chapter.setContent(array);
         return chapter;
+    }
+
+    @Override
+    public void deleteAllMangakDownloaded() {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, null,
+                null);
+        close();
+    }
+
+    @Override
+    public void deleteMangak(int id) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String arg = DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_ID + "=?";
+        String[] args = { String.valueOf(id) };
+        sqLiteDatabase.delete(DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, arg, args);
+        close();
     }
 }

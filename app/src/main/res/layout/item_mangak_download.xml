@@ -28,20 +28,25 @@
         android:padding="@dimen/dp_5"
         app:cardElevation="@dimen/dp_5"
         >
-        <RelativeLayout
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="@{() -> viewModel.onItemClick(manga)}"
             android:orientation="vertical"
             >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 bind:imageUrl="@{manga.avatar}"
                 />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/color_transparent"
@@ -51,7 +56,24 @@
                 android:text="@{manga.name}"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                bind:layout_editor_absoluteX="8dp"
+                bind:layout_editor_absoluteY="86dp"
                 />
-        </RelativeLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_circle_red"
+                android:onClick="@{() -> viewModel.onRemoveMangakDownload(manga,pos)}"
+                android:padding="@dimen/dp_10"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete"
+                bind:layout_editor_absoluteX="5dp"
+                bind:layout_editor_absoluteY="86dp"
+                />
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </layout>

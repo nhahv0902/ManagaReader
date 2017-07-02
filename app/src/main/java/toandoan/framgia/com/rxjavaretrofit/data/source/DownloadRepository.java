@@ -46,4 +46,14 @@ public class DownloadRepository implements DownloadDataSource {
     public Observable<Manga> getMangakById(int id) {
         return mLocalDataSource.getMangakById(id);
     }
+
+    @Override
+    public void deleteAllMangakDownloaded() {
+        mLocalDataSource.deleteAllMangakDownloaded();
+    }
+
+    @Override
+    public void deleteMangak(int id) {
+        mLocalDataSource.deleteMangak(id);
+    }
 }
