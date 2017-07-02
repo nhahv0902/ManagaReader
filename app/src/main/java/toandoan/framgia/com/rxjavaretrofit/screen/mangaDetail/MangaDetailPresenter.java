@@ -7,6 +7,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.FavoriteDataSource;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataSource;
 
@@ -21,12 +22,15 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
     private MangaDataSource mMangaRepository;
     private CompositeSubscription mSubscription;
     private FavoriteDataSource mFavoriteRepository;
+    private DownloadDataSource mDownloadRepository;
 
     public MangaDetailPresenter(MangaDetailContract.ViewModel viewModel,
-            MangaDataSource mangaRepository, FavoriteDataSource favoriteRepository) {
+            MangaDataSource mangaRepository, FavoriteDataSource favoriteRepository,
+            DownloadDataSource downloadRepository) {
         mViewModel = viewModel;
         mMangaRepository = mangaRepository;
         mFavoriteRepository = favoriteRepository;
+        mDownloadRepository = downloadRepository;
         mSubscription = new CompositeSubscription();
     }
 
@@ -54,6 +58,37 @@ final class MangaDetailPresenter implements MangaDetailContract.Presenter {
                     @Override
                     public void call(Manga manga) {
                         manga.setFavorite(mFavoriteRepository.isExitFavoriteManga(id));
+                        mViewModel.onGetMangaSuccess(manga);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mViewModel.onGetMangaFailed(throwable.getMessage());
+                        mViewModel.hideProgress();
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        mViewModel.hideProgress();
+                    }
+                });
+        mSubscription.add(subscription);
+    }
+
+    @Override
+    public void getMangakDownloadById(int id) {
+        Subscription subscription = mDownloadRepository.getMangakById(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mViewModel.showProgress();
+                    }
+                })
+                .subscribe(new Action1<Manga>() {
+                    @Override
+                    public void call(Manga manga) {
                         mViewModel.onGetMangaSuccess(manga);
                     }
                 }, new Action1<Throwable>() {

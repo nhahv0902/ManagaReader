@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
+import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.FavoriteRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.MangaDataRepository;
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSource;
@@ -48,7 +49,7 @@ public class MangaDetailActivity extends BaseActivity {
 
         MangaDetailContract.Presenter presenter = new MangaDetailPresenter(mViewModel,
                 new MangaDataRepository(new ManagaRemoteDataSource(AppServiceClient.getInstance())),
-                new FavoriteRepository(this));
+                new FavoriteRepository(this), new DownloadRepository(this));
         mViewModel.setPresenter(presenter);
         presenter.getMangaDetail(mManga.getId());
 
