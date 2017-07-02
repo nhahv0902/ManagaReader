@@ -73,6 +73,7 @@ public class HomeActivity extends BaseActivity {
                                 setTitle(R.string.title_recent);
                                 break;
                             case R.id.navigation_download:
+                                getMenuInflater().inflate(R.menu.mangak_download_menu, mMenu);
                                 onNavigationClick(DOWNLOAD);
                                 setTitle(R.string.title_download);
                                 break;

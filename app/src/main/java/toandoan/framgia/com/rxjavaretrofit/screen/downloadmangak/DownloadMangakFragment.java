@@ -2,7 +2,9 @@ package toandoan.framgia.com.rxjavaretrofit.screen.downloadmangak;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,5 +58,42 @@ public class DownloadMangakFragment extends BaseFragment {
     public void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    public void removeAllMangakDownload() {
+        if (((DownloadMangakViewModel) mViewModel).getAdapter().getItemCount() == 0) return;
+        ((DownloadMangakViewModel) mViewModel).getAdapter().clearData();
+        final boolean[] isDelete = new boolean[1];
+        isDelete[0] = true;
+        Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content),
+                R.string.title_delete_mangak_download_done, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewModel.onUndoDeleteClick();
+                        isDelete[0] = false;
+                    }
+                })
+                .setDuration(2000);
+
+        snack.getView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isDelete[0]) {
+                            mViewModel.onDeleteAllMangakDownloaded();
+                        }
+                    }
+                }, 2000);
+            }
+        });
+
+        snack.show();
     }
 }

@@ -41,13 +41,31 @@ public class DownloadMangakViewModel extends BaseObservable
 
     @Override
     public void onItemClick(Manga mangak) {
-        mNavigator.startActivity(MangaDetailActivity.getInstance(mNavigator.getContext(), mangak, true));
+        mNavigator.startActivity(
+                MangaDetailActivity.getInstance(mNavigator.getContext(), mangak, true));
     }
 
     @Override
     public void onGetMangakDownloadSuccess(List<Manga> mangas) {
         if (mangas == null) return;
         mAdapter.updateManga(mangas);
+    }
+
+    @Override
+    public void onUndoDeleteClick() {
+        mPresenter.getAllMangakDownload();
+    }
+
+    @Override
+    public void onDeleteAllMangakDownloaded() {
+        mPresenter.deleteAllMangakDownload();
+    }
+
+    @Override
+    public void onRemoveMangakDownload(Manga manga, int position) {
+        mAdapter.removeItem(position);
+        setAdapter(mAdapter);
+        mPresenter.deleteMangak(manga);
     }
 
     @Bindable

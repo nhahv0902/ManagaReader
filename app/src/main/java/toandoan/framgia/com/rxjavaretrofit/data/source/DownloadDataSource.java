@@ -23,4 +23,7 @@ public interface DownloadDataSource {
 
     Observable<Chap> getChapterById(int id);
 
+    void deleteAllMangakDownloaded();
+
+    void deleteMangak(int id);
 }

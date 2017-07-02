@@ -16,6 +16,12 @@ interface DownloadMangakContract {
         void onItemClick(Manga mangak);
 
         void onGetMangakDownloadSuccess(List<Manga> mangas);
+
+        void onUndoDeleteClick();
+
+        void onDeleteAllMangakDownloaded();
+
+        void onRemoveMangakDownload(Manga manga, int position);
     }
 
     /**
@@ -23,5 +29,9 @@ interface DownloadMangakContract {
      */
     interface Presenter extends BasePresenter {
         void getAllMangakDownload();
+
+        void deleteAllMangakDownload();
+
+        void deleteMangak(Manga manga);
     }
 }
