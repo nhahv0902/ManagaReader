@@ -18,6 +18,10 @@ interface SettingsContract {
         void onDisclaimerClick();
 
         void onAboutUsClick();
+
+        void onEmailClick();
+
+        void onClearCacheClick();
     }
 
     /**
