@@ -13,6 +13,7 @@ import toandoan.framgia.com.rxjavaretrofit.data.source.remote.ManagaRemoteDataSo
 import toandoan.framgia.com.rxjavaretrofit.data.source.remote.api.service.AppServiceClient;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ActivityDownloadBinding;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseActivity;
+import toandoan.framgia.com.rxjavaretrofit.screen.downloading.DownloadingActivity;
 
 import static toandoan.framgia.com.rxjavaretrofit.screen.mangaDetail.mangachapter
         .MangaChapterFragment.EXTRA_MANGA;
@@ -96,6 +97,9 @@ public class DownloadActivity extends BaseActivity {
                     }
                     mIsSelectAll = !mIsSelectAll;
                 }
+                break;
+            case R.id.action_downloading:
+                startActivity(DownloadingActivity.getIntent(this));
                 break;
             default:
                 break;

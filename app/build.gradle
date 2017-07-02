@@ -49,6 +49,7 @@ dependencies {
   compile dependencies.retrofitGson
   compile dependencies.loggingInterceptor
   compile dependencies.glide
+  compile dependencies.eventbus
 
   compile dependencies.headerRecycler
 

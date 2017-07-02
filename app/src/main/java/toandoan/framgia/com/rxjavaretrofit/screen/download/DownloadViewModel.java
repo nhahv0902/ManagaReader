@@ -1,15 +1,14 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.download;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.IBinder;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 import com.android.databinding.library.baseAdapters.BR;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +25,8 @@ import toandoan.framgia.com.rxjavaretrofit.utils.ImageDownloadManager;
 
 public class DownloadViewModel extends BaseObservable implements DownloadContract.ViewModel {
 
+    private static final String BUNDLE_MANGAK = "BUNDLE_MANGAK";
+    private static final String BUNDLE_CHAPTER = "BUNDLE_CHAPTER";
     private final Context mContext;
     private final int mMangakId;
     private DownloadContract.Presenter mPresenter;
@@ -35,26 +36,9 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     private boolean mIsSelectAll;
     private ImageDownloadManager mDownloadManager;
     private int mProgressStatus = 0;
-    public DownloadService mDownloadService;
-    public boolean mBinded;
     private String mChapIndex;
     private boolean mIsDownload;
     private List<Chap> mChapterDownload = new ArrayList<>();
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            DownloadService.DownloadBinder binder = (DownloadService.DownloadBinder) iBinder;
-            mDownloadService = binder.getService();
-            mBinded = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBinded = false;
-        }
-    };
 
     public DownloadViewModel(Context context, int mangakId) {
         mContext = context;
@@ -71,10 +55,6 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     @Override
     public void onStop() {
         mPresenter.onStop();
-        if (mBinded) {
-            mContext.unbindService(mConnection);
-            mBinded = false;
-        }
     }
 
     @Override
@@ -171,8 +151,7 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
 
     @Override
     public void onCancelDownload() {
-        Intent intent = new Intent(mContext, DownloadService.class);
-        mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
@@ -197,15 +176,15 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
                 mChapterDownload.add(chapter);
             }
         }
+
         mPresenter.addMangakDownload(mMangak, mChapterDownload);
-        int size = chapters.size();
-        for (int i = 0; i < size; i++) {
-            if (i == size - 1) {
-                mPresenter.getChap(chapters.get(i), true);
-            } else {
-                mPresenter.getChap(chapters.get(i), false);
-            }
-        }
+
+        Intent intent = new Intent(mContext, DownloadService.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(BUNDLE_MANGAK, mMangak);
+        bundle.putString(BUNDLE_CHAPTER, new Gson().toJson(chapters));
+        intent.putExtras(bundle);
+        mContext.startService(intent);
     }
 
     @Override
