@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.Collections;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Chap;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
@@ -66,6 +67,7 @@ public class MangaChapterFragment extends BaseFragment {
         MangaChapterContract.Presenter presenter = new MangaChapterPresenter(mViewModel);
         mViewModel.setPresenter(presenter);
 
+        Collections.sort(manga.getChaps());
         RecyclerView recyclerView = binding.recyclerChapter;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(
