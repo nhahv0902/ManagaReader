@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -26,6 +25,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,7 +69,6 @@
             android:layout_height="56dp"
             android:background="@color/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -85,7 +84,7 @@
             app:layout_constraintBottom_toTopOf="@+id/constraint_download"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             />
 
         <android.support.constraint.ConstraintLayout
@@ -107,7 +106,7 @@
                 android:layout_marginTop="8dp"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{viewModel.mangak.name}"
+                android:text="@{viewModel.download ?  @string/msg_download_chapter(viewModel.chapIndex) :viewModel.mangak.name}"
                 android:textColor="#effafe"
                 android:textSize="@dimen/sp_18"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -122,7 +121,7 @@
                 android:layout_marginTop="@dimen/dp_4"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{@string/text_number_chap_download(viewModel.numberChapDownload)}"
+                android:text="@{ viewModel.download ?  @string/msg_downloading(viewModel.progressStatus): @string/text_number_chap_download(viewModel.numberChapDownload)}"
                 android:textColor="#afb3bf"
                 android:textSize="@dimen/sp_15"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -143,7 +142,7 @@
                 android:onClick="@{() ->viewModel.onClickDownload()}"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
-                android:text="@string/action_download"
+                android:text="@{viewModel.download ? @string/action_cancel : @string/action_download}"
                 android:textAllCaps="false"
                 android:textColor="@color/color_white"
                 app:layout_constraintBottom_toBottomOf="parent"

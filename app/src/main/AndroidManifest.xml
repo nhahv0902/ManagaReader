@@ -51,6 +51,8 @@
             android:name=".screen.download.DownloadActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DetailMangaTheme"/>
+
+        <service android:name=".service.DownloadService"/>
     </application>
 
 </manifest>
