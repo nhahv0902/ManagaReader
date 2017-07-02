@@ -53,6 +53,11 @@
             android:theme="@style/DetailMangaTheme"/>
 
         <service android:name=".service.DownloadService"/>
+
+        <activity
+            android:name=".screen.title.TitleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
