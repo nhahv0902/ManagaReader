@@ -9,6 +9,7 @@ import android.databinding.Bindable;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.TextureView;
 import android.widget.Toast;
 import com.android.databinding.library.baseAdapters.BR;
 import java.util.ArrayList;
@@ -187,6 +188,7 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
         if (mMangak == null || mMangak.getChaps() == null || mMangak.getChaps().size() == 0) return;
         List<Chap> chaps = new ArrayList<>();
         List<String> chapters = new ArrayList<>();
+
         setDownload(true);
         for (Chap item : mMangak.getChaps()) {
             if (item.isChecked()) {
@@ -194,7 +196,11 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
                 chapters.add(item.getId());
             }
         }
-        mPresenter.addMangakDownload(mMangak, chapters);
+        for (String chapter : chapters) {
+            if (!chapExists(chapter, mChapterDownload)) {
+                mChapterDownload.add(chapter);
+            }
+        } mPresenter.addMangakDownload(mMangak, chapters);
         int size = chaps.size();
         for (int i = 0; i < size; i++) {
             if (i == size - 1) {
@@ -240,6 +246,15 @@ public class DownloadViewModel extends BaseObservable implements DownloadContrac
     @Override
     public void getChapterFailed(String message) {
 
+    }
+
+    private boolean chapExists(String chapId, List<String> chapters) {
+        for (String chapter : chapters) {
+            if (TextUtils.equals(chapId, chapter)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Bindable

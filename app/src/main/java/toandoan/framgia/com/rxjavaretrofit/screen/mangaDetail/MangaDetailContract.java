@@ -31,6 +31,8 @@ interface MangaDetailContract {
     interface Presenter extends BasePresenter {
         void getMangaDetail(int id);
 
+        void getMangakDownloadById(int id);
+
         void onFavoriteClick(Manga manga);
     }
 }

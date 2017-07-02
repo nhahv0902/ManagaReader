@@ -116,6 +116,11 @@ public class DownloadLocalDataSource extends BaseLocalDataSource implements Down
             return;
         }
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        if (isExitDownloadMangak(manga.getId())) {
+            String arg = DownloadMangaPersistenceContract.RecentMangaEntry.COLUMN_MANGA_ID + "=?";
+            String[] args = { String.valueOf(manga.getId()) };
+            sqLiteDatabase.delete(TABLE_NAME, arg, args);
+        }
         sqLiteDatabase.insert(DownloadMangaPersistenceContract.RecentMangaEntry.TABLE_NAME, null,
                 getContentValues(manga, chapterDownload));
         close();
