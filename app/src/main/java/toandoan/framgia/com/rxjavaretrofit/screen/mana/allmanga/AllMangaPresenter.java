@@ -147,21 +147,25 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
     private void optimizeData(List<Manga> mangas) {
         for (Manga manga : mangas) {
             if (manga == null || TextUtils.isEmpty(manga.getName())) continue;
-            while (manga.getName().startsWith("\"")
-                    || manga.getName().startsWith("+")
-                    || manga.getName().startsWith("-")
-                    || manga.getName().startsWith(" ")
-                    || manga.getName().startsWith(")")
-                    || manga.getName().startsWith("(")
-                    || manga.getName().startsWith("\'")
-                    || manga.getName().startsWith("/")
-                    || manga.getName().startsWith("#")
-                    || manga.getName().startsWith("$")
-                    || manga.getName().startsWith("&")
-                    || manga.getName().startsWith(":")
-                    || manga.getName().startsWith("\\")
-                    || manga.getName().startsWith(".")) {
-                manga.setName(manga.getName().substring(1).trim());
+            try {
+                while (manga.getName().startsWith("\"")
+                        || manga.getName().startsWith("+")
+                        || manga.getName().startsWith("-")
+                        || manga.getName().startsWith(" ")
+                        || manga.getName().startsWith(")")
+                        || manga.getName().startsWith("(")
+                        || manga.getName().startsWith("\'")
+                        || manga.getName().startsWith("/")
+                        || manga.getName().startsWith("#")
+                        || manga.getName().startsWith("$")
+                        || manga.getName().startsWith("&")
+                        || manga.getName().startsWith(":")
+                        || manga.getName().startsWith("\\")
+                        || manga.getName().startsWith(".")) {
+                    manga.setName(manga.getName().substring(1).trim());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -169,15 +173,18 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
             Collections.sort(mangas, new Comparator<Manga>() {
                 @Override
                 public int compare(final Manga object1, final Manga object2) {
-                    if (object1 == null
-                            || object2 == null
-                            || TextUtils.isEmpty(object1.getName())
-                            || TextUtils.isEmpty(object2.getName())) {
+                    try {
+                        if (object1 == null || object2 == null || TextUtils.isEmpty(
+                                object1.getName()) || TextUtils.isEmpty(object2.getName())) {
+                            return -1;
+                        }
+                        String firstAlpha = String.valueOf(object1.getName().substring(0, 1));
+                        String secondAlpha = String.valueOf(object2.getName().substring(0, 1));
+                        return firstAlpha.compareTo(secondAlpha);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                         return -1;
                     }
-                    String firstAlpha = String.valueOf(object1.getName().substring(0, 1));
-                    String secondAlpha = String.valueOf(object2.getName().substring(0, 1));
-                    return firstAlpha.compareTo(secondAlpha);
                 }
             });
         }
@@ -192,6 +199,7 @@ final class AllMangaPresenter implements AllMangaContract.Presenter {
         char alpha = 0;
         AllMangaAdapter.MangaModel mangaModel = null;
         for (Manga manga : mangas) {
+            if (TextUtils.isEmpty(manga.getName())) continue;
             char firstChar = manga.getName().charAt(0);
             if (!isAlpha(String.valueOf(firstChar))) {
                 if (mangaModel == null) {

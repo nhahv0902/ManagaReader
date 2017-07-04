@@ -11,16 +11,16 @@ import java.io.Serializable;
 public class LastestChap implements Serializable {
     @SerializedName("chap")
     @Expose
-    private long chap;
+    private String chap;
     @SerializedName("id")
     @Expose
     private int id;
 
-    public long getChap() {
+    public String getChap() {
         return chap;
     }
 
-    public void setChap(long chap) {
+    public void setChap(String chap) {
         this.chap = chap;
     }
 
