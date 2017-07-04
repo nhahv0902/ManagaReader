@@ -49,11 +49,13 @@ dependencies {
   compile dependencies.retrofitGson
   compile dependencies.loggingInterceptor
   compile dependencies.glide
+  compile dependencies.googleAds
 
   compile dependencies.headerRecycler
 
   testCompile dependencies.junit
   testCompile dependencies.mockito
+
 
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'

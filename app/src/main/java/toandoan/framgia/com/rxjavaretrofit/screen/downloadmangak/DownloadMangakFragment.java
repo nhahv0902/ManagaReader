@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.source.DownloadRepository;
 import toandoan.framgia.com.rxjavaretrofit.databinding.FragmentDownloadMangakBinding;
@@ -45,6 +44,7 @@ public class DownloadMangakFragment extends BaseFragment {
                 DataBindingUtil.inflate(inflater, R.layout.fragment_download_mangak, container,
                         false);
         binding.setViewModel((DownloadMangakViewModel) mViewModel);
+        loadAds(binding.getRoot());
         return binding.getRoot();
     }
 

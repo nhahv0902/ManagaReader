@@ -15,12 +15,29 @@
 
     </data>
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_bluegrey_800"
-        bind:adapter="@{viewModel.adapter}"
-        bind:layoutManager="@{LayoutManagers.grid(3)}"
-        tools:context="toandoan.framgia.com.rxjavaretrofit.screen.favorite.FavoriteActivity"
-        />
+        android:orientation="vertical"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/color_bluegrey_800"
+            bind:adapter="@{viewModel.adapter}"
+            bind:layoutManager="@{LayoutManagers.grid(3)}"
+            tools:context="toandoan.framgia.com.rxjavaretrofit.screen.favorite.FavoriteActivity"
+            />
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/app_banner"
+            />
+
+    </LinearLayout>
 </layout>

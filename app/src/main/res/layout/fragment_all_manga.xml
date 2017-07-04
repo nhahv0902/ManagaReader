@@ -18,11 +18,27 @@
         android:background="@color/color_bluegrey_900"
         android:orientation="vertical"
         >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_manga"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:orientation="vertical"
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_manga"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ad_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/app_banner"
+                />
+        </LinearLayout>
 
         <include
             layout="@layout/empty_state"
@@ -37,7 +53,5 @@
             android:layout_centerInParent="true"
             android:visibility="@{viewModel.progressVisible}"
             />
-
-
     </RelativeLayout>
 </layout>

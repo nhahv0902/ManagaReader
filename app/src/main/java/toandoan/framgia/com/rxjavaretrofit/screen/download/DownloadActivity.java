@@ -59,6 +59,7 @@ public class DownloadActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         setTitle(R.string.title_add_to_download);
+        loadAds();
     }
 
     @Override

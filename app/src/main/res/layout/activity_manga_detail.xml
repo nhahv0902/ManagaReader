@@ -55,11 +55,11 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/color_bluegrey_900"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
-
+            
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
@@ -78,6 +78,17 @@
                     bind:pager="@{viewPager}"
                     />
             </android.support.v4.view.ViewPager>
+
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ad_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="start"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/app_banner"
+                />
 
             <ProgressBar
                 android:layout_width="wrap_content"

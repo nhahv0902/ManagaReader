@@ -60,6 +60,8 @@ public class RecentMangaFragment extends BaseFragment {
         mCallback = new ItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        loadAds(binding.getRoot());
         return binding.getRoot();
     }
 
