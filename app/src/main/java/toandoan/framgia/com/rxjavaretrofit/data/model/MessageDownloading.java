@@ -14,19 +14,18 @@ import static toandoan.framgia.com.rxjavaretrofit.data.model.MessageDownloading.
 public class MessageDownloading {
     private String mangakName;
     private String avatar;
-    private int percent;
-    private List<String> chapter = new ArrayList<>();
+    private List<PercentDownload> chapter = new ArrayList<>();
     @MessageDownloading.StatusDownload
     private int status;
+    private boolean isExpandable;
 
     public MessageDownloading() {
     }
 
-    public MessageDownloading(String mangakName, String avatar, int percent, List<String> chapter,
+    public MessageDownloading(String mangakName, String avatar, List<PercentDownload> chapter,
             int status) {
         this.mangakName = mangakName;
         this.avatar = avatar;
-        this.percent = percent;
         this.chapter = chapter;
         this.status = status;
     }
@@ -47,20 +46,12 @@ public class MessageDownloading {
         this.avatar = avatar;
     }
 
-    public List<String> getChapter() {
+    public List<PercentDownload> getChapter() {
         return chapter;
     }
 
-    public void setChapter(List<String> chapter) {
+    public void setChapter(List<PercentDownload> chapter) {
         this.chapter = chapter;
-    }
-
-    public int getPercent() {
-        return percent;
-    }
-
-    public void setPercent(int percent) {
-        this.percent = percent;
     }
 
     public int getStatus() {
@@ -90,16 +81,24 @@ public class MessageDownloading {
     }
 
     public String chapterString() {
-        StringBuilder build = new StringBuilder();
+        StringBuilder build = new StringBuilder("Chap ");
         int size = chapter.size();
         for (int i = 0; i < size; i++) {
-            if (i != size - 1) {
-                build.append(chapter.get(i)).append(", ");
-            } else {
-                build.append(chapter.get(i));
+            if (i != size - 1 && chapter.get(i).getChapter() != null) {
+                build.append(chapter.get(i).getChapter()).append(", ");
+            } else if (chapter.get(i).getChapter() != null) {
+                build.append(chapter.get(i).getChapter());
             }
         }
         return build.toString();
+    }
+
+    public boolean isExpandable() {
+        return isExpandable;
+    }
+
+    public void setExpandable(boolean expandable) {
+        isExpandable = expandable;
     }
 
     public void setStatus(int status) {

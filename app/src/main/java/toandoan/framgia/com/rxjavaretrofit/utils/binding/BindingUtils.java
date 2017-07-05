@@ -1,14 +1,18 @@
 package toandoan.framgia.com.rxjavaretrofit.utils.binding;
 
 import android.databinding.BindingAdapter;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -125,5 +129,27 @@ public final class BindingUtils {
 
             }
         });
+    }
+
+    @BindingAdapter("arrow_expandable")
+    public static void arrowExpandable(AppCompatImageView view, boolean isExpandable) {
+        if (isExpandable) {
+            view.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+        } else {
+            view.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        }
+    }
+
+    @BindingAdapter("height_arrow_expandable")
+    public static void heightArrowExpandable(RecyclerView view, boolean isExpandable) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (isExpandable) {
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.width = 0;
+        } else {
+            params.height = 0;
+            params.width = 0;
+        }
+        view.setLayoutParams(params);
     }
 }

@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import toandoan.framgia.com.rxjavaretrofit.R;
 import toandoan.framgia.com.rxjavaretrofit.data.model.Manga;
-import toandoan.framgia.com.rxjavaretrofit.databinding.ItemFavoriteBinding;
 import toandoan.framgia.com.rxjavaretrofit.databinding.ItemMangakDownloadBinding;
-import toandoan.framgia.com.rxjavaretrofit.screen.favorite.FavoriteViewModel;
 
 /**
  * Created by toand on 6/19/2017.

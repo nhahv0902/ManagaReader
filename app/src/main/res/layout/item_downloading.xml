@@ -18,10 +18,14 @@
             name="message"
             type="toandoan.framgia.com.rxjavaretrofit.data.model.MessageDownloading"
             />
-
+        <variable
+            name="adapter"
+            type="toandoan.framgia.com.rxjavaretrofit.screen.downloading.PercentDownloadAdapter"
+            />
     </data>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bluegrey_900"
@@ -32,7 +36,6 @@
             android:layout_width="80dp"
             android:layout_height="100dp"
             android:layout_margin="@dimen/dp_5"
-            app:layout_constraintBottom_toTopOf="@+id/view_line"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             bind:imageUrl="@{message.avatar}"
@@ -42,17 +45,30 @@
             android:id="@+id/text_mangak_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="4dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@{message.mangakName}"
             android:textColor="@color/color_white"
             android:textSize="@dimen/sp_16"
             app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
+            app:layout_constraintRight_toLeftOf="@+id/image_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/image_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onClickExpandable(message, pos)}"
+            android:padding="@dimen/dp_8"
+            android:visibility="@{message.statusBoolean ? View.VISIBLE : View.GONE}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp"
+            bind:arrow_expandable="@{message.expandable}"
             />
         <TextView
             android:id="@+id/text_status"
@@ -60,21 +76,21 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@{message.statusString}"
             android:textColor="@color/color_white"
             android:textSize="@dimen/sp_14"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_chapter"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_mangak_name"
             />
+
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/text_chapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/title_item_chaper(message.chapterString)}"
+            android:text="@{message.chapterString}"
             android:textColor="@color/color_white"
             android:textSize="@dimen/sp_15"
             app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
@@ -89,41 +105,84 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:indeterminate="@{!message.statusBoolean}"
-            android:max="100"
-            android:progress="@{message.percent}"
+            android:indeterminate="true"
+            android:visibility="@{message.statusBoolean ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/view_line"
             app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
-            app:layout_constraintRight_toLeftOf="@+id/textView4"
+            app:layout_constraintRight_toRightOf="parent"
             style="?android:attr/progressBarStyleHorizontal"
             />
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{(message.statusBoolean &amp;&amp; !message.expandable) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_chapter"
+            >
+            <include
+                layout="@layout/item_percent_download"
+                android:visibility="@{message.chapter.size() > 0 ? View.VISIBLE : View.GONE}"
+                bind:chapDownload="@{message.chapter.get(0)}"
+                />
+            <include
+                layout="@layout/item_percent_download"
+                android:visibility="@{message.chapter.size() >= 2 ? View.VISIBLE : View.GONE}"
+                bind:chapDownload="@{message.chapter.get(1)}"
+                />
+            <include
+                layout="@layout/item_percent_download"
+                android:visibility="@{message.chapter.size() >= 3 ? View.VISIBLE : View.GONE}"
+                bind:chapDownload="@{message.chapter.get(2)}"
+                />
+        </LinearLayout>
+        <!-- <android.support.v7.widget.RecyclerView
+             android:layout_width="0dp"
+             android:layout_height="0dp"
+             android:layout_marginBottom="8dp"
+             android:layout_marginLeft="8dp"
+             android:layout_marginRight="8dp"
+             android:visibility="@{(message.statusBoolean &amp;&amp; !message.expandable) ? View.VISIBLE : View.GONE}"
+             app:adapter="@{adapter}"
+             app:layoutManager="LinearLayoutManager"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
+             app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/text_chapter"
+             bind:height_arrow_expandable="@{message.expandable}"
+
+             />-->
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="@{@string/msg_percent_downloading(message.percent) + `%`}"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/sp_13"
-            android:visibility="@{message.statusBoolean ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/view_line"
+            android:visibility="@{(message.statusBoolean &amp;&amp; message.expandable) ? View.VISIBLE : View.GONE}"
+            app:adapter="@{adapter}"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/image_mangak_avatar"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_chapter"
             />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/view_line"
             android:layout_width="0dp"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             android:layout_marginEnd="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_marginStart="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_8"
             android:background="@color/color_bluegrey_850"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

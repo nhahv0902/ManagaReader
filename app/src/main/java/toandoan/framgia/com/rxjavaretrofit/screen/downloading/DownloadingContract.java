@@ -1,5 +1,6 @@
 package toandoan.framgia.com.rxjavaretrofit.screen.downloading;
 
+import toandoan.framgia.com.rxjavaretrofit.data.model.MessageDownloading;
 import toandoan.framgia.com.rxjavaretrofit.screen.BasePresenter;
 import toandoan.framgia.com.rxjavaretrofit.screen.BaseViewModel;
 
@@ -11,6 +12,7 @@ interface DownloadingContract {
      * View.
      */
     interface ViewModel extends BaseViewModel<Presenter> {
+        void onClickExpandable(MessageDownloading message, int position);
     }
 
     /**
