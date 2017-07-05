@@ -40,6 +40,7 @@ public class SettingsFragment extends BaseFragment {
         FragmentSettingsBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false);
         binding.setViewModel((SettingsViewModel) mViewModel);
+        loadAds(binding.getRoot());
         return binding.getRoot();
     }
 

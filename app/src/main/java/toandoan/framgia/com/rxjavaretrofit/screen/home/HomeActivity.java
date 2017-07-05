@@ -41,7 +41,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewModel = new HomeViewModel(this);
 
         HomeContract.Presenter presenter = new HomePresenter(mViewModel);

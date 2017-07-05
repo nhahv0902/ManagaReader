@@ -39,11 +39,11 @@
                     android:layout_height="wrap_content"
                     android:background="@color/color_bluegrey_800"
                     app:layout_scrollFlags="enterAlways"
-                    bind:pager="@{viewPager}"
                     app:tabIndicatorColor="@color/color_orange_800"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@android:color/white"
                     app:tabTextColor="@color/color_grey_300"
+                    bind:pager="@{viewPager}"
                     />
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -55,9 +55,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             bind:adapter="@{viewModel.adapter}"
-            >
-        </android.support.v4.view.ViewPager>
-
+            />
     </android.support.design.widget.CoordinatorLayout>
 
 

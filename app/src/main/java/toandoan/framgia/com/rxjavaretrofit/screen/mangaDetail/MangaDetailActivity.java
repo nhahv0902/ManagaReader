@@ -72,6 +72,7 @@ public class MangaDetailActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(mManga.getName());
+        loadAds();
     }
 
     private void getDataIntent() {

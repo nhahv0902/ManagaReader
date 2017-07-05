@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -14,11 +13,28 @@
 
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_recent"
-        android:background="@color/color_bluegrey_900"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaActivity"
-        />
+        android:orientation="vertical"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_recent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/color_bluegrey_900"
+            tools:context="toandoan.framgia.com.rxjavaretrofit.screen.recentManga.RecentMangaActivity"
+            />
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/app_banner"
+            />
+
+    </LinearLayout>
+
 </layout>

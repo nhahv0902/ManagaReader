@@ -48,7 +48,7 @@ public class AllMangaFragment extends BaseFragment {
                 new SourcesRepository(null,
                         new SourceLocalDataSource(new SharedPrefsImpl(getContext()))));
         mViewModel.setPresenter(presenter);
-        ((AllMangaViewModel)mViewModel).setAdapter(adapter);
+        ((AllMangaViewModel) mViewModel).setAdapter(adapter);
 
         FragmentAllMangaBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_all_manga, container, false);
@@ -56,6 +56,8 @@ public class AllMangaFragment extends BaseFragment {
 
         binding.recyclerManga.setLayoutManager(new StickyHeaderLayoutManager());
         binding.recyclerManga.setAdapter(adapter);
+
+        loadAds(binding.getRoot());
         return binding.getRoot();
     }
 
@@ -71,7 +73,7 @@ public class AllMangaFragment extends BaseFragment {
         super.onStop();
     }
 
-    public void searchMangaByName(String key){
+    public void searchMangaByName(String key) {
         mViewModel.searchMangaByName(key);
     }
 }

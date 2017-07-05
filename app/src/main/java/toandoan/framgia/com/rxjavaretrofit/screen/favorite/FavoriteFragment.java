@@ -43,6 +43,7 @@ public class FavoriteFragment extends BaseFragment {
         FragmentFavoriteBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false);
         binding.setViewModel((FavoriteViewModel) mViewModel);
+        loadAds(binding.getRoot());
         return binding.getRoot();
     }
 
