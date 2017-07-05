@@ -130,6 +130,9 @@ public class HomeActivity extends BaseActivity {
             case R.id.menu_clear:
                 mViewModel.onMenuClearClick();
                 break;
+            case R.id.menu_downloading:
+                mViewModel.onStartDownloadingActivity();
+                break;
             default:
                 break;
         }

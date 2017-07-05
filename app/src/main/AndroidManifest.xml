@@ -58,6 +58,9 @@
             android:name=".screen.title.TitleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".screen.downloading.DownloadingActivity"
+            android:theme="@style/DetailMangaTheme"/>
     </application>
 
 </manifest>

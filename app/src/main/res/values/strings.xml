@@ -66,4 +66,5 @@
     <string name="description_disclaimer">All manga, characters and logo belong to their respective copyrights owners.\n Manga Reader is developed by MiMa Team and does not have any affiliation with the content providers. We reserve the right to change the source of manga without prior notice.</string>
     <string name="app_banner">ca-app-pub-3940256099942544/6300978111</string>
     <!--<string name="app_banner">ca-app-pub-6790285608047387/2911675357</string>-->
+    <string formatted="false" name="msg_percent_downloading">%d/100</string>
 </resources>
